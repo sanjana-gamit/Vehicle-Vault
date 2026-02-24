@@ -1,0 +1,42 @@
+{% load static %}
+{% if request.session.signup_error %}
+    <p class="error-text">{{ request.session.signup_error }}</p>
+{% endif %}
+
+<div id="authSidebar" class="auth-sidebar car-animate">
+    <!-- Header -->
+    <div class="sidebar-header">
+        <h2 class="nav-right">Sign Up</h2>
+        <p class="subtitle">Join Vehicle Vault </p>
+        <span class="close-btn" onclick="closeSidebar()">×</span>
+    </div>
+
+    <!-- Form -->
+    <form class="auth-form" method="POST" action="{% url 'signup_view' %}">
+        {% csrf_token %}
+
+        <div class="input-group">
+            <label>Username</label>
+            <input type="text" name="username" placeholder="john" required>
+        </div>
+
+        <div class="input-group">
+            <label>Email</label>
+            <input type="email" name="email" placeholder="john@email.com" required>
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" name="password" placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" class="auth-btn">
+            Sign Up
+        </button>
+
+        <p class="switch-text">
+            Already have an account?
+            <span onclick="openLoginSidebar()">Login</span>
+        </p>
+    </form>
+</div>

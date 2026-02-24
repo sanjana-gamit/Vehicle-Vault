@@ -1,0 +1,208 @@
+/* ===============================
+   HERO SECTION
+================================ */
+.hero {
+    position: relative;
+    width: 100%;
+    height: 90vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* HERO TEXT */
+.hero-text {
+    position: absolute;
+    z-index: 10;
+    text-align: left;
+    max-width: 520px;
+    left: 8%;
+    color: #fff;
+}
+
+.hero-text h1 {
+    font-size: 52px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 15px;
+}
+
+.hero-text p {
+    font-size: 18px;
+    color: #102857;
+    margin-bottom: 25px;
+}
+
+/* HERO BUTTON */
+.hero-btn {
+    display: inline-block;
+    padding: 14px 32px;
+    border-radius: 30px;
+    background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+    color: #020617;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.hero-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(56, 189, 248, 0.45);
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(2, 6, 23, 0.55);
+    z-index: 1;
+}
+
+.hero-text {
+    z-index: 2;
+}
+
+/* ===============================
+   CAROUSEL
+================================ */
+.carousel,
+.carousel-inner,
+.carousel-item,
+.carousel-item img {
+    height: 100%;
+}
+
+.carousel-item img {
+    object-fit: cover;
+    filter: brightness(60%);
+}
+
+.hero .carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* 🔥 KEY LINE */
+}
+
+/* Fade effect enhancement */
+.carousel-fade .carousel-item {
+    transition: opacity 1s ease-in-out;
+}
+
+/* ===============================
+   FEATURES SECTION
+================================ */
+.features {
+    background: #020617;
+    padding: 80px 60px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+}
+
+.feature-card {
+    background: #0f172a;
+    padding: 35px;
+    border-radius: 20px;
+    text-align: left;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.feature-card h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #38bdf8;
+}
+
+.feature-card p {
+    font-size: 15px;
+    color: #cbd5f5;
+    line-height: 1.6;
+}
+
+/* Hover Effect */
+.feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(56, 189, 248, 0.25);
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+@media (max-width: 992px) {
+    .hero-text {
+        left: 6%;
+        max-width: 420px;
+    }
+
+    .hero-text h1 {
+        font-size: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero {
+        height: 80vh;
+    }
+
+    .hero-text {
+        position: absolute;
+        left: 5%;
+        right: 5%;
+        text-align: center;
+    }
+
+    .hero-text h1 {
+        font-size: 34px;
+    }
+
+    .features {
+        padding: 60px 25px;
+    }
+}
+
+@media (min-width: 1600px) {
+    .hero {
+        height: 85vh;
+    }
+
+    .hero-text h1 {
+        font-size: 64px;
+    }
+}
+
+@media (max-width: 1599px) {
+    .hero-text h1 {
+        font-size: 54px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .hero {
+        height: 75vh;
+    }
+
+    .hero-text {
+        left: 5%;
+    }
+
+    .hero-text h1 {
+        font-size: 42px;
+    }
+}
+@media (max-width: 480px) {
+    .hero {
+        height: 55vh;
+    }
+
+    .hero-text h1 {
+        font-size: 26px;
+    }
+
+    .hero-text p {
+        font-size: 14px;
+    }
+}

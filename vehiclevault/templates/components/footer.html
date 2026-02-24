@@ -1,0 +1,56 @@
+{% load static %}
+<footer class="footer">
+    <div class="footer-container">
+
+        <!-- Brand -->
+        <div class="footer-brand">
+            <div class="logo">
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'images/logo.png' %}" alt="VehicleVault Logo"> Vehicle Vault
+                </a>
+            </div>
+            <p>
+                Your trusted platform to browse, compare, and book cars effortlessly.
+                Buy smart. Drive happy.
+            </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'car_list' %}">Browse Cars</a></li>
+                <li><a href="#">Compare</a></li>
+                <li><a href="#">Orders</a></li>
+            </ul>
+        </div>
+
+        <!-- Support -->
+        <div class="footer-links">
+            <h4>Support</h4>
+            <ul>
+                <li><a href="#">Help Center</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms & Conditions</a></li>
+            </ul>
+        </div>
+
+        <!-- Newsletter -->
+        <div class="footer-newsletter">
+            <h4>Stay Updated</h4>
+            <p>Get latest car deals & updates straight to your inbox.</p>
+            <form method="post">
+                {% csrf_token %}
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2026 Vehicle Vault • Buy Smart. Drive Happy.</p>
+    </div>
+</footer>

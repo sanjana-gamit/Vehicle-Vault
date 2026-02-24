@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% block title %}Browse Cars{% endblock %}
+{% load static %} 
+{% block content %}
+<style>
+.cars-page {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.cars-page h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+.car-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.car-card {
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+}
+
+.car-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+}
+
+.car-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.car-card h3 {
+    font-size: 1.5rem;
+    margin: 15px 0 10px;
+    color: #222;
+}
+
+.car-card p {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.card-btn {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background-color: #ff4b5c;
+    color: #fff;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.card-btn:hover {
+    background-color: #e04352;
+}
+</style>
+
+<section class="cars-page">
+    <h2>Available Cars</h2>
+
+    <div class="car-grid">
+        <!-- Toyota -->
+        <div class="car-card">
+            <img src="{% static 'images/logo.jpg' %}" alt="Toyota Fortuner">
+            <h3>Toyota Fortuner</h3>
+            <p>₹35,00,000</p>
+            <a href="#" class="card-btn">View Details</a>
+        </div>
+
+        <!-- Hyundai -->
+        <div class="car-card">
+            <img src="{% static 'images/download.jpg' %}" alt="Hyundai Creta">
+            <h3>Hyundai Creta</h3>
+            <p>₹12,00,000</p>
+            <a href="#" class="card-btn">View Details</a>
+        </div>
+
+        <!-- Honda -->
+        <div class="car-card">
+            <img src="{% static 'images/honda.jpg' %}" alt="Honda City">
+            <h3>Honda City</h3>
+            <p>₹11,00,000</p>
+            <a href="#" class="card-btn">View Details</a>
+        </div>
+
+        <!-- Maruti Suzuki -->
+        <div class="car-card">
+            <img src="{% static 'images/swift.jpg' %}" alt="Maruti Swift">
+            <h3>Maruti Suzuki Swift</h3>
+            <p>₹6,00,000</p>
+            <a href="#" class="card-btn">View Details</a>
+        </div>
+
+        <!-- Mahindra -->
+        <div class="car-card">
+            <img src="{% static 'images/Mahindra.jpg' %}" alt="Mahindra XUV700">
+            <h3>Mahindra XUV700</h3>
+            <p>₹18,00,000</p>
+            <a href="#" class="card-btn">View Details</a>
+        </div>
+
+        <!-- Kia -->
+        <div class="car-card">
+            <img src="{% static 'images/Kia.jpg' %}" alt="Kia Seltos">
+            <h3>Kia Seltos</h3>
+            <p>₹15,00,000</p>
+            <a href="#" class="card-btn">View Details</a>
+        </div>
+
+        <!-- BMW -->
+        <div class="car-card">
+            <img src="{% static 'images/BMW.jpg' %}" alt="BMW X5">
+            <h3>BMW X5</h3>
+            <p>₹75,00,000</p>
+            <a href="#" class="card-btn">View Details</a>
+        </div>
+
+        <!-- Audi -->
+        <div class="car-card">
+            <img src="{% static 'images/Audi.jpg' %}" alt="Audi Q7">
+            <h3>Audi Q7</h3>
+            <p>₹80,00,000</p>
+            <a href="#" class="card-btn">View Details</a>
+        </div>
+
+        <!-- Mercedes -->
+        <div class="car-card">
+            <img src="{% static 'images/Mercedes.jpg' %}" alt="Mercedes GLE">
+            <h3>Mercedes GLE</h3>
+            <p>₹85,00,000</p>
+            <a href="#" class="card-btn">View Details</a>
+        </div>
+
+        <!-- Tata -->
+        <div class="car-card">
+            <img src="{% static 'images/Tata.jpg' %}" alt="Tata Harrier">
+            <h3>Tata Harrier</h3>
+            <p>₹16,00,000</p>
+            <a href="#" class="card-btn">View Details</a>
+        </div>
+
+        <!-- MG Hector -->
+        <div class="car-card">
+            <img src="{% static 'images/MG.jpg' %}" alt="MG Hector">
+            <h3>MG Hector</h3>
+            <p>₹17,00,000</p>
+            <a href="#" class="card-btn">View Details</a>
+        </div>
+
+        <!-- Nissan -->
+        <div class="car-card">
+            <img src="{% static 'images/Nissan.jpg' %}" alt="Nissan Kicks">
+            <h3>Nissan Kicks</h3>
+            <p>₹14,00,000</p>
+            <a href="#" class="card-btn">View Details</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
