@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Test Drives{% endblock %}
+{% block content %}
+
+<section class="testdrives container py-5">
+    <div class="row g-4">
+        {% for drive in drives %}
+        <div class="col-md-4">
+            <div class="testdrive-card text-center p-4 shadow rounded h-100">
+                <h4>{{ drive.car.brand }} {{ drive.car.model }}</h4>
+                <p>{{ drive.date }}</p>
+                <p>{{ drive.location }}</p>
+                <a href="{% url 'testdrive_detail' drive.id %}" class="btn btn-primary">View Details</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
+

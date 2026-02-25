@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block title %}Compare Cars{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="mb-4 text-center">🚗 Compare Cars</h2>
+
+    <!-- SELECT FORM -->
+    <form method="GET" class="row g-3 mb-5">
+
+        <div class="col-md-5">
+            <label>Select Car 1</label>
+            <select name="car1" class="form-select" required>
+                <option value="">-- Select Car --</option>
+                {% for car in cars %}
+                    <option value="{{ car.id }}"
+                        {% if car1 and car.id == car1.id %}selected{% endif %}>
+                        {{ car.brand }} {{ car.model }} ({{ car.launch_year }})
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-md-5">
+            <label>Select Car 2</label>
+            <select name="car2" class="form-select" required>
+                <option value="">-- Select Car --</option>
+                {% for car in cars %}
+                    <option value="{{ car.id }}"
+                        {% if car2 and car.id == car2.id %}selected{% endif %}>
+                        {{ car.brand }} {{ car.model }} ({{ car.launch_year }})
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-md-2 d-grid align-items-end">
+            <button type="submit" class="btn btn-dark">
+                Compare
+            </button>
+        </div>
+    </form>
+
+    {% if car1 and car2 %}
+
+    <!-- CAR IMAGES -->
+    <div class="row mb-4">
+        <div class="col-md-6 text-center">
+            {% if car1.main_image %}
+                <img src="{{ car1.main_image.url }}" class="img-fluid rounded" alt="{{ car1.brand }}">
+            {% endif %}
+        </div>
+        <div class="col-md-6 text-center">
+            {% if car2.main_image %}
+                <img src="{{ car2.main_image.url }}" class="img-fluid rounded" alt="{{ car2.brand }}">
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- COMPARISON TABLE -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped text-center align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Specification</th>
+                    <th>{{ car1.brand }} {{ car1.model }}</th>
+                    <th>{{ car2.brand }} {{ car2.model }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Price</td>
+                    <td>₹ {{ car1.price }}</td>
+                    <td>₹ {{ car2.price }}</td>
+                </tr>
+                <tr>
+                    <td>Fuel Type</td>
+                    <td>{{ car1.fuel_type }}</td>
+                    <td>{{ car2.fuel_type }}</td>
+                </tr>
+                <tr>
+                    <td>Transmission</td>
+                    <td>{{ car1.transmission }}</td>
+                    <td>{{ car2.transmission }}</td>
+                </tr>
+                <tr>
+                    <td>Mileage</td>
+                    <td>{{ car1.mileage }}</td>
+                    <td>{{ car2.mileage }}</td>
+                </tr>
+                <tr>
+                    <td>Launch Year</td>
+                    <td>{{ car1.launch_year }}</td>
+                    <td>{{ car2.launch_year }}</td>
+                </tr>
+                <tr>
+                    <td>Stock</td>
+                    <td>{{ car1.stock }}</td>
+                    <td>{{ car2.stock }}</td>
+                </tr>
+                <tr>
+                    <td>Electric</td>
+                    <td>{% if car1.is_electric %}Yes{% else %}No{% endif %}</td>
+                    <td>{% if car2.is_electric %}Yes{% else %}No{% endif %}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    {% else %}
+        <p class="text-center text-muted">Select two cars to compare.</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}

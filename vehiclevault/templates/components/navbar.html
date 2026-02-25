@@ -1,4 +1,5 @@
 {% load static %}
+
 <nav class="navbar">
 
     <!-- LOGO -->
@@ -23,11 +24,11 @@
                     <span class="visually-hidden">Toggle Dropdown</span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="{% url 'car_list' %}">All Cars</a></li>
-                    <li><a href="{% url 'used_car_list' %}">Used Cars</a></li>
-                    <li><a href="{% url 'inventory' %}">Inventory</a></li>
-                    <li><a href="{% url 'upcoming_cars' %}">Upcoming Cars</a></li>
-                    <li><a href="{% url 'electric_cars' %}">Electric Cars</a></li>
+                    <li><a href="{% url 'all_cars' %}">All Cars</a></li>
+                    <li><a href="{% url 'add' %}">Used Cars</a></li>
+                    <li><a href="{% url 'all_cars' %}">Inventory</a></li>
+                    <li><a href="{% url 'all_cars' %}">Upcoming Cars</a></li>
+                    <li><a href="{% url 'all_cars' %}">Electric Cars</a></li>
                 </ul>
         </li>
 
@@ -63,7 +64,7 @@
                 <ul class="dropdown-menu">
                     <li><a href="{% url 'about' %}">About</a></li>
                     <li><a href="{% url 'contact' %}">Contact</a></li>
-                    <li><a href="{% url 'add_car' %}">Sell Car</a></li>
+                    <li><a href="{% url 'add' %}">Sell Car</a></li>
                 </ul>
         </li>
 
@@ -71,7 +72,7 @@
 
     <!-- RIGHT SIDE -->
     <div class="nav-right">
-        <form method="get" action="{% url 'car_list' %}" class="search-box">
+        <form method="get" action="{% url 'all_cars' %}" class="search-box">
             <input type="text" name="q" placeholder="Search cars...">
         </form>
 

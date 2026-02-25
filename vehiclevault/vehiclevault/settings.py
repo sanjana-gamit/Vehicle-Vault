@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cars',
+    'core',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -76,7 +79,7 @@ WSGI_APPLICATION = 'vehiclevault.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Vehicle',
+        'NAME': 'vehicle',
         'USER': 'postgres',
         'PASSWORD': '1430',
         'HOST': 'localhost',
@@ -123,14 +126,23 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 # =========================
 # MEDIA FILES (IMAGES)
 # =========================
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # =========================
 # AUTHENTICATION
 # =========================
 AUTH_USER_MODEL = 'cars.User'
+
+# =========================
+# LOGIN & LOGOUT REDIRECTS
+# =========================
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
 

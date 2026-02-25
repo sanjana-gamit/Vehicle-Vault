@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <h1>Car Category</h1>
+    <p>Choose a category to view available cars.</p>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">New Cars</h5>
+                    <p class="card-text">Discover the latest models and features of new cars.</p>
+                    <a href="{% url 'all_cars' %}" class="btn btn-primary">View New Cars</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Used Cars</h5>
+                    <p class="card-text">Find your perfect used car with our wide selection.</p>
+                    <a href="{% url 'all_cars' %}" class="btn btn-primary">View Used Cars</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -20,9 +20,9 @@
             <h4>Quick Links</h4>
             <ul>
                 <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'car_list' %}">Browse Cars</a></li>
-                <li><a href="#">Compare</a></li>
-                <li><a href="#">Orders</a></li>
+                <li><a href="{% url 'all_cars' %}">Browse Cars</a></li>
+                <li><a href="{% url 'compare_cars' %}">Compare</a></li>
+                <li><a href="{% url 'order' %}">Orders</a></li>
             </ul>
         </div>
 
@@ -30,10 +30,10 @@
         <div class="footer-links">
             <h4>Support</h4>
             <ul>
-                <li><a href="#">Help Center</a></li>
-                <li><a href="#">Contact Us</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">Terms & Conditions</a></li>
+                <li><a href="{% url 'faq' %}">Help Center</a></li>
+                <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                <li><a href="{% url 'privacy' %}">Privacy Policy</a></li>
+                <li><a href="{% url 'terms' %}">Terms & Conditions</a></li>
             </ul>
         </div>
 

@@ -1,13 +1,229 @@
 {% extends 'base.html' %}
 
+{% block title %}
+{% if car %}Update Car{% else %}Add New Car{% endif %}
+{% endblock %}
+
 {% block content %}
 
-<h1>Add New Car</h1>
+<div class="container mt-5 mb-5">
+    <div class="card shadow-lg">
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Add Car</button>
-</form>
+        <!-- Card Header -->
+        <div class="card-header bg-dark text-white">
+            <h3 class="mb-0">
+                {% if car %}✏️ Update Car{% else %}🚗 Add New Car{% endif %}
+            </h3>
+        </div>
+
+        <div class="card-body p-4">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="row">
+
+                    <!-- VIN -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">VIN <span class="text-danger">*</span></label>
+                        {{ car_form.vin }}
+                        {% if car_form.vin.errors %}
+                            <div class="text-danger mt-1">{{ car_form.vin.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Brand -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Brand <span class="text-danger">*</span></label>
+                        {{ car_form.brand }}
+                        {% if car_form.brand.errors %}
+                            <div class="text-danger mt-1">{{ car_form.brand.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Model -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Model <span class="text-danger">*</span></label>
+                        {{ car_form.model }}
+                        {% if car_form.model.errors %}
+                            <div class="text-danger mt-1">{{ car_form.model.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Category with tooltip -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Category
+                            <i class="bi bi-info-circle" data-bs-toggle="tooltip" 
+                               title="Select the category of the car, e.g., Sedan, SUV, Hatchback."></i>
+                        </label>
+                        {{ car_form.category }}
+                        {% if car_form.category.errors %}
+                            <div class="text-danger mt-1">{{ car_form.category.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Price -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Price (₹) <span class="text-danger">*</span></label>
+                        {{ car_form.price }}
+                        <small class="text-muted">Enter price in ₹, e.g., 850000</small>
+                        {% if car_form.price.errors %}
+                            <div class="text-danger mt-1">{{ car_form.price.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Fuel Type -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Fuel Type <span class="text-danger">*</span></label>
+                        {{ car_form.fuel_type }}
+                        {% if car_form.fuel_type.errors %}
+                            <div class="text-danger mt-1">{{ car_form.fuel_type.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Transmission -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Transmission <span class="text-danger">*</span></label>
+                        {{ car_form.transmission }}
+                        {% if car_form.transmission.errors %}
+                            <div class="text-danger mt-1">{{ car_form.transmission.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Mileage -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Mileage <span class="text-danger">*</span></label>
+                        {{ car_form.mileage }}
+                        {% if car_form.mileage.errors %}
+                            <div class="text-danger mt-1">{{ car_form.mileage.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Launch Year -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Launch Year <span class="text-danger">*</span></label>
+                        {{ car_form.launch_year }}
+                        <small class="text-muted">Enter year between 1950 and {{ now.year|add:"1" }}</small>
+                        {% if car_form.launch_year.errors %}
+                            <div class="text-danger mt-1">{{ car_form.launch_year.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Stock -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Stock Available <span class="text-danger">*</span></label>
+                        {{ car_form.stock }}
+                        {% if car_form.stock.errors %}
+                            <div class="text-danger mt-1">{{ car_form.stock.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Description -->
+                    <div class="col-12 mb-3">
+                        <label class="form-label">Description</label>
+                        {{ car_form.description }}
+                        {% if car_form.description.errors %}
+                            <div class="text-danger mt-1">{{ car_form.description.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Existing Images -->
+                    {% if car and car.images.all %}
+                        <div class="col-12 mb-3">
+                            <label class="form-label">Existing Images:</label>
+                            <div class="d-flex flex-wrap gap-3">
+                                {% for img in car.images.all %}
+                                    <div class="position-relative">
+                                        <img src="{{ img.image.url }}" height="100" class="rounded shadow">
+                                        <a href="{% url 'delete_car_image' img.id %}" 
+                                           class="position-absolute top-0 end-0 btn btn-sm btn-danger">×</a>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <!-- Multiple Image Upload -->
+                    <div class="col-12 mb-3">
+                        <label class="form-label">Upload New Car Images</label>
+                        <input type="file"
+                               name="images"
+                               multiple
+                               class="form-control"
+                               accept="image/*"
+                               id="multiImageInput">
+
+                        <!-- Preview Container -->
+                        <div id="previewContainer"
+                             class="d-flex flex-wrap gap-3 mt-3"></div>
+                    </div>
+
+                    <!-- Checkboxes -->
+                    <div class="col-md-6 mb-3">
+                        <div class="form-check">
+                            {{ car_form.is_upcoming }}
+                            <label class="form-check-label">Upcoming Model</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <div class="form-check">
+                            {{ car_form.is_electric }}
+                            <label class="form-check-label">Electric Vehicle</label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Stock & Availability Info -->
+                {% if car %}
+                    <div class="alert alert-info mt-3">
+                        Stock: {{ car.stock }} | Available: {{ car.in_stock|yesno:"Yes,No" }}
+                    </div>
+                {% endif %}
+
+                <div class="d-flex justify-content-between mt-4">
+                    <a href="{% url 'cars' %}" class="btn btn-outline-secondary">← Cancel</a>
+                    <button type="submit" class="btn btn-success px-4">
+                        {% if car %}Update Car{% else %}Add Car{% endif %}
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 🔥 MULTIPLE IMAGE PREVIEW SCRIPT -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Initialize Bootstrap tooltips
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    tooltipTriggerList.map(function (el) {
+        return new bootstrap.Tooltip(el)
+    });
+
+    // Image preview
+    const input = document.getElementById("multiImageInput");
+    const previewContainer = document.getElementById("previewContainer");
+
+    input.addEventListener("change", function () {
+        previewContainer.innerHTML = "";
+
+        Array.from(this.files).forEach(file => {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const img = document.createElement("img");
+                img.src = e.target.result;
+                img.style.height = "120px";
+                img.classList.add("rounded", "shadow");
+                previewContainer.appendChild(img);
+            };
+
+            reader.readAsDataURL(file);
+        });
+    });
+});
+</script>
 
 {% endblock %}
