@@ -1,14 +1,411 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Add New Car{% endblock %}
+{% block title %}{{ car.brand }} {{ car.model }} | Vehicle Vault{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <h2 class="mb-4">Add New Car</h2>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Add Car</button>
-    </form>
+<style>
+    /* Professional Luxury Car Detail Styles */
+    body {
+        background-color: #f8fafc;
+    }
+
+    /* Hero Banner Area */
+    .hero-section {
+        position: relative;
+        background: linear-gradient(135deg, #0f172a, #1e293b);
+        padding: 60px 0;
+        color: white;
+        overflow: hidden;
+    }
+
+    .hero-section::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.1), transparent 50%);
+        pointer-events: none;
+    }
+
+    .car-title {
+        font-weight: 800;
+        font-size: 3.5rem;
+        background: linear-gradient(to right, #ffffff, #94a3b8);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 0.5rem;
+    }
+
+    .car-subtitle {
+        color: #94a3b8;
+        font-size: 1.2rem;
+        font-weight: 500;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    /* Image Showcase Centerpiece */
+    .showcase-container {
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+        background: #1e293b;
+        margin-top: -30px;
+        position: relative;
+        z-index: 10;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .showcase-image {
+        width: 100%;
+        height: 500px;
+        object-fit: cover;
+        object-position: center;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+        transition: transform 0.5s ease;
+    }
+
+    .showcase-container:hover .showcase-image {
+        transform: scale(1.02);
+    }
+
+    /* Specifications Grid */
+    .specs-card {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e2e8f0;
+        height: 100%;
+    }
+
+    .spec-item {
+        display: flex;
+        align-items: center;
+        padding: 15px 0;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .spec-item:last-child {
+        border-bottom: none;
+    }
+
+    .spec-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 12px;
+        background: #f1f5f9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        color: #3b82f6;
+        margin-right: 15px;
+    }
+
+    .spec-content h6 {
+        color: #64748b;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 2px;
+        font-weight: 600;
+    }
+
+    .spec-content p {
+        color: #0f172a;
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 0;
+    }
+
+    /* Pricing & Action Sidebar */
+    .price-card {
+        background: linear-gradient(135deg, #0f172a, #1e293b);
+        border-radius: 20px;
+        padding: 35px;
+        color: white;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        position: sticky;
+        top: 20px;
+    }
+
+    .price-label {
+        color: #94a3b8;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+
+    .price-amount {
+        font-size: 2.8rem;
+        font-weight: 800;
+        margin-bottom: 25px;
+        color: #ffffff;
+    }
+
+    .seller-badge {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        margin-bottom: 25px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .seller-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #3b82f6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        margin-right: 15px;
+    }
+
+    .btn-action-primary {
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        border: none;
+        color: white;
+        padding: 16px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.39);
+        transition: all 0.3s ease;
+        width: 100%;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+    }
+
+    .btn-action-primary:hover {
+        background: linear-gradient(135deg, #1d4ed8, #1e40af);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        color: white;
+    }
+
+    .btn-action-secondary {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        padding: 14px;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        width: 100%;
+        text-align: center;
+        text-decoration: none;
+        display: block;
+    }
+
+    .btn-action-secondary:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: white;
+        border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .status-badge {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(8px);
+        padding: 8px 16px;
+        border-radius: 30px;
+        color: white;
+        font-weight: 600;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        z-index: 20;
+    }
+</style>
+
+<!-- Hero Title Section -->
+<section class="hero-section">
+    <div class="container text-center">
+        <div class="car-subtitle">{{ car.launch_year }} MODEL {{ car.category.name|default:"" }}</div>
+        <h1 class="car-title">{{ car.brand }} {{ car.model }}</h1>
+    </div>
+</section>
+
+<div class="container mb-5">
+    <!-- Main Showcase Image -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-lg-10">
+            <div class="showcase-container">
+                {% if car.is_available %}
+                <div class="status-badge"><span style="color: #4ade80;">●</span> Available Now</div>
+                {% else %}
+                <div class="status-badge"><span style="color: #f87171;">●</span> Out of Stock</div>
+                {% endif %}
+
+                {% if car.car_image %}
+                <img src="{{ car.car_image.url }}" alt="{{ car.brand }} {{ car.model }}" class="showcase-image">
+                {% else %}
+                <img src="{% static 'images/placeholder-car.jpg' %}" alt="Placeholder" class="showcase-image">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row align-items-start">
+        <!-- Left Column: Specs & Details -->
+        <div class="col-lg-8 mb-4">
+            <h3 class="fw-bold mb-4" style="color: #0f172a;">Vehicle Specifications</h3>
+
+            <div class="specs-card">
+                <div class="row">
+                    <!-- Spec 1: Brand -->
+                    <div class="col-md-6">
+                        <div class="spec-item">
+                            <div class="spec-icon">📛</div>
+                            <div class="spec-content">
+                                <h6>Brand Make</h6>
+                                <p>{{ car.brand }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Spec 2: Model -->
+                    <div class="col-md-6">
+                        <div class="spec-item">
+                            <div class="spec-icon">🚗</div>
+                            <div class="spec-content">
+                                <h6>Model Designation</h6>
+                                <p>{{ car.model }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Spec 3: Year -->
+                    <div class="col-md-6">
+                        <div class="spec-item">
+                            <div class="spec-icon">📅</div>
+                            <div class="spec-content">
+                                <h6>Launch Year</h6>
+                                <p>{{ car.launch_year }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Spec 4: Mileage -->
+                    <div class="col-md-6">
+                        <div class="spec-item">
+                            <div class="spec-icon">⏱</div>
+                            <div class="spec-content">
+                                <h6>Mileage</h6>
+                                <p>{{ car.mileage }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Spec 5: VIN -->
+                    <div class="col-md-6">
+                        <div class="spec-item">
+                            <div class="spec-icon">🔢</div>
+                            <div class="spec-content">
+                                <h6>VIN Number</h6>
+                                <p style="font-family: monospace; letter-spacing: 1px;">{{ car.vin }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Spec 6: Stock -->
+                    <div class="col-md-6">
+                        <div class="spec-item">
+                            <div class="spec-icon">📦</div>
+                            <div class="spec-content">
+                                <h6>Units in Vault</h6>
+                                <p>{{ car.stock }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Description Area (Optional expansion) -->
+            <div class="mt-5">
+                <h4 class="fw-bold mb-3" style="color: #0f172a;">Vault Overview</h4>
+                <p style="color: #475569; line-height: 1.8; font-size: 1.05rem;">
+                    The {{ car.launch_year }} {{ car.brand }} {{ car.model }} is a premium selection from the Vehicle
+                    Vault curated collection.
+                    Renowned for superior engineering and uncompromising luxury, this vehicle has been carefully sourced
+                    to meet the highest
+                    standards of performance and aesthetics. Contact the seller below to arrange a secure transaction.
+                </p>
+            </div>
+        </div>
+
+        <!-- Right Column: Pricing & Actions Sticky Sidebar -->
+        <div class="col-lg-4">
+            <div class="price-card">
+                <div class="price-label">Vault Asking Price</div>
+                <div class="price-amount">₹{{ car.price|floatformat:"0" }}</div>
+
+                <div class="seller-badge">
+                    <div class="seller-avatar">{{ car.seller.name|default:car.seller.email|make_list|first|upper }}
+                    </div>
+                    <div>
+                        <div style="font-size: 0.85rem; color: #94a3b8; text-transform: uppercase;">Listed By</div>
+                        <div style="font-weight: 600; color: white;">
+                            {% if car.seller.name %}
+                            {{ car.seller.name }}
+                            {% else %}
+                            {{ car.seller.email }}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                {% if user.is_authenticated %}
+                {% if user.role == 'Buyer' %}
+                <a href="#" class="btn-action-primary">
+                    <span>Request Test Drive</span>
+                </a>
+                <a href="mailto:{{ car.seller.email }}?subject=Inquiry: {{ car.brand }} {{ car.model }}"
+                    class="btn-action-secondary mt-2">
+                    Contact Seller
+                </a>
+                {% elif user == car.seller or user.role == 'Admin' %}
+                <a href="#" class="btn-action-secondary mb-2" style="border-color: #3b82f6; color: #60a5fa;">
+                    Edit Listing
+                </a>
+                <a href="#" class="btn-action-secondary" style="border-color: #ef4444; color: #f87171;">
+                    Delete Listing
+                </a>
+                {% else %}
+                <a href="mailto:{{ car.seller.email }}?subject=Inquiry: {{ car.brand }} {{ car.model }}"
+                    class="btn-action-primary">
+                    Contact Seller
+                </a>
+                {% endif %}
+                {% else %}
+                <a href="{% url 'core:login' %}" class="btn-action-primary">
+                    Login to Purchase
+                </a>
+                {% endif %}
+
+                <div class="text-center mt-4">
+                    <a href="{% url 'cars:all_cars' %}"
+                        style="color: #94a3b8; text-decoration: none; font-size: 0.9rem;">
+                        ← Back to Inventory
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

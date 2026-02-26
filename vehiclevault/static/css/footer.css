@@ -1,120 +1,36 @@
 /* =========================
-   FOOTER
+   PORTAL FOOTER STYLES
 ========================= */
-.footer {
-    background: #0f172a;
-    color: #cbd5f5;
-    padding: 60px 10% 20px;
+.portal-footer {
+    background: #020617;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    color: white;
 }
 
-.footer-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 40px;
+.portal-footer .list-unstyled a:hover {
+    color: var(--accent) !important;
+    text-decoration: underline !important;
 }
 
-/* Brand */
-.footer-brand h3 {
-    font-size: 24px;
-    color: #ffffff;
-    margin-bottom: 12px;
-}
-
-.footer-brand span {
-    color: var(--primary);
-}
-
-.footer-brand p {
-    font-size: 14px;
-    line-height: 1.6;
-    color: #94a3b8;
-}
-
-/* Links */
-.footer-links h4 {
-    font-size: 16px;
-    color: #ffffff;
-    margin-bottom: 14px;
-}
-
-.footer-links ul {
-    list-style: none;
-}
-
-.footer-links li {
-    margin-bottom: 10px;
-}
-
-.footer-links a {
-    text-decoration: none;
-    color: #94a3b8;
-    font-size: 14px;
-    transition: 0.2s;
-}
-
-.footer-links a:hover {
-    color: #ffffff;
-}
-
-/* Newsletter */
-.footer-newsletter h4 {
-    font-size: 16px;
-    color: #ffffff;
-    margin-bottom: 10px;
-}
-
-.footer-newsletter p {
-    font-size: 14px;
-    color: #94a3b8;
-    margin-bottom: 12px;
-}
-
-.footer-newsletter form {
-    display: flex;
-    gap: 10px;
-}
-
-.footer-newsletter input {
-    flex: 1;
-    padding: 10px 12px;
-    border-radius: 8px;
-    border: none;
-    outline: none;
-    font-size: 14px;
-}
-
-.footer-newsletter button {
-    background: var(--primary);
-    color: #ffffff;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 8px;
-    font-size: 14px;
+.app-store-mock {
     cursor: pointer;
-    transition: 0.25s;
+    transition: all 0.3s ease;
+    border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
-.footer-newsletter button:hover {
-    background: var(--primary-dark);
+.app-store-mock:hover {
+    background: white;
+    color: #020617;
 }
 
-/* Bottom */
-.footer-bottom {
-    margin-top: 40px;
-    padding-top: 16px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    text-align: center;
-    font-size: 13px;
-    color: #94a3b8;
+.smallest {
+    font-size: 0.72rem;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
-    .footer {
-        padding: 50px 6% 20px;
-    }
+.fw-800 {
+    font-weight: 800;
+}
 
-    .footer-newsletter form {
-        flex-direction: column;
-    }
+.text-accent {
+    color: var(--accent);
 }

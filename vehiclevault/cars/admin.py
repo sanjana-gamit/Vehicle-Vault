@@ -6,6 +6,7 @@ from .models import (
     User,
     Buyer,
     Seller,
+    CarCategory,
     Car,
     CarListing,
     CarListingImage,
@@ -76,7 +77,8 @@ class SellerAdmin(admin.ModelAdmin):
 class CarCategoryAdmin(admin.ModelAdmin):
     list_display = ("name", "slug")
     search_fields = ("name",)
-    prepopulated_fields = ("slug", "name")
+    prepopulated_fields = {"slug": ("name",)}
+    pass
 
 # =========================
 # CAR ADMIN

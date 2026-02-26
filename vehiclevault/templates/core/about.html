@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% block title %}Our Legacy | Vehicle Vault{% endblock %}
+{% load static %}
+{% block content %}
+
+<div class="about-page">
+    <!-- Hero Section -->
+    <div class="about-hero text-center mb-5">
+        <div class="badge bg-primary-subtle text-primary mb-3"
+            style="border-radius: 20px; padding: 10px 25px; font-weight: 600; letter-spacing: 2px;">ESTABLISHED 2024
+        </div>
+        <h1 class="display-3 fw-900 mb-4">Engineering the Future of <br><span class="text-accent">Elite Car
+                Discovery</span></h1>
+        <p class="lead text-muted mx-auto" style="max-width: 700px;">
+            Vehicle Vault is not just an inventory; it is a curated sanctuary for the world's most exceptional
+            automotive masterpieces. We bridge the gap between engineering perfection and elective ownership.
+        </p>
+    </div>
+
+    <!-- Core Pillars -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="pillar-card shadow-lg">
+                <div class="pillar-icon">💎</div>
+                <h3>Uncompromising Quality</h3>
+                <p>Every vehicle in our vault undergoes a 200-point precision audit to ensure it meets our "Masterpiece
+                    Standard".</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="pillar-card shadow-lg">
+                <div class="pillar-icon">⚡</div>
+                <h3>Tech-Driven Precision</h3>
+                <p>Leveraging cutting-edge digital tools and AI to provide the most transparent and efficient discovery
+                    process in the industry.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="pillar-card shadow-lg">
+                <div class="pillar-icon">🌎</div>
+                <h3>Global Fleet</h3>
+                <p>Our network spans continents, bringing rare finds and limited-edition releases directly to your
+                    digital doorstep.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="stats-row py-5 mb-5"
+        style="background: rgba(15, 23, 42, 0.4); border-radius: 40px; border: 1px solid var(--glass-border);">
+        <div class="row text-center">
+            <div class="col-md-3">
+                <div class="stat-item">
+                    <h2 class="display-5 fw-800 text-accent">500+</h2>
+                    <p class="text-muted small fw-700">EXCLUSIVE UNITS</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-item">
+                    <h2 class="display-5 fw-800 text-accent">2.5k+</h2>
+                    <p class="text-muted small fw-700">ELITE MEMBERS</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-item">
+                    <h2 class="display-5 fw-800 text-accent">15+</h2>
+                    <p class="text-muted small fw-700">PARTNER BRANDS</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-item">
+                    <h2 class="display-5 fw-800 text-accent">99.8%</h2>
+                    <p class="text-muted small fw-700">SATISFACTION RATE</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vision Section -->
+    <div class="vision-section row align-items-center g-5 mb-5">
+        <div class="col-lg-6">
+            <div class="vision-content">
+                <h2 class="fw-800 mb-4">The "Masterpiece Collection" Philosophy</h2>
+                <p class="mb-4">We believe that a car is more than a machine; it is a statement of intent. Our team of
+                    curators treats every listing with the reverence of a gallery exhibit. From the initial search to
+                    the final delivery, we ensure the experience is as premium as the vehicle itself.</p>
+                <div class="d-flex gap-3 mt-4">
+                    <a href="{% url 'cars:all_cars' %}" class="login-btn">Explore The Fleet</a>
+                    <a href="{% url 'core:contact' %}" class="btn btn-outline-secondary px-4"
+                        style="border-radius: 24px; font-weight: 700;">Partner With Us</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="glass-box p-5"
+                style="background: var(--bg-card); border-radius: 32px; border: 1px solid var(--glass-border);">
+                <blockquote class="mb-0">
+                    <p class="fs-4 italic" style="font-style: italic; opacity: 0.9;">"In the era of mass production, we
+                        focus on the exceptional. Vehicle Vault exists for those who demand more than just mobility—they
+                        demand a legacy."</p>
+                    <footer class="mt-4">
+                        <div class="fw-800 text-accent">— Team Vehicle Vault</div>
+                        <div class="text-muted small">Designers of the Elite Journey</div>
+                    </footer>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .about-page {
+        padding: 60px 0;
+    }
+
+    .pillar-card {
+        background: var(--bg-card);
+        padding: 40px;
+        border-radius: 32px;
+        border: 1px solid var(--glass-border);
+        height: 100%;
+        transition: var(--transition);
+        text-align: center;
+    }
+
+    .pillar-card:hover {
+        transform: translateY(-10px);
+        border-color: var(--accent);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .pillar-icon {
+        font-size: 3rem;
+        margin-bottom: 20px;
+    }
+
+    .pillar-card h3 {
+        font-weight: 800;
+        margin-bottom: 15px;
+        color: var(--text-main);
+    }
+
+    .pillar-card p {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        line-height: 1.7;
+    }
+
+    .text-accent {
+        color: var(--accent);
+    }
+
+    .fw-900 {
+        font-weight: 900;
+    }
+
+    .fw-800 {
+        font-weight: 800;
+    }
+
+    .fw-700 {
+        font-weight: 700;
+    }
+</style>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}FAQ | Vehicle Vault{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="glass-card p-5 rounded-4 shadow-lg text-white"
+        style="background: var(--bg-card); border: 1px solid var(--glass-border);">
+        <h1 class="display-4 fw-800 mb-4">Frequently Asked Questions</h1>
+        <div class="accordion accordion-flush bg-transparent" id="faqAccordion">
+            <div class="accordion-item bg-transparent border-light border-opacity-10">
+                <h2 class="accordion-header">
+                    <button class="accordion-button bg-transparent text-white fw-800 collapsed" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#faq1">
+                        How are vehicles verified?
+                    </button>
+                </h2>
+                <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body opacity-75">
+                        Every masterpiece in the vault undergoes a rigorous 200-point inspection by our certified elite
+                        technicians.
+                    </div>
+                </div>
+            </div>
+            <!-- More FAQ items here -->
+        </div>
+    </div>
+</div>
+{% endblock %}

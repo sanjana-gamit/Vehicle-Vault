@@ -142,6 +142,7 @@ AUTH_USER_MODEL = 'cars.User'
 # =========================
 # LOGIN & LOGOUT REDIRECTS
 # =========================
+LOGIN_URL = 'core:login'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 

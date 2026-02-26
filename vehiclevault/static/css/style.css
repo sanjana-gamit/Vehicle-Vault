@@ -1,4 +1,38 @@
 /* ===============================
+   GLOBAL TOKENS & RESET
+================================ */
+:root {
+    --primary: #0ea5e9;
+    --primary-dark: #0369a1;
+    --accent: #38bdf8;
+    --bg-dark: #020617;
+    --bg-card: #0f172a;
+    --bg-gradient: radial-gradient(circle at 50% -20%, #1e293b, #020617 80%);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --glass-bg: rgba(15, 23, 42, 0.75);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--bg-gradient) fixed;
+    color: var(--text-main);
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* ===============================
    HERO SECTION
 ================================ */
 .hero {
@@ -39,23 +73,23 @@
     display: inline-block;
     padding: 14px 32px;
     border-radius: 30px;
-    background: linear-gradient(135deg, #38bdf8, #0ea5e9);
-    color: #020617;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    color: var(--bg-dark);
     font-weight: 700;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: var(--transition);
 }
 
 .hero-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 30px rgba(56, 189, 248, 0.45);
+    box-shadow: 0 12px 30px rgba(56, 189, 248, 0.3);
 }
 
 .hero::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(2, 6, 23, 0.55);
+    background: linear-gradient(to bottom, rgba(2, 6, 23, 0.3), rgba(2, 6, 23, 0.8));
     z-index: 1;
 }
 
@@ -94,40 +128,213 @@
    FEATURES SECTION
 ================================ */
 .features {
-    background: #020617;
+    background: var(--bg-dark);
     padding: 80px 60px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
-    
 }
 
 .feature-card {
-    background: #0f172a;
+    background: var(--bg-card);
     padding: 35px;
-    border-radius: 20px;
+    border-radius: 24px;
     text-align: left;
-    transition: all 0.3s ease;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    transition: var(--transition);
+    border: 1px solid var(--glass-border);
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--primary);
+    opacity: 0;
+    transition: var(--transition);
 }
 
 .feature-card h3 {
     font-size: 22px;
     font-weight: 700;
-    margin-bottom: 10px;
-    color: #38bdf8;
+    margin-bottom: 12px;
+    color: var(--accent);
 }
 
 .feature-card p {
     font-size: 15px;
-    color: #cbd5f5;
+    color: var(--text-muted);
     line-height: 1.6;
 }
 
 /* Hover Effect */
 .feature-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(56, 189, 248, 0.25);
+    box-shadow: var(--shadow-lg);
+    border-color: rgba(56, 189, 248, 0.3);
+}
+
+.feature-card:hover::before {
+    opacity: 1;
+}
+
+/* ===============================
+   CAR GRID & CARDS
+================================ */
+.cars-page {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 50px 40px;
+}
+
+.car-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.car-card {
+    background: var(--bg-card);
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+    transition: var(--transition);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.car-card:hover {
+    transform: translateY(-10px);
+    border-color: rgba(56, 189, 248, 0.4);
+    box-shadow: var(--shadow-lg);
+}
+
+.car-card .img-container {
+    height: 220px;
+    overflow: hidden;
+    position: relative;
+}
+
+.car-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.car-card:hover img {
+    transform: scale(1.1);
+}
+
+.car-info {
+    padding: 24px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.car-card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text-main);
+}
+
+.car-card .price {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--accent);
+    margin-bottom: 20px;
+}
+
+.card-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 12px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    color: var(--bg-dark);
+    border-radius: 14px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: var(--transition);
+    margin-top: auto;
+}
+
+.card-btn:hover {
+    filter: brightness(1.1);
+    transform: scale(1.02);
+}
+
+/* ===============================
+   DASHBOARD & COMMON SECTIONS
+================================ */
+.dashboard-container {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 40px;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section-header h2 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 10px;
+}
+
+.section-header p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+.dashboard-card {
+    background: var(--bg-card);
+    padding: 40px;
+    border-radius: 28px;
+    border: 1px solid var(--glass-border);
+    text-align: center;
+    transition: var(--transition);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--accent);
+    box-shadow: var(--shadow-lg);
+}
+
+.card-icon {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.dashboard-card h4 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.dashboard-card p {
+    color: var(--text-muted);
+    margin-bottom: 25px;
 }
 
 /* ===============================
@@ -194,6 +401,7 @@
         font-size: 42px;
     }
 }
+
 @media (max-width: 480px) {
     .hero {
         height: 55vh;

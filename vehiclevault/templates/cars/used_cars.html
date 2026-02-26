@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %}Used Cars | Vehicle Vault{% endblock %}
+{% load static %}
+{% block content %}
+
+<section class="cars-page">
+    <div class="section-header">
+        <h2>Pre-Owned Collection</h2>
+        <p>Explore our verified selection of premium used vehicles.</p>
+    </div>
+
+    <div class="car-grid">
+        {% for car in cars %}
+        <div class="car-card">
+            <div class="img-container">
+                {% if car.car_image %}
+                <img src="{{ car.car_image.url }}" alt="{{ car.brand }} {{ car.model }}">
+                {% else %}
+                <img src="{% static 'images/logo.png' %}" alt="Default Image">
+                {% endif %}
+                <div class="badge bg-primary position-absolute top-0 end-0 m-3"
+                    style="border-radius: 12px; padding: 8px 15px;">
+                    Verified
+                </div>
+            </div>
+
+            <div class="car-info">
+                <h3>{{ car.brand }} {{ car.model }}</h3>
+                <p class="price">₹{{ car.price }}</p>
+
+                <div class="d-flex justify-content-between mb-3" style="color: var(--text-muted); font-size: 0.9rem;">
+                    <span>📅 {{ car.launch_year }}</span>
+                    <span>🛣️ {{ car.mileage }} km</span>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <a href="{% url 'cars:car_detail' car.vin %}" class="card-btn">View Details</a>
+                    <a href="{% url 'cars:add_to_compare' car.id %}" class="btn btn-sm btn-outline-secondary"
+                        style="border-radius: 12px; font-weight: 600;">+ Compare</a>
+                </div>
+
+                {% if user.is_authenticated %}
+                {% if user.role == 'Admin' or user == car.seller %}
+                <div class="mt-3 d-flex gap-2">
+                    <a href="{% url 'cars:car_edit' car.vin %}" class="btn btn-sm btn-outline-info w-100"
+                        style="border-radius: 10px;">Edit</a>
+                    <a href="{% url 'cars:car_delete' car.vin %}" class="btn btn-sm btn-outline-danger w-100"
+                        style="border-radius: 10px;"
+                        onclick="return confirm('Are you sure you want to delete this car?');">Delete</a>
+                </div>
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <div class="text-center w-100 py-5">
+            <p style="font-size: 1.2rem; color: var(--text-muted);">No pre-owned vehicles available at the moment.</p>
+            <a href="{% url 'cars:all_cars' %}" class="login-btn mt-3">View Full Inventory</a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

@@ -61,6 +61,7 @@ class CarForm(forms.ModelForm):
             "vin": forms.TextInput(attrs={"class": "form-control"}),
             "brand": forms.TextInput(attrs={"class": "form-control"}),
             "model": forms.TextInput(attrs={"class": "form-control"}),
+            "fuel_type": forms.Select(attrs={"class": "form-select"}),
             "price": forms.NumberInput(attrs={"class": "form-control"}),
             "mileage": forms.TextInput(attrs={"class": "form-control"}),
             "launch_year": forms.NumberInput(attrs={"class": "form-control"}),
@@ -143,4 +144,3 @@ class TestDriveForm(forms.ModelForm):
         if date < timezone.now().date():
             raise ValidationError("Proposed date cannot be in the past.")
         return date
-

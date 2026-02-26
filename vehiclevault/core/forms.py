@@ -1,8 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
-from django.contrib import messages
-from django.shortcuts import redirect
 
 User = get_user_model()
 
@@ -11,6 +9,14 @@ User = get_user_model()
 # LOGIN FORM
 # =========================
 class UserLoginForm(forms.Form):
+    name = forms.CharField(
+        label="Full Name",
+        required=False,
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "placeholder": "Your full name",
+        })
+    )
     email = forms.EmailField(
         label="Email",
         widget=forms.EmailInput(attrs={
@@ -25,6 +31,20 @@ class UserLoginForm(forms.Form):
             "class": "form-control",
             "placeholder": "••••••••",
             "autocomplete": "current-password",
+        })
+    )
+    role = forms.ChoiceField(
+        choices=User.Role.choices,
+        widget=forms.Select(attrs={
+            "class": "form-select"
+        })
+    )
+    confirm_password = forms.CharField(
+        label="Confirm Password",
+        required=False,
+        widget=forms.PasswordInput(attrs={
+            "class": "form-control",
+            "placeholder": "Repeat password",
         })
     )
 
@@ -70,7 +90,7 @@ class UserSignupForm(forms.ModelForm):
                 "class": "form-control",
                 "placeholder": "Your full name",
             }),
-        }
+            }
 
     # 🔐 Password match check
     def clean(self):
@@ -83,7 +103,6 @@ class UserSignupForm(forms.ModelForm):
 
         return cleaned_data
 
-    # 📧 Unique email validation
     def clean_email(self):
         email = self.cleaned_data.get("email").lower()
         if User.objects.filter(email=email).exists():

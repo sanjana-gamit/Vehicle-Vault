@@ -4,7 +4,7 @@
 
     <!-- LOGO -->
     <div class="logo">
-        <a href="{% url 'home' %}">
+        <a href="{% url 'cars:home' %}">
             <img src="{% static 'images/logo.png' %}" alt="VehicleVault Logo">
             <span>VehicleVault</span>
         </a>
@@ -13,7 +13,7 @@
     <!-- NAV LINKS -->
     <ul class="nav-links">
 
-        <li><a href="{% url 'home' %}">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'cars:home' %}">Home</a></li>
 
         <!-- Cars Dropdown -->
         <li class="dropdown">
@@ -24,12 +24,13 @@
                     <span class="visually-hidden">Toggle Dropdown</span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="{% url 'all_cars' %}">All Cars</a></li>
-                    <li><a href="{% url 'add' %}">Used Cars</a></li>
-                    <li><a href="{% url 'all_cars' %}">Inventory</a></li>
-                    <li><a href="{% url 'all_cars' %}">Upcoming Cars</a></li>
-                    <li><a href="{% url 'all_cars' %}">Electric Cars</a></li>
+                    <li><a href="{% url 'cars:all_cars' %}">All Cars</a></li>
+                    <li><a href="{% url 'cars:used_cars' %}">Used Cars</a></li>
+                    <li><a href="{% url 'cars:upcoming_cars' %}">Upcoming Cars</a></li>
+                    <li><a href="{% url 'cars:electric_cars' %}">Electric Cars</a></li>
+                    <li><a href="{% url 'cars:compare_cars' %}">Compare</a></li>
                 </ul>
+            </div>
         </li>
 
         <!-- Compare Dropdown -->
@@ -41,17 +42,15 @@
                     <span class="visually-hidden">Toggle Dropdown</span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="{% url 'compare_cars' %}">Compare Cars</a></li>
-                    <li><a href="{% url 'find_new' %}">Find New Car</a></li>
+                    <li><a href="{% url 'cars:compare_cars' %}">Compare Cars</a></li>
+                    <li><a href="{% url 'cars:find_new' %}">Find New Car</a></li>
                 </ul>
             </div>
         </li>
 
-        <!-- News -->
-        <li><a href="{% url 'news_list' %}">News</a></li>
-
-        <!-- Orders -->
-        <li><a href="{% url 'order' %}">Orders</a></li>
+        <!-- News & Test Drives -->
+        <li><a href="{% url 'cars:inventory' %}">Inventory</a></li>
+        <li><a href="{% url 'cars:test_drives' %}">Test Drives</a></li>
 
         <!-- More Dropdown -->
         <li class="dropdown">
@@ -62,26 +61,30 @@
                     <span class="visually-hidden">Toggle Dropdown</span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="{% url 'about' %}">About</a></li>
-                    <li><a href="{% url 'contact' %}">Contact</a></li>
-                    <li><a href="{% url 'add' %}">Sell Car</a></li>
+                    <li><a href="{% url 'core:about' %}">About Us</a></li>
+                    <li><a href="{% url 'core:faq' %}">FAQ</a></li>
+                    <li><a href="{% url 'core:contact' %}">Contact</a></li>
+                    <li class="dropdown-divider" style="border-top: 1px solid rgba(255,255,255,0.1); margin: 5px 0;">
+                    </li>
+                    <li><a href="{% url 'core:privacy' %}">Privacy Policy</a></li>
+                    <li><a href="{% url 'core:terms' %}">Terms of Service</a></li>
                 </ul>
+            </div>
         </li>
 
     </ul>
 
     <!-- RIGHT SIDE -->
     <div class="nav-right">
-        <form method="get" action="{% url 'all_cars' %}" class="search-box">
+        <form method="get" action="{% url 'cars:all_cars' %}" class="search-box">
             <input type="text" name="q" placeholder="Search cars...">
         </form>
 
         {% if user.is_authenticated %}
-        <a href="{% url 'logout' %}" class="login-btn">Logout</a>
+        <a href="{% url 'core:'|add:user.role|lower|add:'_dashboard' %}" class="login-btn me-2">Dashboard</a>
+        <a href="{% url 'core:logout' %}" class="login-btn btn-outline">Logout</a>
         {% else %}
-        <button class="login-btn" onclick="openSidebar()">
-            Sign Up
-        </button>
+        <a href="{% url 'core:login' %}" class="login-btn" style="display: inline-block;">Login</a>
         {% endif %}
     </div>
 

@@ -5,13 +5,22 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-    background: #0f172a; /* dark slate */
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
     color: #fff;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 14px 40px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+    padding: 12px 60px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.4s ease;
+}
+
+.navbar.scrolled {
+    background: rgba(2, 6, 23, 0.95);
+    padding: 10px 60px;
 }
 
 /* ===============================
@@ -30,6 +39,11 @@
 .logo img {
     width: 38px;
     height: auto;
+    transition: transform 0.3s ease;
+}
+
+.logo a:hover img {
+    transform: scale(1.1) rotate(5deg);
 }
 
 .logo span {
@@ -65,41 +79,33 @@
 
 /* Buttons for dropdowns */
 .btn-group button {
-    padding: 8px 12px;
-    background:  #0f172a;
-    color: #fff;
+    padding: 8px 14px;
+    background: transparent;
+    color: #e5e7eb;
     border: none;
     cursor: pointer;
-    border-radius: 4px 0 0 4px;
-    transition: background 0.3s;
+    font-weight: 500;
+    font-size: 15px;
+    transition: all 0.3s ease;
 }
 
 .btn-group .dropdown-toggle-split {
-    border-radius: 0 4px 4px 0;
     padding: 8px 10px;
+    margin-left: -5px;
 }
 
 .btn-group button:hover {
-    background-color: #efe5e5;
+    color: #38bdf8;
+    background: rgba(56, 189, 248, 0.1);
 }
 
-/* Uniform button color for all dropdowns */
+/* Uniform button behavior */
 .btn-car,
 .btn-compare,
 .btn-more,
 .dropdown-toggle-split {
-    background-color:  #0f172a; /* Dark gray / almost black */
-    color: #fff;            /* White text */
-    border: none;
-    transition: background 0.3s;
-}
-
-/* Hover effect */
-.btn-car:hover,
-.btn-compare:hover,
-.btn-more:hover,
-.dropdown-toggle-split:hover {
-    background-color:  #0f172a; /* Slightly lighter on hover */
+    background-color: transparent !important;
+    border: none !important;
 }
 
 /* Optional: keep split dropdown the same height */
@@ -114,23 +120,26 @@
 /* ===============================
    DROPDOWN
 ================================ */
-.dropdown > a {
+.dropdown>a {
     cursor: pointer;
 }
 
 .dropdown-menu {
     position: absolute;
-    top: 45px;
+    top: calc(100% + 15px);
     left: 0;
-    background: #020617;
-    min-width: 190px;
-    border-radius: 12px;
-    padding: 10px 0;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    min-width: 220px;
+    border-radius: 16px;
+    padding: 12px 8px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
     opacity: 0;
     visibility: hidden;
     transform: translateY(10px);
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .dropdown-menu li {
@@ -153,7 +162,7 @@
 .dropdown:hover .dropdown-menu {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
 }
 
 /* ===============================
@@ -167,35 +176,54 @@
 
 /* SEARCH */
 .search-box input {
-    padding: 8px 14px;
-    border-radius: 20px;
-    border: none;
+    padding: 10px 20px;
+    border-radius: 24px;
+    border: 1px solid var(--glass-border);
     outline: none;
-    background: #020617;
+    background: rgba(2, 6, 23, 0.4);
     color: #fff;
     font-size: 14px;
-    width: 180px;
+    width: 200px;
+    transition: var(--transition);
 }
 
-.search-box input::placeholder {
-    color: #94a3b8;
+.search-box input:focus {
+    width: 240px;
+    background: rgba(2, 6, 23, 0.7);
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
 }
 
-/* LOGIN BUTTON */
+/* LOGIN / ACCOUNT BUTTONS */
 .login-btn {
-    background: linear-gradient(135deg, #38bdf8, #0ea5e9);
-    color: #020617;
-    padding: 9px 18px;
-    border-radius: 20px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    color: var(--bg-dark);
+    padding: 10px 22px;
+    border-radius: 24px;
     font-weight: 600;
+    font-size: 14px;
     border: none;
     cursor: pointer;
-    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: var(--transition);
 }
 
 .login-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(56, 189, 248, 0.4);
+    box-shadow: 0 8px 25px rgba(56, 189, 248, 0.4);
+}
+
+.login-btn.btn-outline {
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    color: var(--text-main);
+}
+
+.login-btn.btn-outline:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--accent);
 }
 
 /* ===============================
@@ -207,7 +235,8 @@
     }
 
     .nav-links {
-        display: none; /* add hamburger later if needed */
+        display: none;
+        /* add hamburger later if needed */
     }
 
     .search-box input {

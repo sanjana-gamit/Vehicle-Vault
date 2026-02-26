@@ -6,82 +6,79 @@
 <!-- HERO SECTION -->
 <section class="hero">
     <div class="hero-text">
-    <h1 class="text-white">Find Your Next Ride </h1>
-    <p class="text-white">Browse, compare and book cars effortlessly.</p>
-    <a href="{% url 'all_cars' %}" class="hero-btn">Browse Cars</a>
-</div>
-
-<!-- HERO CAROUSEL -->
-<div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
-
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="{% static 'images/hero-bg.jpg' %}" class="d-block w-100" alt="Car 1">
-        </div>
-
-        <div class="carousel-item">
-            <img src="{% static 'images/bg.jpg' %}" class="d-block w-100" alt="Car 2">
-        </div>
-
-        <div class="carousel-item">
-            <img src="{% static 'images/bg2.jpg' %}" class="d-block w-100" alt="Car 3">
-        </div>
+        <h1 class="text-white">Find Your Next Ride </h1>
+        <p class="text-white">Browse, compare and book cars effortlessly.</p>
+        <a href="{% url 'cars:all_cars' %}" class="hero-btn">Browse Cars</a>
     </div>
 
-    <!-- Controls -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-    </button>
+    <!-- HERO CAROUSEL -->
+    <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
 
-    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-    </button>
-</div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{% static 'images/hero-bg.jpg' %}" class="d-block w-100" alt="Car 1">
+            </div>
+
+            <div class="carousel-item">
+                <img src="{% static 'images/bg.jpg' %}" class="d-block w-100" alt="Car 2">
+            </div>
+
+            <div class="carousel-item">
+                <img src="{% static 'images/bg2.jpg' %}" class="d-block w-100" alt="Car 3">
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
 </section>
 
 <!-- FEATURES -->
-<section class="features container py-5">
-    <div class="row g-4">
+<section class="features-section container py-5" style="background: var(--bg-dark);">
+    <div class="section-header">
+        <h2>Premium Services</h2>
+        <p>Expertly curated collection and seamless acquisition experience.</p>
+    </div>
 
+    <div class="row g-4">
         <!-- Search & Filter -->
         <div class="col-md-4">
-            <a href="{% url 'all_cars' %}" class="text-decoration-none">
-                <div class="feature-card text-center p-4 shadow rounded h-100">
+            <a href="{% url 'cars:all_cars' %}" class="text-decoration-none">
+                <div class="feature-card">
                     <div class="fs-1 mb-3">🔍</div>
-                    <h4>Search & Filter</h4>
-                    <p class="text-white">
-                        Find cars by brand, budget, fuel type & year.
-                    </p>
+                    <h3>Search Inventory</h3>
+                    <p>Discover high-end vehicles using our precision matching technology.</p>
                 </div>
             </a>
         </div>
 
         <!-- Compare Cars -->
         <div class="col-md-4">
-            <a href="{% url 'compare_cars' %}" class="text-decoration-none">
-                <div class="feature-card text-center p-4 shadow rounded h-100">
+            <a href="{% url 'cars:compare_cars' %}" class="text-decoration-none">
+                <div class="feature-card">
                     <div class="fs-1 mb-3">⚖️</div>
-                    <h4>Compare Cars</h4>
-                    <p class="text-white">
-                        Compare specifications side-by-side before buying.
-                    </p>
+                    <h3>Intelligent Comparison</h3>
+                    <p>Analyze technical specifications side-by-side to make informed decisions.</p>
                 </div>
             </a>
         </div>
 
         <!-- Book Test Drive -->
         <div class="col-md-4">
-            <a href="" class="text-decoration-none">
-                <div class="feature-card text-center p-4 shadow rounded h-100">
+            <a href="{% url 'cars:test_drives' %}" class="text-decoration-none">
+                <div class="feature-card">
                     <div class="fs-1 mb-3">📅</div>
-                    <h4>Book Test Drive</h4>
-                    <p class="text-white">
-                        Schedule test drives with verified sellers.
-                    </p>
+                    <h3>Exclusive Access</h3>
+                    <p>Orchestrate personalized test drives with our verified seller network.</p>
                 </div>
             </a>
         </div>
-
     </div>
 </section>
 

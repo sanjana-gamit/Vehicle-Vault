@@ -111,7 +111,7 @@ class Car(models.Model):
         User,
         on_delete=models.CASCADE,
         related_name="cars",
-        limit_choices_to={"role": "Seller"},
+        limit_choices_to={"role__in": ["Seller", "Admin"]},
     )
 
     category = models.ForeignKey(
@@ -128,6 +128,16 @@ class Car(models.Model):
     slug = models.SlugField(unique=True, blank=True)
 
     price = models.DecimalField(max_digits=12, decimal_places=2)
+    fuel_type = models.CharField(
+        max_length=20,
+        choices=[
+            ("Petrol", "Petrol"),
+            ("Diesel", "Diesel"),
+            ("Electric", "Electric"),
+            ("Hybrid", "Hybrid"),
+        ],
+        default="Petrol",
+    )
     mileage = models.CharField(max_length=50)
     launch_year = models.PositiveIntegerField()
     stock = models.PositiveIntegerField(default=0)
@@ -153,7 +163,7 @@ class CarListing(models.Model):
         User,
         on_delete=models.CASCADE,
         related_name="listings",
-        limit_choices_to={"role": "Seller"},
+        limit_choices_to={"role__in": ["Seller", "Admin"]},
     )
 
     price = models.DecimalField(max_digits=12, decimal_places=2)
@@ -208,4 +218,3 @@ class TestDrive(models.Model):
 
     notes = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-

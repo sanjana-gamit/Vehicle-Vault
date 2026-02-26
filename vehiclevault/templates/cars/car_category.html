@@ -1,29 +1,99 @@
 {% extends 'base.html' %}
+{% block title %}{{ category_name }} Collection | Vehicle Vault{% endblock %}
 {% load static %}
 {% block content %}
 
-<div class="container">
-    <h1>Car Category</h1>
-    <p>Choose a category to view available cars.</p>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">New Cars</h5>
-                    <p class="card-text">Discover the latest models and features of new cars.</p>
-                    <a href="{% url 'all_cars' %}" class="btn btn-primary">View New Cars</a>
-                </div>
-            </div>
+<section class="cars-page">
+    <!-- Header -->
+    <div class="section-header text-center mb-5">
+        <div class="badge bg-primary-subtle text-primary mb-3"
+            style="border-radius: 20px; padding: 8px 20px; font-weight: 600; letter-spacing: 1px;">CURATED COLLECTION
         </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Used Cars</h5>
-                    <p class="card-text">Find your perfect used car with our wide selection.</p>
-                    <a href="{% url 'all_cars' %}" class="btn btn-primary">View Used Cars</a>
-                </div>
-            </div>
-        </div>
+        <h2 class="display-4 fw-900">{{ category.name }} Fleet</h2>
+        <p class="text-muted">Explore our hand-picked selection of world-class {{ category.name|lower }}s.</p>
     </div>
-</div>
+
+    <!-- Car Grid -->
+    <div class="car-grid row g-4">
+        {% for car in cars %}
+        <div class="col-md-6 col-lg-4">
+            <div class="car-card h-100 shadow-lg"
+                style="background: var(--bg-card); border-radius: 24px; border: 1px solid var(--glass-border); overflow: hidden; transition: var(--transition); display: flex; flex-direction: column;">
+                <!-- Image Section -->
+                <div class="img-container position-relative" style="height: 220px;">
+                    {% with car.images.all|first as img %}
+                    {% if img %}
+                    <img src="{{ img.image.url }}" alt="{{ car.brand }} {{ car.model }}"
+                        style="width: 100%; height: 100%; object-fit: cover;">
+                    {% else %}
+                    <div class="bg-dark w-100 h-100 d-flex align-items-center justify-content-center text-muted">🚀 No
+                        Image</div>
+                    {% endif %}
+                    {% endwith %}
+
+                    <div class="price-badge position-absolute bottom-0 end-0 m-3 px-3 py-1 bg-dark text-white fw-700"
+                        style="border-radius: 10px; border: 1px solid var(--accent); font-size: 0.9rem;">
+                        ₹{{ car.price }}
+                    </div>
+                </div>
+
+                <!-- Info Section -->
+                <div class="car-info p-4 flex-grow-1 d-flex flex-direction-column">
+                    <div class="mb-3">
+                        <span class="text-muted small fw-600">{{ car.brand }}</span>
+                        <h3 class="fw-800 mb-0" style="font-size: 1.4rem;">{{ car.model }}</h3>
+                    </div>
+
+                    <div class="specs d-flex gap-3 mb-4 opacity-75 small">
+                        <span>⛽ {{ car.fuel_type }}</span>
+                        <span>🛣️ {{ car.mileage }}km</span>
+                        <span>📅 {{ car.launch_year }}</span>
+                    </div>
+
+                    <div class="actions mt-auto d-grid gap-2">
+                        <a href="{% url 'cars:car_detail' car.vin %}" class="card-btn py-2 text-center"
+                            style="background: var(--accent); color: var(--bg-dark); text-decoration: none; border-radius: 12px; font-weight: 800; font-size: 0.9rem;">View
+                            Masterpiece</a>
+                        <a href="{% url 'cars:add_to_compare' car.id %}" class="btn btn-sm btn-outline-secondary py-2"
+                            style="border-radius: 10px; font-weight: 700; border-color: rgba(255,255,255,0.1);">+
+                            Compare</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <div class="fs-1 mb-4">🏜️</div>
+            <h3 class="text-muted">No {{ category.name }}s found in the vault.</h3>
+            <p>Our fleet is constantly evolving. Browse our full collection in the meantime.</p>
+            <a href="{% url 'cars:all_cars' %}" class="login-btn mt-3">Explore All Cars</a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<style>
+    .car-card:hover {
+        transform: translateY(-10px);
+        border-color: var(--accent) !important;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    .fw-900 {
+        font-weight: 900;
+    }
+
+    .fw-800 {
+        font-weight: 800;
+    }
+
+    .fw-700 {
+        font-weight: 700;
+    }
+
+    .fw-600 {
+        font-weight: 600;
+    }
+</style>
+
 {% endblock %}

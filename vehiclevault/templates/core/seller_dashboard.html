@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Seller Dashboard{% endblock %}
+{% block content %}
+<div class="dashboard-container">
+    <div class="section-header">
+        <h2>Seller Dashboard</h2>
+        <p>Welcome back, <strong>{{ user.name|default:user.email }}</strong> | Dealership: {{
+            user.seller_profile.dealership_name|default:"General" }}</p>
+    </div>
+
+    <div class="row g-4">
+        <!-- Add Car -->
+        <div class="col-md-4">
+            <div class="dashboard-card">
+                <div class="card-icon">➕</div>
+                <h4>Add New Car</h4>
+                <p>List a new high-performance vehicle in our curated inventory.</p>
+                <a href="{% url 'cars:add' %}" class="card-btn">Add Car</a>
+            </div>
+        </div>
+
+        <!-- Inventory -->
+        <div class="dashboard-card">
+            <div class="card-icon">🚗</div>
+            <h4>My Inventory</h4>
+            <p>Monitor your active listings and update vehicle specifications.</p>
+            <a href="{% url 'cars:inventory' %}" class="card-btn">View Inventory</a>
+        </div>
+
+        <!-- Test Drives -->
+        <div class="col-md-4">
+            <div class="dashboard-card">
+                <div class="card-icon">📅</div>
+                <h4>Appointments</h4>
+                <p>Manage test drive requests and coordinate with potential buyers.</p>
+                <a href="{% url 'cars:test_drives' %}" class="card-btn">View Schedule</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

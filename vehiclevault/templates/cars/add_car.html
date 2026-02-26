@@ -1,229 +1,194 @@
 {% extends 'base.html' %}
-
-{% block title %}
-{% if car %}Update Car{% else %}Add New Car{% endif %}
-{% endblock %}
-
+{% block title %}{% if car %}Refine Listing{% else %}Create New Listing{% endif %} | Vehicle Vault{% endblock %}
+{% load static %}
 {% block content %}
 
-<div class="container mt-5 mb-5">
-    <div class="card shadow-lg">
-
-        <!-- Card Header -->
-        <div class="card-header bg-dark text-white">
-            <h3 class="mb-0">
-                {% if car %}✏️ Update Car{% else %}🚗 Add New Car{% endif %}
-            </h3>
+<div class="dashboard-container">
+    <div class="section-header">
+        <div class="badge bg-primary-subtle text-primary mb-3"
+            style="border-radius: 20px; padding: 8px 20px; font-weight: 600; letter-spacing: 1px;">INVENTORY SYSTEM
         </div>
+        <h2>{% if car %}Refine Vehicle Details{% else %}Add to Collection{% endif %}</h2>
+        <p>{% if car %}Update the technical specifications for your listing.{% else %}Inject a new high-performance
+            vehicle into the vault inventory.{% endif %}</p>
+    </div>
 
-        <div class="card-body p-4">
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="premium-form-card shadow-lg p-5"
+                style="background: var(--bg-card); border-radius: 40px; border: 1px solid var(--glass-border); position: relative; overflow: hidden;">
+                <div class="form-glass-glow"></div>
 
-                <div class="row">
+                <form method="POST" enctype="multipart/form-data" class="position-relative">
+                    {% csrf_token %}
 
-                    <!-- VIN -->
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">VIN <span class="text-danger">*</span></label>
-                        {{ car_form.vin }}
-                        {% if car_form.vin.errors %}
-                            <div class="text-danger mt-1">{{ car_form.vin.errors }}</div>
-                        {% endif %}
-                    </div>
+                    <div class="row g-4">
+                        <!-- MANDATORY SECTION -->
+                        <div class="col-12 border-bottom border-secondary mb-4 pb-2">
+                            <h4 class="fw-800 text-accent mb-0">Core Specifications</h4>
+                        </div>
 
-                    <!-- Brand -->
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Brand <span class="text-danger">*</span></label>
-                        {{ car_form.brand }}
-                        {% if car_form.brand.errors %}
-                            <div class="text-danger mt-1">{{ car_form.brand.errors }}</div>
-                        {% endif %}
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-600 small text-muted">VIN / CHASSIS NO.</label>
+                            {{ car_form.vin }}
+                            {% if car_form.vin.errors %}<div class="text-danger small mt-1">{{ car_form.vin.errors }}
+                            </div>{% endif %}
+                        </div>
 
-                    <!-- Model -->
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Model <span class="text-danger">*</span></label>
-                        {{ car_form.model }}
-                        {% if car_form.model.errors %}
-                            <div class="text-danger mt-1">{{ car_form.model.errors }}</div>
-                        {% endif %}
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-600 small text-muted">MANUFACTURER</label>
+                            {{ car_form.brand }}
+                            {% if car_form.brand.errors %}<div class="text-danger small mt-1">{{ car_form.brand.errors
+                                }}</div>{% endif %}
+                        </div>
 
-                    <!-- Category with tooltip -->
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Category
-                            <i class="bi bi-info-circle" data-bs-toggle="tooltip" 
-                               title="Select the category of the car, e.g., Sedan, SUV, Hatchback."></i>
-                        </label>
-                        {{ car_form.category }}
-                        {% if car_form.category.errors %}
-                            <div class="text-danger mt-1">{{ car_form.category.errors }}</div>
-                        {% endif %}
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-600 small text-muted">MODEL NAME</label>
+                            {{ car_form.model }}
+                            {% if car_form.model.errors %}<div class="text-danger small mt-1">{{ car_form.model.errors
+                                }}</div>{% endif %}
+                        </div>
 
-                    <!-- Price -->
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Price (₹) <span class="text-danger">*</span></label>
-                        {{ car_form.price }}
-                        <small class="text-muted">Enter price in ₹, e.g., 850000</small>
-                        {% if car_form.price.errors %}
-                            <div class="text-danger mt-1">{{ car_form.price.errors }}</div>
-                        {% endif %}
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-600 small text-muted">CATEGORY</label>
+                            {{ car_form.category }}
+                            {% if car_form.category.errors %}<div class="text-danger small mt-1">{{
+                                car_form.category.errors }}</div>{% endif %}
+                        </div>
 
-                    <!-- Fuel Type -->
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Fuel Type <span class="text-danger">*</span></label>
-                        {{ car_form.fuel_type }}
-                        {% if car_form.fuel_type.errors %}
-                            <div class="text-danger mt-1">{{ car_form.fuel_type.errors }}</div>
-                        {% endif %}
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-600 small text-muted">LAUNCH YEAR</label>
+                            {{ car_form.launch_year }}
+                            {% if car_form.launch_year.errors %}<div class="text-danger small mt-1">{{
+                                car_form.launch_year.errors }}</div>{% endif %}
+                        </div>
 
-                    <!-- Transmission -->
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Transmission <span class="text-danger">*</span></label>
-                        {{ car_form.transmission }}
-                        {% if car_form.transmission.errors %}
-                            <div class="text-danger mt-1">{{ car_form.transmission.errors }}</div>
-                        {% endif %}
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-600 small text-muted">FUEL ARCHITECTURE</label>
+                            {{ car_form.fuel_type }}
+                            {% if car_form.fuel_type.errors %}<div class="text-danger small mt-1">{{
+                                car_form.fuel_type.errors }}</div>{% endif %}
+                        </div>
 
-                    <!-- Mileage -->
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Mileage <span class="text-danger">*</span></label>
-                        {{ car_form.mileage }}
-                        {% if car_form.mileage.errors %}
-                            <div class="text-danger mt-1">{{ car_form.mileage.errors }}</div>
-                        {% endif %}
-                    </div>
+                        <!-- PERFORMANCE SECTION -->
+                        <div class="col-12 border-bottom border-secondary mt-5 mb-4 pb-2">
+                            <h4 class="fw-800 text-accent mb-0">Performance & Value</h4>
+                        </div>
 
-                    <!-- Launch Year -->
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Launch Year <span class="text-danger">*</span></label>
-                        {{ car_form.launch_year }}
-                        <small class="text-muted">Enter year between 1950 and {{ now.year|add:"1" }}</small>
-                        {% if car_form.launch_year.errors %}
-                            <div class="text-danger mt-1">{{ car_form.launch_year.errors }}</div>
-                        {% endif %}
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-600 small text-muted">LIST PRICE (₹)</label>
+                            {{ car_form.price }}
+                            {% if car_form.price.errors %}<div class="text-danger small mt-1">{{ car_form.price.errors
+                                }}</div>{% endif %}
+                        </div>
 
-                    <!-- Stock -->
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Stock Available <span class="text-danger">*</span></label>
-                        {{ car_form.stock }}
-                        {% if car_form.stock.errors %}
-                            <div class="text-danger mt-1">{{ car_form.stock.errors }}</div>
-                        {% endif %}
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-600 small text-muted">RANGE / MILEAGE (KM/L)</label>
+                            {{ car_form.mileage }}
+                            {% if car_form.mileage.errors %}<div class="text-danger small mt-1">{{
+                                car_form.mileage.errors }}</div>{% endif %}
+                        </div>
 
-                    <!-- Description -->
-                    <div class="col-12 mb-3">
-                        <label class="form-label">Description</label>
-                        {{ car_form.description }}
-                        {% if car_form.description.errors %}
-                            <div class="text-danger mt-1">{{ car_form.description.errors }}</div>
-                        {% endif %}
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-600 small text-muted">FLEET STOCK</label>
+                            {{ car_form.stock }}
+                            {% if car_form.stock.errors %}<div class="text-danger small mt-1">{{ car_form.stock.errors
+                                }}</div>{% endif %}
+                        </div>
 
-                    <!-- Existing Images -->
-                    {% if car and car.images.all %}
-                        <div class="col-12 mb-3">
-                            <label class="form-label">Existing Images:</label>
-                            <div class="d-flex flex-wrap gap-3">
-                                {% for img in car.images.all %}
-                                    <div class="position-relative">
-                                        <img src="{{ img.image.url }}" height="100" class="rounded shadow">
-                                        <a href="{% url 'delete_car_image' img.id %}" 
-                                           class="position-absolute top-0 end-0 btn btn-sm btn-danger">×</a>
-                                    </div>
-                                {% endfor %}
+                        <!-- MEDIA SECTION -->
+                        <div class="col-12 border-bottom border-secondary mt-5 mb-4 pb-2">
+                            <h4 class="fw-800 text-accent mb-0">Visual Presentation</h4>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label fw-600 small text-muted">PRIMARY COVER IMAGE</label>
+                            {{ car_form.car_image }}
+                        </div>
+
+                        <div class="col-12 mt-4">
+                            <div class="d-flex gap-4">
+                                <div
+                                    class="form-check form-switch card-switch p-3 px-5 rounded-4 border border-secondary">
+                                    {{ car_form.is_upcoming }}
+                                    <label class="form-check-label ms-2 fw-bold small">UPCOMING PREVIEW</label>
+                                </div>
+                                <div
+                                    class="form-check form-switch card-switch p-3 px-5 rounded-4 border border-secondary">
+                                    {{ car_form.is_electric }}
+                                    <label class="form-check-label ms-2 fw-bold small">ELECTRIC VEHICLE</label>
+                                </div>
                             </div>
                         </div>
-                    {% endif %}
 
-                    <!-- Multiple Image Upload -->
-                    <div class="col-12 mb-3">
-                        <label class="form-label">Upload New Car Images</label>
-                        <input type="file"
-                               name="images"
-                               multiple
-                               class="form-control"
-                               accept="image/*"
-                               id="multiImageInput">
-
-                        <!-- Preview Container -->
-                        <div id="previewContainer"
-                             class="d-flex flex-wrap gap-3 mt-3"></div>
-                    </div>
-
-                    <!-- Checkboxes -->
-                    <div class="col-md-6 mb-3">
-                        <div class="form-check">
-                            {{ car_form.is_upcoming }}
-                            <label class="form-check-label">Upcoming Model</label>
+                        <div class="col-12 text-center mt-5 pt-4">
+                            <a href="{% url 'cars:inventory' %}"
+                                class="btn btn-link text-muted me-4 text-decoration-none fw-600">Cancel & Return</a>
+                            <button type="submit" class="login-btn px-5 py-3"
+                                style="font-weight: 800; font-size: 1.1rem; min-width: 250px;">
+                                {% if car %}Synchronize Changes{% else %}Deploy Listing{% endif %}
+                            </button>
                         </div>
                     </div>
-
-                    <div class="col-md-6 mb-3">
-                        <div class="form-check">
-                            {{ car_form.is_electric }}
-                            <label class="form-check-label">Electric Vehicle</label>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- Stock & Availability Info -->
-                {% if car %}
-                    <div class="alert alert-info mt-3">
-                        Stock: {{ car.stock }} | Available: {{ car.in_stock|yesno:"Yes,No" }}
-                    </div>
-                {% endif %}
-
-                <div class="d-flex justify-content-between mt-4">
-                    <a href="{% url 'cars' %}" class="btn btn-outline-secondary">← Cancel</a>
-                    <button type="submit" class="btn btn-success px-4">
-                        {% if car %}Update Car{% else %}Add Car{% endif %}
-                    </button>
-                </div>
-
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- 🔥 MULTIPLE IMAGE PREVIEW SCRIPT -->
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    // Initialize Bootstrap tooltips
-    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    tooltipTriggerList.map(function (el) {
-        return new bootstrap.Tooltip(el)
-    });
+<style>
+    .premium-form-card {
+        position: relative;
+        z-index: 1;
+    }
 
-    // Image preview
-    const input = document.getElementById("multiImageInput");
-    const previewContainer = document.getElementById("previewContainer");
+    .form-glass-glow {
+        position: absolute;
+        top: -50px;
+        right: -50px;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+        opacity: 0.05;
+        z-index: 0;
+        pointer-events: none;
+    }
 
-    input.addEventListener("change", function () {
-        previewContainer.innerHTML = "";
+    .card-switch {
+        background: rgba(255, 255, 255, 0.02);
+        transition: var(--transition);
+    }
 
-        Array.from(this.files).forEach(file => {
-            const reader = new FileReader();
+    .card-switch:hover {
+        background: rgba(56, 189, 248, 0.05);
+        border-color: var(--accent) !important;
+    }
 
-            reader.onload = function (e) {
-                const img = document.createElement("img");
-                img.src = e.target.result;
-                img.style.height = "120px";
-                img.classList.add("rounded", "shadow");
-                previewContainer.appendChild(img);
-            };
+    input.form-control,
+    select.form-select {
+        background: rgba(2, 6, 23, 0.4) !important;
+        border: 1px solid var(--glass-border);
+        color: #fff !important;
+        padding: 12px 18px;
+        border-radius: 14px;
+        transition: var(--transition);
+    }
 
-            reader.readAsDataURL(file);
-        });
-    });
-});
-</script>
+    input.form-control:focus,
+    select.form-select:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 15px rgba(56, 189, 248, 0.1);
+    }
+
+    .form-check-input {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-color: var(--glass-border);
+    }
+
+    .form-check-input:checked {
+        background-color: var(--accent);
+        border-color: var(--accent);
+    }
+</style>
 
 {% endblock %}

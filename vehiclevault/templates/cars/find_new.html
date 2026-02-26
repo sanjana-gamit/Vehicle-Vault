@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% block title %}Find Your New Car | Vehicle Vault{% endblock %}
+{% load static %}
+{% block content %}
+
+<div class="discovery-container">
+    <!-- Hero Section -->
+    <div class="discovery-hero text-center mb-5">
+        <div class="badge bg-primary-subtle text-primary mb-3"
+            style="border-radius: 20px; padding: 10px 25px; font-weight: 700; letter-spacing: 2px;">THE FUTURE AWAITS
+        </div>
+        <h1 class="display-3 fw-900 mb-3">Find Your Next Masterpiece</h1>
+        <p class="lead text-muted mx-auto" style="max-width: 700px;">Explore the world's most sophisticated new
+            vehicles. Filter by lifestyle, budget, or performance to find your perfect match.</p>
+
+        <!-- Master Search -->
+        <div class="search-hero-box mt-5 mx-auto shadow-2xl" style="max-width: 800px;">
+            <div class="input-group p-2"
+                style="background: rgba(15, 23, 42, 0.8); border: 1px solid var(--glass-border); border-radius: 24px;">
+                <span class="input-group-text bg-transparent border-0 ps-4">🔍</span>
+                <input type="text" class="form-control bg-transparent border-0 text-white py-4"
+                    placeholder="Search luxury brands, body styles, or features..." style="font-size: 1.1rem;">
+                <button class="login-btn px-5" style="border-radius: 18px;">Search Vault</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Category Shortcuts -->
+    <div class="category-grid row g-4 mb-5 pb-5">
+        <div class="col-6 col-lg-3">
+            <a href="{% url 'cars:car_category' 'SUV' %}"
+                class="category-card text-center p-5 d-block text-decoration-none">
+                <div class="fs-1 mb-3">🏔️</div>
+                <h4 class="text-white fw-700">SUVs</h4>
+                <p class="text-muted small mb-0">Unmatched Power</p>
+            </a>
+        </div>
+        <div class="col-6 col-lg-3">
+            <a href="{% url 'cars:car_category' 'Sedan' %}"
+                class="category-card text-center p-5 d-block text-decoration-none">
+                <div class="fs-1 mb-3">🏙️</div>
+                <h4 class="text-white fw-700">Sedans</h4>
+                <p class="text-muted small mb-0">Pure Elegance</p>
+            </a>
+        </div>
+        <div class="col-6 col-lg-3">
+            <a href="{% url 'cars:electric_cars' %}" class="category-card text-center p-5 d-block text-decoration-none">
+                <div class="fs-1 mb-3">⚡</div>
+                <h4 class="text-white fw-700">Electric</h4>
+                <p class="text-muted small mb-0">Silence Reimagined</p>
+            </a>
+        </div>
+        <div class="col-6 col-lg-3">
+            <a href="{% url 'cars:new_cars' %}"
+                class="category-card text-center p-5 d-block text-decoration-none highlight-card">
+                <div class="fs-1 mb-3">🏁</div>
+                <h4 class="text-white fw-700">2025 Fleet</h4>
+                <p class="text-muted small mb-0">The Newest Arrivals</p>
+            </a>
+        </div>
+    </div>
+
+    <!-- Interactive Finder Section -->
+    <div class="finder-section p-5 mb-5 shadow-lg"
+        style="background: var(--bg-card); border-radius: 40px; border: 1px solid var(--glass-border);">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h2 class="fw-800 mb-4">Precision Selection</h2>
+                <div class="finder-controls">
+                    <div class="mb-4">
+                        <label class="form-label text-muted small fw-700 letter-spacing-1">BUDGET SCALE</label>
+                        <input type="range" class="form-range custom-range" min="0" max="10000000" step="500000">
+                        <div class="d-flex justify-content-between text-muted small mt-2">
+                            <span>₹10L</span>
+                            <span>₹1Cr+</span>
+                        </div>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label text-muted small fw-700">FUEL PREFERENCE</label>
+                            <select class="form-select bg-dark border-secondary text-white py-3"
+                                style="border-radius: 12px;">
+                                <option>Petrol (High Octane)</option>
+                                <option>Electric (Sustainability)</option>
+                                <option>Hybrid (Efficiency)</option>
+                                <option>Diesel (Torque)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-muted small fw-700">TRANSMISSION</label>
+                            <select class="form-select bg-dark border-secondary text-white py-3"
+                                style="border-radius: 12px;">
+                                <option>Automatic (PDK/DSG)</option>
+                                <option>Manual (Pure Control)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="login-btn w-100 mt-5 py-4 fw-800">DISCOVER MATCHES</button>
+                </div>
+            </div>
+            <div class="col-lg-6 d-none d-lg-block text-center">
+                <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&q=80" alt="Car Detail"
+                    class="img-fluid rounded-circle shadow-lg"
+                    style="width: 80%; border: 10px solid var(--glass-border);">
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Brands -->
+    <div class="brand-section text-center py-5">
+        <p class="text-muted small fw-700 mb-5 letter-spacing-1">PREMIUM PARTNERS</p>
+        <div class="d-flex flex-wrap justify-content-center gap-5 opacity-50 grayscale">
+            <div class="brand-logo fs-4 text-white">MERCEDES-BENZ</div>
+            <div class="brand-logo fs-4 text-white">PORSCHE</div>
+            <div class="brand-logo fs-4 text-white">BMW</div>
+            <div class="brand-logo fs-4 text-white">AUDI</div>
+            <div class="brand-logo fs-4 text-white">TESLA</div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .discovery-container {
+        padding: 80px 0;
+    }
+
+    .category-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--glass-border);
+        border-radius: 32px;
+        transition: var(--transition);
+    }
+
+    .category-card:hover {
+        background: var(--bg-card);
+        border-color: var(--accent);
+        transform: translateY(-12px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .highlight-card {
+        background: linear-gradient(145deg, rgba(56, 189, 248, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+        border-color: rgba(56, 189, 248, 0.3);
+    }
+
+    .custom-range::-webkit-slider-thumb {
+        background: var(--accent);
+        box-shadow: 0 0 20px var(--accent);
+    }
+
+    .grayscale {
+        filter: grayscale(100%);
+        transition: var(--transition);
+    }
+
+    .grayscale:hover {
+        filter: grayscale(0%);
+        opacity: 1 !important;
+    }
+
+    .letter-spacing-1 {
+        letter-spacing: 2px;
+    }
+
+    @media (max-width: 768px) {
+        .display-3 {
+            font-size: 2.5rem;
+        }
+
+        .category-card {
+            padding: 30px !important;
+        }
+    }
+</style>
+
+{% endblock %}

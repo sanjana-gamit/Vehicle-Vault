@@ -2,19 +2,137 @@
 {% block title %}Test Drives{% endblock %}
 {% block content %}
 
-<section class="testdrives container py-5">
-    <div class="row g-4">
+<div class="dashboard-container">
+    <div class="section-header">
+        <div class="badge bg-primary-subtle text-primary mb-3"
+            style="border-radius: 20px; padding: 8px 20px; font-weight: 600; letter-spacing: 1px;">MANAGEMENT CONSOLE
+        </div>
+        <h2>Test Drive Appointments</h2>
+        <p>Track, schedule, and manage vehicle trial sessions across the vault.</p>
+    </div>
+
+    <div class="row g-4 mt-2">
         {% for drive in drives %}
-        <div class="col-md-4">
-            <div class="testdrive-card text-center p-4 shadow rounded h-100">
-                <h4>{{ drive.car.brand }} {{ drive.car.model }}</h4>
-                <p>{{ drive.date }}</p>
-                <p>{{ drive.location }}</p>
-                <a href="{% url 'testdrive_detail' drive.id %}" class="btn btn-primary">View Details</a>
+        <div class="col-lg-6">
+            <div class="testdrive-card h-100 p-4 shadow-lg"
+                style="background: var(--bg-card); border-radius: 32px; border: 1px solid var(--glass-border); display: flex; flex-direction: column; transition: var(--transition);">
+
+                <div class="d-flex justify-content-between align-items-start mb-4">
+                    <div class="d-flex align-items-center">
+                        <div class="car-avatar me-3"
+                            style="width: 60px; height: 60px; border-radius: 16px; overflow: hidden; border: 2px solid var(--accent);">
+                            {% with drive.listing.images.all|first as img %}
+                            {% if img %}
+                            <img src="{{ img.image.url }}" alt="Car"
+                                style="width: 100%; height: 100%; object-fit: cover;">
+                            {% else %}
+                            <div
+                                class="bg-dark w-100 h-100 d-flex align-items-center justify-content-center text-muted">
+                                🚗</div>
+                            {% endif %}
+                            {% endwith %}
+                        </div>
+                        <div>
+                            <h4 class="fw-800 mb-0">{{ drive.listing.car.brand }} {{ drive.listing.car.model }}</h4>
+                            <span class="text-muted small">VIN: {{ drive.listing.car.vin|truncatechars:10 }}</span>
+                        </div>
+                    </div>
+
+                    <div class="status-pill">
+                        {% if drive.status == 'Pending' %}
+                        <span class="badge bg-warning-subtle text-warning px-3 py-2" style="border-radius: 10px;">⏳
+                            Pending</span>
+                        {% elif drive.status == 'Confirmed' %}
+                        <span class="badge bg-info-subtle text-info px-3 py-2" style="border-radius: 10px;">📅
+                            Confirmed</span>
+                        {% elif drive.status == 'Completed' %}
+                        <span class="badge bg-success-subtle text-success px-3 py-2" style="border-radius: 10px;">✅
+                            Completed</span>
+                        {% else %}
+                        <span class="badge bg-danger-subtle text-danger px-3 py-2" style="border-radius: 10px;">🛑
+                            Cancelled</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="appointment-details mb-4 p-3"
+                    style="background: rgba(15, 23, 42, 0.5); border-radius: 16px;">
+                    <div class="row g-3">
+                        <div class="col-6 border-end border-secondary border-opacity-25">
+                            <label class="text-muted small fw-700 d-block mb-1">PROPOSED DATE</label>
+                            <span class="fw-600">{{ drive.proposed_date|date:"M d, Y" }}</span>
+                        </div>
+                        <div class="col-6">
+                            <label class="text-muted small fw-700 d-block mb-1">{% if user.role == 'Buyer' %}SELLER{%
+                                else %}BUYER{% endif %}</label>
+                            <span class="fw-600">{% if user.role == 'Buyer' %}{{
+                                drive.listing.seller.name|default:drive.listing.seller.email }}{% else %}{{
+                                drive.buyer.name|default:drive.buyer.email }}{% endif %}</span>
+                        </div>
+                    </div>
+                </div>
+
+                {% if drive.notes %}
+                <div class="notes-section mb-4">
+                    <label class="text-muted small fw-700 d-block mb-1">CLIENT NOTES</label>
+                    <p class="text-muted small mb-0 fst-italic">"{{ drive.notes }}"</p>
+                </div>
+                {% endif %}
+
+                <div class="actions mt-auto d-flex gap-2">
+                    {% if user.role == 'Seller' or user.role == 'Admin' %}
+                    {% if drive.status == 'Pending' %}
+                    <a href="{% url 'cars:update_test_drive_status' drive.test_drive_id 'Confirmed' %}"
+                        class="btn btn-success flex-grow-1 py-3" style="border-radius: 12px; font-weight: 700;">Confirm
+                        Appointment</a>
+                    <a href="{% url 'cars:update_test_drive_status' drive.test_drive_id 'Cancelled' %}"
+                        class="btn btn-outline-danger px-4 py-3" style="border-radius: 12px;"><i
+                            class="bi bi-x-lg"></i></a>
+                    {% elif drive.status == 'Confirmed' %}
+                    <a href="{% url 'cars:update_test_drive_status' drive.test_drive_id 'Completed' %}"
+                        class="btn btn-primary flex-grow-1 py-3" style="border-radius: 12px; font-weight: 700;">Mark as
+                        Completed</a>
+                    {% endif %}
+                    {% endif %}
+                    <a href="{% url 'cars:car_detail' drive.listing.car.vin %}"
+                        class="btn btn-outline-light flex-grow-1 py-3"
+                        style="border-radius: 12px; font-weight: 700; border-color: rgba(255,255,255,0.1);">View
+                        Listing</a>
+                </div>
             </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <div class="fs-1 mb-4">📅</div>
+            <h3 class="text-muted">No appointments found.</h3>
+            <p>Ready to try a masterpiece? Browse our collection and schedule a trial.</p>
+            <a href="{% url 'cars:all_cars' %}" class="login-btn mt-3">Explore Fleet</a>
         </div>
         {% endfor %}
     </div>
-</section>
-{% endblock %}
+</div>
 
+<style>
+    .testdrive-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent) !important;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .fw-800 {
+        font-weight: 800;
+    }
+
+    .fw-900 {
+        font-weight: 900;
+    }
+
+    .fw-700 {
+        font-weight: 700;
+    }
+
+    .fw-600 {
+        font-weight: 600;
+    }
+</style>
+{% endblock %}

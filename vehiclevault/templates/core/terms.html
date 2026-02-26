@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Logout | VehicleVault{% endblock %}
+
+{% block content %}
+<div class="logout-wrapper">
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <div class="logout-card">
+        <h2>See you soon 👋</h2>
+        <p>You’ve been logged out successfully.</p>
+
+        <div class="logout-actions">
+            <a href="{% url 'core:login' %}" class="btn btn-primary">Login Again</a>
+            <a href="{% url 'cars:home' %}" class="btn btn-outline">Go Home</a>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Admin Control | Vehicle Vault{% endblock %}
+{% load static %}
+{% block content %}
+
+<div class="dashboard-container">
+    <div class="section-header">
+        <div class="badge bg-danger-subtle text-danger mb-3"
+            style="border-radius: 20px; padding: 8px 20px; font-weight: 600; letter-spacing: 1px;">TOTAL SYSTEM CONTROL
+        </div>
+        <h2>Administrative Dashboard</h2>
+        <p>Welcome back, {{ user.name|default:user.email }}. Oversee platform operations and user access.</p>
+    </div>
+
+    <div class="row g-4 mt-2">
+        <!-- User Management -->
+        <div class="col-md-4">
+            <div class="dashboard-card h-100 p-5 shadow-lg text-center"
+                style="background: var(--bg-card); border-radius: 32px; border: 1px solid var(--glass-border); transition: var(--transition);">
+                <div class="fs-1 mb-3">👥</div>
+                <h3 class="fw-800 mb-2">Manage Users</h3>
+                <p class="text-muted small mb-4">Oversee all registered accounts, roles, and platform permissions.</p>
+                <a href="{% url 'core:manage_users' %}" class="login-btn w-100 py-3" style="font-weight: 700;">Open
+                    Console</a>
+            </div>
+        </div>
+
+        <!-- Inventory Control -->
+        <div class="col-md-4">
+            <div class="dashboard-card h-100 p-5 shadow-lg text-center"
+                style="background: var(--bg-card); border-radius: 32px; border: 1px solid var(--glass-border); transition: var(--transition);">
+                <div class="fs-1 mb-3">🚗</div>
+                <h3 class="fw-800 mb-2">Global Inventory</h3>
+                <p class="text-muted small mb-4">Detailed oversight of every vehicle listing currently live in the
+                    vault.</p>
+                <a href="{% url 'cars:inventory' %}" class="login-btn w-100 py-3" style="font-weight: 700;">Manage
+                    Fleet</a>
+            </div>
+        </div>
+
+        <!-- Performance Stats -->
+        <div class="col-md-4">
+            <div class="dashboard-card h-100 p-5 shadow-lg text-center"
+                style="background: var(--bg-card); border-radius: 32px; border: 1px solid var(--glass-border); transition: var(--transition);">
+                <div class="fs-1 mb-3">📊</div>
+                <h3 class="fw-800 mb-2">Platform Analytics</h3>
+                <p class="text-muted small mb-4">Real-time metrics on sales, user engagement, and collection growth.</p>
+                <a href="#" class="btn btn-outline-secondary w-100 py-3"
+                    style="border-radius: 12px; font-weight: 700; opacity: 0.5;">Coming Soon</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .dashboard-card:hover {
+        transform: translateY(-10px);
+        border-color: var(--accent) !important;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4) !important;
+    }
+</style>
+
+{% endblock %}

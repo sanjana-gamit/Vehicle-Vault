@@ -1,56 +1,90 @@
 {% load static %}
-<footer class="footer">
-    <div class="footer-container">
-
-        <!-- Brand -->
-        <div class="footer-brand">
-            <div class="logo">
-                <a href="{% url 'home' %}">
-                    <img src="{% static 'images/logo.png' %}" alt="VehicleVault Logo"> Vehicle Vault
-                </a>
+<footer class="portal-footer pt-5 pb-4 mt-5" style="background: #020617; border-top: 1px solid rgba(255,255,255,0.05);">
+    <div class="container-fluid px-lg-5">
+        <div class="row g-4 mb-5">
+            <!-- Section 1: Shop & Explore -->
+            <div class="col-6 col-md-2">
+                <h6 class="text-white fw-800 mb-3 small">SHOP & EXPLORE</h6>
+                <ul class="list-unstyled smallest opacity-75">
+                    <li class="mb-2"><a href="{% url 'cars:all_cars' %}" class="text-white text-decoration-none">New
+                            Cars</a></li>
+                    <li class="mb-2"><a href="{% url 'cars:used_cars' %}" class="text-white text-decoration-none">Used
+                            Cars</a></li>
+                    <li class="mb-2"><a href="{% url 'cars:upcoming_cars' %}"
+                            class="text-white text-decoration-none">Upcoming Cars</a></li>
+                    <li class="mb-2"><a href="{% url 'cars:electric_cars' %}"
+                            class="text-white text-decoration-none">Electric Cars</a></li>
+                    <li class="mb-2"><a href="{% url 'cars:compare_cars' %}"
+                            class="text-white text-decoration-none">Compare Cars</a></li>
+                </ul>
             </div>
-            <p>
-                Your trusted platform to browse, compare, and book cars effortlessly.
-                Buy smart. Drive happy.
-            </p>
+
+            <!-- Section 2: Services -->
+            <div class="col-6 col-md-2">
+                <h6 class="text-white fw-800 mb-3 small">SERVICES</h6>
+                <ul class="list-unstyled smallest opacity-75">
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Car Loan</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Car Insurance</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Car Valuation</a></li>
+                    <li class="mb-2"><a href="{% url 'cars:test_drives' %}" class="text-white text-decoration-none">Book
+                            Test Drive</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Sell Your Car</a></li>
+                </ul>
+            </div>
+
+            <!-- Section 3: Support -->
+            <div class="col-6 col-md-2">
+                <h6 class="text-white fw-800 mb-3 small">SUPPORT</h6>
+                <ul class="list-unstyled smallest opacity-75">
+                    <li class="mb-2"><a href="{% url 'core:contact' %}" class="text-white text-decoration-none">Contact
+                            Us</a></li>
+                    <li class="mb-2"><a href="{% url 'core:faq' %}" class="text-white text-decoration-none">FAQs</a>
+                    </li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Help Center</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Sitemap</a></li>
+                </ul>
+            </div>
+
+            <!-- Section 4: Company -->
+            <div class="col-6 col-md-2">
+                <h6 class="text-white fw-800 mb-3 small">COMPANY</h6>
+                <ul class="list-unstyled smallest opacity-75">
+                    <li class="mb-2"><a href="{% url 'core:about' %}" class="text-white text-decoration-none">About
+                            Us</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Careers</a></li>
+                    <li class="mb-2"><a href="{% url 'core:privacy' %}" class="text-white text-decoration-none">Privacy
+                            Policy</a></li>
+                    <li class="mb-2"><a href="{% url 'core:terms' %}" class="text-white text-decoration-none">Terms &
+                            Conditions</a></li>
+                </ul>
+            </div>
+
+            <!-- Section 5: Brand Presence -->
+            <div class="col-md-4">
+                <div class="ps-md-5">
+                    <h6 class="text-white fw-800 mb-3 small">VEHICLE VAULT</h6>
+                    <p class="smallest opacity-50 mb-4">India's most trusted elite automotive portal. Engineering
+                        future-ready car discovery experiences since 2026.</p>
+                    <div class="d-flex gap-3 mb-4">
+                        <a href="#" class="text-white opacity-75"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white opacity-75"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white opacity-75"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white opacity-75"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- Quick Links -->
-        <div class="footer-links">
-            <h4>Quick Links</h4>
-            <ul>
-                <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'all_cars' %}">Browse Cars</a></li>
-                <li><a href="{% url 'compare_cars' %}">Compare</a></li>
-                <li><a href="{% url 'order' %}">Orders</a></li>
-            </ul>
+        <hr class="border-light opacity-10 mb-4">
+
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div class="text-center text-md-start opacity-50 smallest">© 2026 Vehicle Vault. Premium Automotive
+                    Ecosystem.</div>
+            </div>
+            <div class="col-md-6">
+                <div class="text-center text-md-end opacity-50 smallest mt-2 mt-md-0">Buy Smart. Drive Happy.</div>
+            </div>
         </div>
-
-        <!-- Support -->
-        <div class="footer-links">
-            <h4>Support</h4>
-            <ul>
-                <li><a href="{% url 'faq' %}">Help Center</a></li>
-                <li><a href="{% url 'contact' %}">Contact Us</a></li>
-                <li><a href="{% url 'privacy' %}">Privacy Policy</a></li>
-                <li><a href="{% url 'terms' %}">Terms & Conditions</a></li>
-            </ul>
-        </div>
-
-        <!-- Newsletter -->
-        <div class="footer-newsletter">
-            <h4>Stay Updated</h4>
-            <p>Get latest car deals & updates straight to your inbox.</p>
-            <form method="post">
-                {% csrf_token %}
-                <input type="email" placeholder="Enter your email" required>
-                <button type="submit">Subscribe</button>
-            </form>
-        </div>
-
-    </div>
-
-    <div class="footer-bottom">
-        <p>© 2026 Vehicle Vault • Buy Smart. Drive Happy.</p>
     </div>
 </footer>

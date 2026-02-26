@@ -1,118 +1,117 @@
 {% extends 'base.html' %}
-{% block title %}Compare Cars{% endblock %}
-
+{% block title %}Compare Vehicles | Vehicle Vault{% endblock %}
+{% load static %}
 {% block content %}
 
-<div class="container mt-5">
-
-    <h2 class="mb-4 text-center">🚗 Compare Cars</h2>
-
-    <!-- SELECT FORM -->
-    <form method="GET" class="row g-3 mb-5">
-
-        <div class="col-md-5">
-            <label>Select Car 1</label>
-            <select name="car1" class="form-select" required>
-                <option value="">-- Select Car --</option>
-                {% for car in cars %}
-                    <option value="{{ car.id }}"
-                        {% if car1 and car.id == car1.id %}selected{% endif %}>
-                        {{ car.brand }} {{ car.model }} ({{ car.launch_year }})
-                    </option>
-                {% endfor %}
-            </select>
+<div class="dashboard-container">
+    <div class="section-header">
+        <div class="badge bg-primary-subtle text-primary mb-3"
+            style="border-radius: 20px; padding: 8px 20px; font-weight: 600; letter-spacing: 1px;">SIDE-BY-SIDE ANALYSIS
         </div>
-
-        <div class="col-md-5">
-            <label>Select Car 2</label>
-            <select name="car2" class="form-select" required>
-                <option value="">-- Select Car --</option>
-                {% for car in cars %}
-                    <option value="{{ car.id }}"
-                        {% if car2 and car.id == car2.id %}selected{% endif %}>
-                        {{ car.brand }} {{ car.model }} ({{ car.launch_year }})
-                    </option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div class="col-md-2 d-grid align-items-end">
-            <button type="submit" class="btn btn-dark">
-                Compare
-            </button>
-        </div>
-    </form>
-
-    {% if car1 and car2 %}
-
-    <!-- CAR IMAGES -->
-    <div class="row mb-4">
-        <div class="col-md-6 text-center">
-            {% if car1.main_image %}
-                <img src="{{ car1.main_image.url }}" class="img-fluid rounded" alt="{{ car1.brand }}">
-            {% endif %}
-        </div>
-        <div class="col-md-6 text-center">
-            {% if car2.main_image %}
-                <img src="{{ car2.main_image.url }}" class="img-fluid rounded" alt="{{ car2.brand }}">
-            {% endif %}
-        </div>
+        <h2>Vehicle Comparison</h2>
+        <p>Technical specifications and performance metrics comparison.</p>
     </div>
 
-    <!-- COMPARISON TABLE -->
-    <div class="table-responsive">
-        <table class="table table-bordered table-striped text-center align-middle">
-            <thead class="table-dark">
-                <tr>
-                    <th>Specification</th>
-                    <th>{{ car1.brand }} {{ car1.model }}</th>
-                    <th>{{ car2.brand }} {{ car2.model }}</th>
+    {% if cars|length >= 2 %}
+    <div class="comparison-grid row g-4 mb-5">
+        {% for car in cars %}
+        <div class="col-md-6">
+            <div class="car-card p-0" style="background: transparent; border: none;">
+                <div class="img-container rounded-4 mb-4" style="height: 300px;">
+                    <img src="{% if car.car_image %}{{ car.car_image.url }}{% else %}{% static 'images/logo.png' %}{% endif %}"
+                        alt="{{ car.brand }}" class="w-100 h-100 object-fit-cover rounded-4">
+                    <a href="{% url 'cars:remove_from_compare' car.id %}"
+                        class="btn-close btn-close-white position-absolute top-0 end-0 m-3 p-2 bg-dark rounded-circle"
+                        style="opacity: 0.8;"></a>
+                </div>
+                <div class="text-center">
+                    <h3 class="display-6 fw-bold mb-1">{{ car.brand }}</h3>
+                    <p class="text-accent fs-4 fw-light">{{ car.model }} ({{ car.launch_year }})</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="comparison-table-wrapper shadow-lg overflow-hidden"
+        style="background: var(--bg-card); border-radius: 32px; border: 1px solid var(--glass-border);">
+        <table class="table table-dark table-borderless mb-0">
+            <thead>
+                <tr style="background: rgba(15, 23, 42, 0.9); border-bottom: 2px solid var(--glass-border);">
+                    <th class="ps-5 py-4 text-muted small letter-spacing-1">SPECIFICATION</th>
+                    {% for car in cars %}
+                    <th class="py-4 text-center">{{ car.brand }} {{ car.model }}</th>
+                    {% endfor %}
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="comparison-body">
                 <tr>
-                    <td>Price</td>
-                    <td>₹ {{ car1.price }}</td>
-                    <td>₹ {{ car2.price }}</td>
+                    <td class="ps-5 py-4 fw-600 text-muted">Price</td>
+                    {% for car in cars %}
+                    <td class="text-center py-4 fw-800 text-accent">₹{{ car.price }}</td>
+                    {% endfor %}
+                </tr>
+                <tr style="background: rgba(255,255,255,0.02);">
+                    <td class="ps-5 py-4 fw-600 text-muted">Fuel Type</td>
+                    {% for car in cars %}
+                    <td class="text-center py-4">{{ car.fuel_type }}</td>
+                    {% endfor %}
                 </tr>
                 <tr>
-                    <td>Fuel Type</td>
-                    <td>{{ car1.fuel_type }}</td>
-                    <td>{{ car2.fuel_type }}</td>
+                    <td class="ps-5 py-4 fw-600 text-muted">Mileage</td>
+                    {% for car in cars %}
+                    <td class="text-center py-4">{{ car.mileage }} km/l</td>
+                    {% endfor %}
+                </tr>
+                <tr style="background: rgba(255,255,255,0.02);">
+                    <td class="ps-5 py-4 fw-600 text-muted">Launch Year</td>
+                    {% for car in cars %}
+                    <td class="text-center py-4">{{ car.launch_year }}</td>
+                    {% endfor %}
                 </tr>
                 <tr>
-                    <td>Transmission</td>
-                    <td>{{ car1.transmission }}</td>
-                    <td>{{ car2.transmission }}</td>
+                    <td class="ps-5 py-4 fw-600 text-muted">Status</td>
+                    {% for car in cars %}
+                    <td class="text-center py-4">
+                        {% if car.stock > 0 %}
+                        <span class="text-success fw-bold">Available</span>
+                        {% else %}
+                        <span class="text-danger fw-bold">Out of Stock</span>
+                        {% endif %}
+                    </td>
+                    {% endfor %}
                 </tr>
-                <tr>
-                    <td>Mileage</td>
-                    <td>{{ car1.mileage }}</td>
-                    <td>{{ car2.mileage }}</td>
-                </tr>
-                <tr>
-                    <td>Launch Year</td>
-                    <td>{{ car1.launch_year }}</td>
-                    <td>{{ car2.launch_year }}</td>
-                </tr>
-                <tr>
-                    <td>Stock</td>
-                    <td>{{ car1.stock }}</td>
-                    <td>{{ car2.stock }}</td>
-                </tr>
-                <tr>
-                    <td>Electric</td>
-                    <td>{% if car1.is_electric %}Yes{% else %}No{% endif %}</td>
-                    <td>{% if car2.is_electric %}Yes{% else %}No{% endif %}</td>
+                <tr style="background: rgba(25, 135, 84, 0.05);">
+                    <td class="ps-5 py-4 fw-600 text-muted">Action</td>
+                    {% for car in cars %}
+                    <td class="text-center py-4 px-5">
+                        <a href="{% url 'cars:car_detail' car.vin %}" class="card-btn py-2">Full Details</a>
+                    </td>
+                    {% endfor %}
                 </tr>
             </tbody>
         </table>
     </div>
 
     {% else %}
-        <p class="text-center text-muted">Select two cars to compare.</p>
+    <div class="text-center py-5">
+        <div class="fs-1 mb-4">⚖️</div>
+        <h3>Comparison List Empty</h3>
+        <p class="text-muted mb-4">Select at least two vehicles to see a detailed side-by-side analysis.</p>
+        <a href="{% url 'cars:all_cars' %}" class="login-btn">Browse Inventory</a>
+    </div>
     {% endif %}
-
 </div>
+
+<style>
+    .comparison-body td {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        font-size: 1.1rem;
+    }
+
+    .letter-spacing-1 {
+        letter-spacing: 2px;
+    }
+</style>
 
 {% endblock %}
