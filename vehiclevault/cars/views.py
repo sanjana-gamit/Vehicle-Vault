@@ -35,7 +35,7 @@ def HomeView(request):
     listings = (
         CarListing.objects
         .select_related("car", "seller")
-        .prefetch_related("images", "car__images")
+        .prefetch_related("images")
         .order_by("-created_at")[:8]
     )
     return render(request, "home.html", {"listings": listings})
@@ -50,9 +50,10 @@ def CarsListView(request):
     cars = Car.objects.order_by("-created_at")
 
     fuel = request.GET.get("fuel")
+    budget = request.GET.get("budget")
     q = request.GET.get("q")
     brand = request.GET.get("brand")
-    body_type = request.GET.get("filter") # Mapping 'filter' param to body type
+    body_type = request.GET.get("body_type") or request.GET.get("filter")
     transmission = request.GET.get("transmission")
     seating = request.GET.get("seating")
 
@@ -68,6 +69,30 @@ def CarsListView(request):
         cars = cars.filter(transmission__iexact=transmission)
     if seating:
         cars = cars.filter(seating_capacity=seating)
+    if budget:
+        try:
+            budget_lower = budget.lower()
+            if "under" in budget_lower:
+                # Expecting format "under-10-lakh" or "under-10"
+                parts = [p for p in budget_lower.split("-") if p.isdigit()]
+                if parts:
+                    max_val = int(parts[0]) * 100000
+                    cars = cars.filter(price__lt=max_val)
+            elif "over" in budget_lower:
+                # Expecting format "over-50-lakh" or "over-50"
+                parts = [p for p in budget_lower.split("-") if p.isdigit()]
+                if parts:
+                    min_val = int(parts[0]) * 100000
+                    cars = cars.filter(price__gt=min_val)
+            elif "-" in budget:
+                # Expecting format "5-10-lakh" or "5-10"
+                parts = [p for p in budget.split("-") if p.isdigit()]
+                if len(parts) >= 2:
+                    min_val = int(parts[0]) * 100000
+                    max_val = int(parts[1]) * 100000
+                    cars = cars.filter(price__range=(min_val, max_val))
+        except (ValueError, IndexError):
+            pass # Invalid budget format, skip filtering
 
     pills = DiscoveryPill.objects.all()
     
@@ -130,7 +155,7 @@ def CarDetailView(request, vin):
 
 def CarCategoryView(request, category_name):
     category = get_object_or_404(CarCategory, name__iexact=category_name)
-    cars = Car.objects.filter(category=category).order_by("-created_at").select_related("seller").prefetch_related("images")
+    cars = Car.objects.filter(category=category).order_by("-created_at").select_related("seller")
     
     context = {
         "category": category,
@@ -225,21 +250,31 @@ def remove_from_compare(request, car_id):
 @login_required
 def TestDrivesView(request):
     if request.user.role == User.Role.BUYER:
-        drives = (
+        base_qs = (
             TestDrive.objects.filter(buyer=request.user)
             .select_related("listing__car", "listing__seller")
             .prefetch_related("listing__images")
-            .order_by("-created_at")
         )
     else:
-        drives = (
+        base_qs = (
             TestDrive.objects.filter(listing__seller=request.user)
             .select_related("listing__car", "buyer")
             .prefetch_related("listing__images")
-            .order_by("-created_at")
         )
 
-    return render(request, "testdrives/list.html", {"drives": drives})
+    drives = base_qs.order_by("-created_at")
+    
+    # Calculate stats for the dashboard header
+    stats = {
+        'total': drives.count(),
+        'pending': base_qs.filter(status='Pending').count(),
+        'confirmed': base_qs.filter(status='Confirmed').count(),
+    }
+
+    return render(request, "testdrives/list.html", {
+        "drives": drives,
+        "stats": stats
+    })
 
 @login_required
 def UpdateTestDriveStatusView(request, drive_id, status):

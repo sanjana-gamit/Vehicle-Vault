@@ -173,6 +173,15 @@ class Car(models.Model):
         ],
         default="Petrol",
     )
+    transmission = models.CharField(
+        max_length=20,
+        choices=[
+            ("Manual", "Manual"),
+            ("Automatic", "Automatic"),
+        ],
+        default="Manual",
+    )
+    seating_capacity = models.PositiveIntegerField(default=5)
     mileage = models.CharField(max_length=50)
     launch_year = models.PositiveIntegerField()
     stock = models.PositiveIntegerField(default=0)

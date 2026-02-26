@@ -36,7 +36,7 @@ def UserLoginView(request):
                     # Redirect to role-based dashboard
                     if user.role == "Admin":
                         return redirect("core:admin_dashboard")
-                    elif user.role == "Seller":
+                    elif user.role in ["Seller", "Dealer"]:
                         return redirect("core:seller_dashboard")
                     else:
                         return redirect("core:buyer_dashboard")
@@ -59,7 +59,7 @@ def UserSignupView(request):
             role = form.cleaned_data["role"]
             if role == User.Role.BUYER:
                 Buyer.objects.create(user=user)
-            elif role == User.Role.SELLER:
+            elif role in [User.Role.SELLER, User.Role.DEALER]:
                 Seller.objects.create(user=user)
 
             # Log the user in immediately after signup
@@ -127,8 +127,14 @@ def help_center(request):
 def sitemap(request):
     return render(request, "core/sitemap.html")
 
-def careers(request):
-    return render(request, "core/careers.html")
+def loan_application(request):
+    return render(request, "core/loan_application.html")
+
+def insurance_quote(request):
+    return render(request, "core/insurance_quote.html")
+
+def valuation_check(request):
+    return render(request, "core/valuation_check.html")
 
 # =========================
 # DASHBOARDS
@@ -143,8 +149,8 @@ def admin_dashboard(request):
 
 @login_required
 def seller_dashboard(request):
-    if request.user.role != "Seller":
-        messages.error(request, "Access Denied: Sellers Only")
+    if request.user.role not in ["Seller", "Dealer"]:
+        messages.error(request, "Access Denied: Sellers & Dealers Only")
         return redirect("cars:home")
     return render(request, "core/seller_dashboard.html")
 

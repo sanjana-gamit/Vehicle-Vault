@@ -7,7 +7,7 @@
 <style>
     /* Professional Login/Signup Page Styles */
     body {
-        background-color: #f8f9fa;
+        background: var(--bg-gradient) fixed;
     }
 
     .login-container {
@@ -20,10 +20,11 @@
     }
 
     .login-card {
-        background-color: #fff;
+        background: var(--bg-card);
         border-radius: 20px;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
         overflow: hidden;
+        border: 1px solid var(--glass-border);
         max-width: 900px;
         width: 100%;
         display: flex;
@@ -53,7 +54,7 @@
     }
 
     .login-image-side p {
-        color: #cbd5e1;
+        color: var(--text-muted);
         font-size: 1.1rem;
         line-height: 1.6;
     }
@@ -64,12 +65,12 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        background-color: #ffffff;
+        background-color: transparent;
     }
 
     .login-form-side label {
         font-weight: 600;
-        color: #475569;
+        color: #e2e8f0;
         margin-bottom: 5px;
         font-size: 0.95rem;
     }
@@ -78,18 +79,19 @@
     .login-form-side select.form-select {
         border-radius: 10px;
         padding: 10px 15px;
-        border: 1px solid #e2e8f0;
-        background-color: #f8fafc;
-        color: #0f172a;
+        border: 1px solid var(--glass-border);
+        background-color: rgba(255, 255, 255, 0.05);
+        color: #fff;
         transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
         margin-bottom: 5px;
     }
 
     .login-form-side input.form-control:focus,
     .login-form-side select.form-select:focus {
-        border-color: #3b82f6;
-        background-color: #ffffff;
-        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+        border-color: var(--accent);
+        background-color: rgba(255, 255, 255, 0.08);
+        box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15);
+        color: #fff;
     }
 
     .btn-login {
@@ -177,7 +179,7 @@
 
         <!-- Right Side: The Form -->
         <div class="login-form-side">
-            <h3 class="mb-4" style="color: #111827; font-weight: 700;">Sign Up</h3>
+            <h3 class="mb-4 text-white" style="font-weight: 700;">Sign Up</h3>
 
             {% if request.session.signup_error %}
             <div class="alert alert-danger text-center">{{ request.session.signup_error }}</div>
@@ -235,9 +237,9 @@
                     <button type="submit" class="btn btn-login">Create Account</button>
                 </div>
 
-                <p class="text-center mt-4 mb-0" style="color: #6b7280;">
-                    Already have an account? <a href="{% url 'core:login' %}"
-                        style="color: #111827; text-decoration: none; font-weight: 600;">Log in</a>
+                <p class="text-center mt-4 mb-0" style="color: var(--text-muted);">
+                    Already have an account? <a href="{% url 'core:login' %}" class="fw-bold"
+                        style="color: var(--accent); text-decoration: none;">Log in</a>
                 </p>
             </form>
         </div>
@@ -250,7 +252,7 @@
     <div class="container">
         <div class="text-center mb-5">
             <h2 style="font-weight: 700;">Featured Inventory</h2>
-            <p style="color: #9ca3af; font-size: 1.1rem;">Explore top picks curated by our experts</p>
+            <p style="color: var(--text-muted); font-size: 1.1rem;">Explore top picks curated by our experts</p>
         </div>
 
         <div id="featuredCarsCarousel" class="carousel slide carousel-fade shadow-lg" data-bs-ride="carousel">

@@ -20,7 +20,9 @@ urlpatterns = [
     path("sell-your-car/", views.sell_car, name="sell_car"),
     path("help-center/", views.help_center, name="help_center"),
     path("sitemap/", views.sitemap, name="sitemap"),
-    path("careers/", views.careers, name="careers"),
+    path("loan-application/", views.loan_application, name="loan_application"),
+    path("insurance-quote/", views.insurance_quote, name="insurance_quote"),
+    path("valuation-check/", views.valuation_check, name="valuation_check"),
     
     # Dashboards
     path("dashboard/admin/", views.admin_dashboard, name="admin_dashboard"),

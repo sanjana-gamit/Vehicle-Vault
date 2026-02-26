@@ -5,11 +5,12 @@
     --primary: #0ea5e9;
     --primary-dark: #0369a1;
     --accent: #38bdf8;
-    --bg-dark: #020617;
-    --bg-card: #0f172a;
-    --bg-gradient: radial-gradient(circle at 50% -20%, #1e293b, #020617 80%);
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
+    --bg-dark: #050816;
+    --bg-card: #0a0f25;
+    --bg-gradient: linear-gradient(rgba(5, 8, 22, 0.9), rgba(10, 15, 37, 0.98)), url('../images/bg_main.png');
+    --text-main: #ffffff;
+    --text-muted: #cbd5e1;
+    /* Max contrast bright slate */
     --glass-bg: rgba(15, 23, 42, 0.75);
     --glass-border: rgba(255, 255, 255, 0.1);
     --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
@@ -30,6 +31,24 @@ body {
     font-family: 'Poppins', sans-serif;
     line-height: 1.6;
     min-height: 100vh;
+}
+
+/* ===============================
+   HIGH CONTRAST OVERRIDES
+=============================== */
+.text-muted,
+.text-secondary {
+    color: var(--text-muted) !important;
+}
+
+.text-white-50 {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.small.text-muted,
+.smallest.text-muted {
+    color: #f1f5f9 !important;
+    opacity: 1 !important;
 }
 
 /* ===============================
@@ -64,7 +83,8 @@ body {
 
 .hero-text p {
     font-size: 18px;
-    color: #102857;
+    color: var(--text-muted);
+    /* Fixed from dark blue */
     margin-bottom: 25px;
 }
 
@@ -218,12 +238,15 @@ body {
     height: 220px;
     overflow: hidden;
     position: relative;
+    background: #0b1120;
+    /* Deep dark background for uncropped images */
 }
 
 .car-card img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    /* changed to ensure full image is visible */
     transition: transform 0.6s ease;
 }
 
@@ -239,18 +262,32 @@ body {
 }
 
 .car-card h3 {
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 1.3rem;
+    /* Scaled down for mobile */
+    font-weight: 800;
     margin-bottom: 8px;
     color: var(--text-main);
+    line-height: 1.2;
 }
 
 .car-card .price {
-    font-size: 24px;
+    font-size: 1.5rem;
+    /* Scaled down for mobile */
     font-weight: 800;
     color: var(--accent);
     margin-bottom: 20px;
 }
+
+@media (min-width: 768px) {
+    .car-card h3 {
+        font-size: 1.6rem;
+    }
+
+    .car-card .price {
+        font-size: 1.8rem;
+    }
+}
+
 
 .card-btn {
     display: block;
@@ -370,6 +407,19 @@ body {
     .features {
         padding: 60px 25px;
     }
+
+    .dashboard-container {
+        padding: 0 15px;
+        margin: 30px auto;
+    }
+
+    .section-header h2 {
+        font-size: 2rem;
+    }
+
+    .car-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (min-width: 1600px) {
@@ -400,6 +450,10 @@ body {
     .hero-text h1 {
         font-size: 42px;
     }
+
+    .car-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 @media (max-width: 480px) {
@@ -413,5 +467,9 @@ body {
 
     .hero-text p {
         font-size: 14px;
+    }
+
+    .cars-page {
+        padding: 30px 15px;
     }
 }

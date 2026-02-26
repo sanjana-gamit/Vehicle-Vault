@@ -8,8 +8,9 @@
         <div class="badge bg-primary-subtle text-primary mb-3"
             style="border-radius: 20px; padding: 8px 20px; font-weight: 600; letter-spacing: 1px;">INVENTORY SYSTEM
         </div>
-        <h2>{% if car %}Refine Vehicle Details{% else %}Add to Collection{% endif %}</h2>
-        <p>{% if car %}Update the technical specifications for your listing.{% else %}Inject a new high-performance
+        <h2 class="text-white">{% if car %}Refine Vehicle Details{% else %}Add to Collection{% endif %}</h2>
+        <p class="text-white-50">{% if car %}Update the technical specifications for your listing.{% else %}Inject a new
+            high-performance
             vehicle into the vault inventory.{% endif %}</p>
     </div>
 
@@ -28,43 +29,43 @@
                             <h4 class="fw-800 text-accent mb-0">Core Specifications</h4>
                         </div>
 
-                        <div class="col-md-4">
-                            <label class="form-label fw-600 small text-muted">VIN / CHASSIS NO.</label>
+                        <div class="col-lg-4 col-md-6">
+                            <label class="form-label fw-600 small text-white-50">VIN / CHASSIS NO.</label>
                             {{ car_form.vin }}
                             {% if car_form.vin.errors %}<div class="text-danger small mt-1">{{ car_form.vin.errors }}
                             </div>{% endif %}
                         </div>
 
-                        <div class="col-md-4">
-                            <label class="form-label fw-600 small text-muted">MANUFACTURER</label>
+                        <div class="col-lg-4 col-md-6">
+                            <label class="form-label fw-600 small text-white-50">MANUFACTURER</label>
                             {{ car_form.brand }}
                             {% if car_form.brand.errors %}<div class="text-danger small mt-1">{{ car_form.brand.errors
                                 }}</div>{% endif %}
                         </div>
 
-                        <div class="col-md-4">
-                            <label class="form-label fw-600 small text-muted">MODEL NAME</label>
+                        <div class="col-lg-4 col-md-6">
+                            <label class="form-label fw-600 small text-white-50">MODEL NAME</label>
                             {{ car_form.model }}
                             {% if car_form.model.errors %}<div class="text-danger small mt-1">{{ car_form.model.errors
                                 }}</div>{% endif %}
                         </div>
 
-                        <div class="col-md-4">
-                            <label class="form-label fw-600 small text-muted">CATEGORY</label>
+                        <div class="col-lg-4 col-md-6">
+                            <label class="form-label fw-600 small text-white-50">CATEGORY</label>
                             {{ car_form.category }}
                             {% if car_form.category.errors %}<div class="text-danger small mt-1">{{
                                 car_form.category.errors }}</div>{% endif %}
                         </div>
 
-                        <div class="col-md-4">
-                            <label class="form-label fw-600 small text-muted">LAUNCH YEAR</label>
+                        <div class="col-lg-4 col-md-6">
+                            <label class="form-label fw-600 small text-white-50">LAUNCH YEAR</label>
                             {{ car_form.launch_year }}
                             {% if car_form.launch_year.errors %}<div class="text-danger small mt-1">{{
                                 car_form.launch_year.errors }}</div>{% endif %}
                         </div>
 
-                        <div class="col-md-4">
-                            <label class="form-label fw-600 small text-muted">FUEL ARCHITECTURE</label>
+                        <div class="col-lg-4 col-md-6">
+                            <label class="form-label fw-600 small text-white-50">FUEL ARCHITECTURE</label>
                             {{ car_form.fuel_type }}
                             {% if car_form.fuel_type.errors %}<div class="text-danger small mt-1">{{
                                 car_form.fuel_type.errors }}</div>{% endif %}
@@ -75,25 +76,39 @@
                             <h4 class="fw-800 text-accent mb-0">Performance & Value</h4>
                         </div>
 
-                        <div class="col-md-4">
-                            <label class="form-label fw-600 small text-muted">LIST PRICE (₹)</label>
+                        <div class="col-lg-4 col-md-6">
+                            <label class="form-label fw-600 small text-white-50">LIST PRICE (₹)</label>
                             {{ car_form.price }}
                             {% if car_form.price.errors %}<div class="text-danger small mt-1">{{ car_form.price.errors
                                 }}</div>{% endif %}
                         </div>
 
-                        <div class="col-md-4">
-                            <label class="form-label fw-600 small text-muted">RANGE / MILEAGE (KM/L)</label>
+                        <div class="col-lg-4 col-md-6">
+                            <label class="form-label fw-600 small text-white-50">RANGE / MILEAGE (KM/L)</label>
                             {{ car_form.mileage }}
                             {% if car_form.mileage.errors %}<div class="text-danger small mt-1">{{
                                 car_form.mileage.errors }}</div>{% endif %}
                         </div>
 
-                        <div class="col-md-4">
-                            <label class="form-label fw-600 small text-muted">FLEET STOCK</label>
+                        <div class="col-lg-4 col-md-6">
+                            <label class="form-label fw-600 small text-white-50">FLEET STOCK</label>
                             {{ car_form.stock }}
                             {% if car_form.stock.errors %}<div class="text-danger small mt-1">{{ car_form.stock.errors
                                 }}</div>{% endif %}
+                        </div>
+
+                        <div class="col-lg-6 col-md-6">
+                            <label class="form-label fw-600 small text-white-50">TRANSMISSION</label>
+                            {{ car_form.transmission }}
+                            {% if car_form.transmission.errors %}<div class="text-danger small mt-1">{{
+                                car_form.transmission.errors }}</div>{% endif %}
+                        </div>
+
+                        <div class="col-lg-6 col-md-6">
+                            <label class="form-label fw-600 small text-white-50">SEATING CAPACITY</label>
+                            {{ car_form.seating_capacity }}
+                            {% if car_form.seating_capacity.errors %}<div class="text-danger small mt-1">{{
+                                car_form.seating_capacity.errors }}</div>{% endif %}
                         </div>
 
                         <!-- MEDIA SECTION -->
@@ -102,8 +117,23 @@
                         </div>
 
                         <div class="col-12">
-                            <label class="form-label fw-600 small text-muted">PRIMARY COVER IMAGE</label>
-                            {{ car_form.car_image }}
+                            <label class="form-label fw-600 small text-white-50">PRIMARY COVER IMAGE</label>
+                            <div class="image-upload-container p-4 rounded-4 text-center"
+                                style="background: rgba(255,255,255,0.02); border: 2px dashed var(--glass-border); transition: var(--transition);">
+                                <input type="file" name="car_image" id="id_car_image" class="form-control d-none"
+                                    onchange="previewImage(this)">
+                                <label for="id_car_image" class="cursor-pointer">
+                                    <div id="image_preview_box" class="mb-3 d-none">
+                                        <img id="image_preview" src="#" alt="Preview"
+                                            class="img-fluid rounded-3 shadow-lg" style="max-height: 250px;">
+                                    </div>
+                                    <div id="upload_placeholder">
+                                        <div class="fs-1 mb-2 text-accent">📸</div>
+                                        <p class="mb-1 fw-700 text-white">Select a High-Resolution Masterpiece</p>
+                                        <p class="smallest text-white-50 mb-0">Drag and drop or click to browse</p>
+                                    </div>
+                                </label>
+                            </div>
                         </div>
 
                         <div class="col-12 mt-4">
@@ -164,6 +194,15 @@
         border-color: var(--accent) !important;
     }
 
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
+    .image-upload-container:hover {
+        border-color: var(--accent) !important;
+        background: rgba(56, 189, 248, 0.05) !important;
+    }
+
     input.form-control,
     select.form-select {
         background: rgba(2, 6, 23, 0.4) !important;
@@ -172,6 +211,15 @@
         padding: 12px 18px;
         border-radius: 14px;
         transition: var(--transition);
+        appearance: none;
+        -webkit-appearance: none;
+    }
+
+    select.form-select {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2338bdf8' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") !important;
+        background-repeat: no-repeat !important;
+        background-position: right 1rem center !important;
+        background-size: 16px 12px !important;
     }
 
     input.form-control:focus,
@@ -190,5 +238,25 @@
         border-color: var(--accent);
     }
 </style>
+
+<script>
+    function previewImage(input) {
+        const previewBox = document.getElementById('image_preview_box');
+        const previewImage = document.getElementById('image_preview');
+        const placeholder = document.getElementById('upload_placeholder');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                previewImage.src = e.target.result;
+                previewBox.classList.remove('d-none');
+                placeholder.classList.add('d-none');
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
 
 {% endblock %}

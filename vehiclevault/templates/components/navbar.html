@@ -1,12 +1,37 @@
 {% load static %}
+<!-- 🌐 TOP BAR -->
+<div class="top-bar">
+    <div class="container-fluid px-lg-5 d-flex justify-content-between align-items-center h-100">
+        <div class="top-bar-left d-flex gap-4">
+            <a href="tel:+919876543210"
+                class="text-decoration-none smallest fw-700 text-white-50 hover-text-accent transition-all">
+                <i class="fas fa-phone-alt text-accent me-2"></i>+91 9876543210
+            </a>
+            <a href="mailto:concierge@vehiclevault.com"
+                class="text-decoration-none smallest fw-700 text-white-50 hover-text-accent transition-all">
+                <i class="fas fa-envelope text-accent me-2"></i>concierge@vehiclevault.com
+            </a>
+        </div>
+        <div class="top-bar-right d-flex gap-4 d-none d-md-flex">
+            <a href="{% url 'core:contact' %}"
+                class="text-decoration-none smallest fw-800 text-uppercase tracking-widest text-white-50 hover-text-accent transition-all">Elite
+                Support</a>
+            <a href="{% url 'core:faq' %}"
+                class="text-decoration-none smallest fw-800 text-uppercase tracking-widest text-white-50 hover-text-accent transition-all">Help
+                Hub</a>
+        </div>
+    </div>
+</div>
 
 <nav class="navbar">
 
     <!-- LOGO -->
     <div class="logo">
         <a href="{% url 'cars:home' %}">
-            <img src="{% static 'images/logo.png' %}" alt="VehicleVault Logo">
-            <span>VehicleVault</span>
+            <img src="{% static 'images/logo.png' %}" alt="VehicleVault Logo"
+                style="height: 40px; width: auto; filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.3));">
+            <span class="ms-2"
+                style="font-size: 1.4rem; font-weight: 900; letter-spacing: -1px; background: linear-gradient(to right, #fff, var(--accent)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">VehicleVault</span>
         </a>
     </div>
 
@@ -81,7 +106,13 @@
         </form>
 
         {% if user.is_authenticated %}
-        <a href="{% url 'core:'|add:user.role|lower|add:'_dashboard' %}" class="login-btn me-2">Dashboard</a>
+        {% if user.role == "Admin" %}
+        <a href="{% url 'core:admin_dashboard' %}" class="login-btn me-2">Dashboard</a>
+        {% elif user.role == "Seller" or user.role == "Dealer" %}
+        <a href="{% url 'core:seller_dashboard' %}" class="login-btn me-2">Dashboard</a>
+        {% elif user.role == "Buyer" %}
+        <a href="{% url 'core:buyer_dashboard' %}" class="login-btn me-2">Dashboard</a>
+        {% endif %}
         <a href="{% url 'core:logout' %}" class="login-btn btn-outline">Logout</a>
         {% else %}
         <a href="{% url 'core:login' %}" class="login-btn" style="display: inline-block;">Login</a>

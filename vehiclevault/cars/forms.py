@@ -62,6 +62,8 @@ class CarForm(forms.ModelForm):
             "brand": forms.TextInput(attrs={"class": "form-control"}),
             "model": forms.TextInput(attrs={"class": "form-control"}),
             "fuel_type": forms.Select(attrs={"class": "form-select"}),
+            "transmission": forms.Select(attrs={"class": "form-select"}),
+            "seating_capacity": forms.NumberInput(attrs={"class": "form-control"}),
             "price": forms.NumberInput(attrs={"class": "form-control"}),
             "mileage": forms.TextInput(attrs={"class": "form-control"}),
             "launch_year": forms.NumberInput(attrs={"class": "form-control"}),

@@ -57,8 +57,6 @@
                 <ul class="list-unstyled smallest opacity-75">
                     <li class="mb-2"><a href="{% url 'core:about' %}" class="text-white text-decoration-none">About
                             Us</a></li>
-                    <li class="mb-2"><a href="{% url 'core:careers' %}"
-                            class="text-white text-decoration-none">Careers</a></li>
                     <li class="mb-2"><a href="{% url 'core:privacy' %}" class="text-white text-decoration-none">Privacy
                             Policy</a></li>
                     <li class="mb-2"><a href="{% url 'core:terms' %}" class="text-white text-decoration-none">Terms &
@@ -69,7 +67,11 @@
             <!-- Section 5: Brand Presence -->
             <div class="col-md-4">
                 <div class="ps-md-5">
-                    <h6 class="text-white fw-800 mb-3 small">VEHICLE VAULT</h6>
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="{% static 'images/logo.png' %}" alt="Logo"
+                            style="height: 35px; width: auto; filter: brightness(1.2) drop-shadow(0 0 10px rgba(56, 189, 248, 0.2));">
+                        <h6 class="text-white fw-900 small m-0 ms-2" style="letter-spacing: 1.5px;">VEHICLE VAULT</h6>
+                    </div>
                     <p class="smallest opacity-50 mb-4">India's most trusted elite automotive portal. Engineering
                         future-ready car discovery experiences since 2026.</p>
                     <div class="d-flex gap-3 mb-4">

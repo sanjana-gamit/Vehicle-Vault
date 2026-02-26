@@ -7,7 +7,7 @@
 <style>
     /* Professional Luxury Car Detail Styles */
     body {
-        background-color: #f8fafc;
+        background-color: var(--bg-dark);
     }
 
     /* Hero Banner Area */
@@ -41,7 +41,7 @@
     }
 
     .car-subtitle {
-        color: #94a3b8;
+        color: var(--text-muted);
         font-size: 1.2rem;
         font-weight: 500;
         letter-spacing: 1px;
@@ -76,11 +76,11 @@
 
     /* Specifications Grid */
     .specs-card {
-        background: white;
+        background: var(--bg-card);
         border-radius: 20px;
         padding: 30px;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
-        border: 1px solid #e2e8f0;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        border: 1px solid var(--glass-border);
         height: 100%;
     }
 
@@ -88,7 +88,7 @@
         display: flex;
         align-items: center;
         padding: 15px 0;
-        border-bottom: 1px solid #f1f5f9;
+        border-bottom: 1px solid var(--glass-border);
     }
 
     .spec-item:last-child {
@@ -99,12 +99,12 @@
         width: 45px;
         height: 45px;
         border-radius: 12px;
-        background: #f1f5f9;
+        background: rgba(255, 255, 255, 0.05);
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 1.2rem;
-        color: #3b82f6;
+        color: var(--accent);
         margin-right: 15px;
     }
 
@@ -118,7 +118,7 @@
     }
 
     .spec-content p {
-        color: #0f172a;
+        color: white;
         font-size: 1.1rem;
         font-weight: 700;
         margin-bottom: 0;
@@ -264,7 +264,7 @@
     <div class="row align-items-start">
         <!-- Left Column: Specs & Details -->
         <div class="col-lg-8 mb-4">
-            <h3 class="fw-bold mb-4" style="color: #0f172a;">Vehicle Specifications</h3>
+            <h3 class="fw-bold mb-4 text-white">Vehicle Specifications</h3>
 
             <div class="specs-card">
                 <div class="row">
@@ -333,13 +333,35 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Spec 7: Transmission -->
+                    <div class="col-md-6">
+                        <div class="spec-item">
+                            <div class="spec-icon">⚙️</div>
+                            <div class="spec-content">
+                                <h6>Transmission</h6>
+                                <p>{{ car.transmission }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Spec 8: Capacity -->
+                    <div class="col-md-6">
+                        <div class="spec-item">
+                            <div class="spec-icon">💺</div>
+                            <div class="spec-content">
+                                <h6>Seating Capacity</h6>
+                                <p>{{ car.seating_capacity }} Persons</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- Description Area (Optional expansion) -->
             <div class="mt-5">
-                <h4 class="fw-bold mb-3" style="color: #0f172a;">Vault Overview</h4>
-                <p style="color: #475569; line-height: 1.8; font-size: 1.05rem;">
+                <h4 class="fw-bold mb-3 text-white">Vault Overview</h4>
+                <p style="color: var(--text-muted); line-height: 1.8; font-size: 1.05rem;">
                     The {{ car.launch_year }} {{ car.brand }} {{ car.model }} is a premium selection from the Vehicle
                     Vault curated collection.
                     Renowned for superior engineering and uncompromising luxury, this vehicle has been carefully sourced
@@ -380,10 +402,13 @@
                     Contact Seller
                 </a>
                 {% elif user == car.seller or user.role == 'Admin' %}
-                <a href="#" class="btn-action-secondary mb-2" style="border-color: #3b82f6; color: #60a5fa;">
+                <a href="{% url 'cars:car_edit' car.vin %}" class="btn-action-secondary mb-2"
+                    style="border-color: #3b82f6; color: #60a5fa;">
                     Edit Listing
                 </a>
-                <a href="#" class="btn-action-secondary" style="border-color: #ef4444; color: #f87171;">
+                <a href="{% url 'cars:car_delete' car.vin %}" class="btn-action-secondary"
+                    style="border-color: #ef4444; color: #f87171;"
+                    onclick="return confirm('Vault Security: Are you certain you wish to purge this masterpiece from the inventory?')">
                     Delete Listing
                 </a>
                 {% else %}

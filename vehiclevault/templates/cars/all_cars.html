@@ -2,11 +2,12 @@
 {% block title %}Automotive Portal | Vehicle Vault{% endblock %}
 {% load static %}
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/discovery.css' %}">
 
 <div class="portal-container py-4">
     <!-- Main Content Row -->
     <div class="row g-4">
-        <!-- Left Column: Discovery & Listings -->
+        <!-- Main Content: Discovery & Listings -->
         <div class="col-lg-12">
             <!-- Brand Showcase -->
             <section class="brand-showcase mb-5">
@@ -15,13 +16,10 @@
                         <div class="badge bg-primary-subtle text-primary smallest fw-800 mb-2 px-3 rounded-pill"
                             style="letter-spacing: 1px;">PREMIUM PARTNERS</div>
                         <h2 class="fw-800 m-0 text-white" style="font-size: 1.7rem; letter-spacing: -1px;">All Brands
-                            <span class="opacity-25 ms-2" style="font-weight: 400;">({{ brands.count }}
+                            <span class="text-white-50 ms-2" style="font-weight: 400;">({{ brands.count }}
                                 Manufacturers)</span>
                         </h2>
                     </div>
-                    <a href="#"
-                        class="btn btn-link text-accent small fw-800 text-decoration-none p-0 pb-1 border-bottom border-accent border-opacity-25">View
-                        All ›</a>
                 </div>
                 <div class="brand-grid shadow-lg">
                     {% for brand in brands %}
@@ -34,16 +32,15 @@
                         <span>{{ brand.name }}</span>
                     </div>
                     {% empty %}
-                    <div class="p-4 text-center w-100 text-muted small">No brands added in admin.</div>
+                    <div class="p-4 text-center w-100 text-muted smallest">No brands added in admin.</div>
                     {% endfor %}
                 </div>
             </section>
 
-            <!-- Discovery Pills -->
+            <!-- Discovery Pills Section -->
             <section class="discovery-pills mb-5">
-                <div class="glass-pills-box p-4"
-                    style="background: var(--bg-card); border-radius: 20px; border: 1px solid var(--glass-border);">
-                    <h4 class="fw-800 mb-4" style="font-size: 1.3rem;">Find The Cars Of Your Choice</h4>
+                <div class="glass-pills-box p-4">
+                    <h4 class="fw-800 mb-4 text-white" style="font-size: 1.3rem;">Elite Discovery Hub</h4>
                     <ul class="nav nav-tabs border-0 mb-4 gap-4" id="discoveryTabs">
                         <li class="nav-item"><a class="nav-link active p-0 fw-800 text-uppercase smallest"
                                 data-bs-toggle="tab" href="#budget">Budget</a></li>
@@ -56,137 +53,81 @@
                         <li class="nav-item"><a class="nav-link p-0 fw-800 text-uppercase smallest text-muted"
                                 data-bs-toggle="tab" href="#seating">Seating</a></li>
                         <li class="nav-item"><a class="nav-link p-0 fw-800 text-uppercase smallest text-muted"
-                                data-bs-toggle="tab" href="#popular">Popular</a></li>
+                                data-bs-toggle="tab" href="#popular">Trending</a></li>
                     </ul>
                     <div class="tab-content" id="discoveryTabContent">
                         <!-- Budget Tab -->
                         <div class="tab-pane fade show active" id="budget">
-                            <p class="smallest text-muted mb-3"><i class="bi bi-info-circle me-1"></i> Quick Tip: Most
-                                buyers in India opt for the 5-10 Lakh range for city commutes.</p>
+                            <p class="smallest text-muted mb-3"><i class="fas fa-lightbulb text-accent me-1"></i> Expert
+                                Advice: High-performance luxury vehicles in the 50L+ bracket maintain the best resale
+                                value in the Vault.</p>
                             <div class="pill-cloud d-flex flex-wrap gap-2">
                                 {% for pill in budget_pills %}
-                                <div class="pill-item" onclick="window.location.href='?filter={{ pill.filter_value }}'">
+                                <div class="pill-item" onclick="window.location.href='?budget={{ pill.filter_value }}'">
                                     {{ pill.label }}</div>
                                 {% empty %}
-                                <div class="smallest text-muted opacity-50">Manage budget filters in admin.</div>
+                                <div class="smallest text-muted opacity-50">Manage budget tiers in administration.</div>
                                 {% endfor %}
                             </div>
                         </div>
-                        <!-- Body Type Tab -->
-                        <div class="tab-pane fade" id="bodyType">
-                            <p class="smallest text-muted mb-3"><i class="bi bi-info-circle me-1"></i> Trend: SUVs
-                                currently dominate 50% of the new car market.</p>
-                            <div class="pill-cloud d-flex flex-wrap gap-2">
-                                {% for pill in body_pills %}
-                                <div class="pill-item" onclick="window.location.href='?filter={{ pill.filter_value }}'">
-                                    {{ pill.label }}</div>
-                                {% empty %}
-                                <div class="smallest text-muted opacity-50">Manage body type filters in admin.</div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                        <!-- Fuel Type Tab -->
-                        <div class="tab-pane fade" id="fuelType">
-                            <p class="smallest text-muted mb-3"><i class="bi bi-info-circle me-1"></i> Insight: Electric
-                                vehicles (EVs) offer the lowest running cost per km.</p>
-                            <div class="pill-cloud d-flex flex-wrap gap-2">
-                                {% for pill in fuel_pills %}
-                                <div class="pill-item" onclick="window.location.href='?fuel={{ pill.filter_value }}'">{{
-                                    pill.label }}</div>
-                                {% empty %}
-                                <div class="smallest text-muted opacity-50">Manage fuel filters in admin.</div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                        <!-- Transmission Tab -->
-                        <div class="tab-pane fade" id="transmission">
-                            <p class="smallest text-muted mb-3"><i class="bi bi-info-circle me-1"></i> Choice: Automatic
-                                is preferred for heavy traffic, Manual for performance enthusiasts.</p>
-                            <div class="pill-cloud d-flex flex-wrap gap-2">
-                                {% for pill in transmission_pills %}
-                                <div class="pill-item"
-                                    onclick="window.location.href='?transmission={{ pill.filter_value }}'">{{ pill.label
-                                    }}</div>
-                                {% empty %}
-                                <div class="smallest text-muted opacity-50">Manage transmission filters in admin.</div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                        <!-- Seating Tab -->
-                        <div class="tab-pane fade" id="seating">
-                            <p class="smallest text-muted mb-3"><i class="bi bi-info-circle me-1"></i> Advice: 7-Seaters
-                                are ideal for large families and luxury long-distance travel.</p>
-                            <div class="pill-cloud d-flex flex-wrap gap-2">
-                                {% for pill in seating_pills %}
-                                <div class="pill-item"
-                                    onclick="window.location.href='?seating={{ pill.filter_value }}'">{{ pill.label }}
-                                </div>
-                                {% empty %}
-                                <div class="smallest text-muted opacity-50">Manage seating filters in admin.</div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                        <!-- Popular Tab -->
-                        <div class="tab-pane fade" id="popular">
-                            <p class="smallest text-muted mb-3"><i class="bi bi-info-circle me-1"></i> Hot Now: These
-                                are the most searched categories this week.</p>
-                            <div class="pill-cloud d-flex flex-wrap gap-2">
-                                {% for pill in popular_pills %}
-                                <div class="pill-item bg-warning-subtle border-warning-subtle text-dark"
-                                    onclick="window.location.href='?q={{ pill.filter_value }}'">
-                                    <span class="me-1">🔥</span>{{ pill.label }}
-                                </div>
-                                {% empty %}
-                                <div class="smallest text-muted opacity-50">Manage popular searches in admin.</div>
-                                {% endfor %}
-                            </div>
-                        </div>
+                        {% include 'components/discovery_tabs_content.html' %}
                     </div>
                 </div>
             </section>
 
-            <!-- Featured section (CarWale Style Cards) -->
+            <!-- Featured section -->
             <section class="featured-cars-section mb-5">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2 class="fw-800 m-0 text-white" style="font-size: 1.5rem;">Featured Cars</h2>
+                    <h2 class="fw-800 m-0 text-white" style="font-size: 1.5rem;">Featured Curations</h2>
                     <div class="featured-tabs d-flex gap-4">
                         <span class="text-accent fw-800 border-bottom border-accent pb-1"
                             style="cursor: pointer;">Trending</span>
                         <a href="{% url 'cars:upcoming_cars' %}"
-                            class="text-muted fw-800 text-decoration-none">Upcoming</a>
+                            class="text-white-50 fw-800 text-decoration-none hover-text-accent transition-all">Upcoming</a>
                     </div>
                 </div>
                 <div class="row g-4">
-                    {% for car in cars|slice:":3" %}
+                    {% for car in cars|slice:":6" %}
                     <div class="col-md-4">
-                        <div class="portal-car-card bg-white rounded-4 overflow-hidden shadow-sm border border-light"
-                            style="color: #1f2937;">
-                            <div class="img-container position-relative" style="height: 160px;">
+                        <div class="portal-car-card rounded-4 overflow-hidden shadow-sm h-100">
+                            <div class="img-container position-relative rounded-3 overflow-hidden"
+                                style="height: 180px; background: #0b1120;">
                                 {% if car.car_image %}
-                                <img src="{{ car.car_image.url }}" class="w-100 h-100" style="object-fit: cover;">
+                                <img src="{{ car.car_image.url }}" class="w-100 h-100" style="object-fit: contain;">
+                                {% else %}
+                                <img src="{% static 'images/placeholder-car.jpg' %}" class="w-100 h-100"
+                                    style="object-fit: contain; filter: brightness(0.8);">
                                 {% endif %}
-                                <div class="position-absolute top-0 start-0 m-2 tag-new py-1 px-2 text-white smallest fw-800 rounded-2"
-                                    style="background: #ea580c;">JUST LAUNCHED</div>
+                                <div class="position-absolute top-0 start-0 m-2 tag-new py-1 px-3 text-white smallest fw-900 rounded-pill shadow-sm"
+                                    style="background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.1);">
+                                    VAULT VERIFIED</div>
                             </div>
                             <div class="p-3">
-                                <h6 class="fw-800 mb-1" style="color: #111827;">{{ car.brand }} {{ car.model }}</h6>
-                                <div class="price-narrative mb-1 fw-800 text-dark">₹{{ car.price }} <span
-                                        class="text-muted smallest fw-500">onwards</span></div>
-                                <p class="smallest text-muted mb-2">Avg. Ex-Showroom price</p>
+                                <h6 class="fw-800 mb-1 text-white">{{ car.brand }} {{ car.model }}</h6>
+                                <div class="price-narrative mb-1 fw-800">₹{{ car.price }} <span
+                                        class="text-white-50">onwards</span></div>
+                                <p class="smallest text-white-50 mb-3">Avg. Ex-Showroom price</p>
                                 <a href="{% url 'cars:car_detail' car.vin %}"
-                                    class="text-primary small fw-800 text-decoration-none">Show price in my city ›</a>
+                                    class="btn btn-outline-accent btn-sm w-100 fw-800 rounded-pill py-2">View Mastery
+                                    ›</a>
                             </div>
                         </div>
                     </div>
+                    {% empty %}
+                    <div class="col-12 text-center py-5 text-white-50">Our curators are currently selecting new
+                        masterpieces.</div>
                     {% endfor %}
                 </div>
             </section>
 
             <!-- Multimedia Gallery: Expert Reviews & Videos -->
             <section class="portal-videos mb-5">
-                <h2 class="fw-800 mb-4 text-white" style="font-size: 1.5rem;">Expert Reviews & Videos</h2>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="fw-800 m-0 text-white" style="font-size: 1.5rem;">Expert Walkarounds</h2>
+                    <a href="#" class="smallest text-accent fw-800 text-decoration-none">View All 42+ Clips ›</a>
+                </div>
                 <div class="row g-3">
-                    {% for i in "123456" %}
+                    {% for i in "123" %}
                     <div class="col-md-4">
                         <div class="video-card rounded-4 overflow-hidden position-relative shadow-sm"
                             style="height: 180px;">
@@ -195,7 +136,7 @@
                             </div>
                             <div class="position-absolute bottom-0 start-0 w-100 p-3"
                                 style="background: linear-gradient(transparent, rgba(0,0,0,0.8));">
-                                <div class="text-white small fw-700">Expert Walkaround: Performance Review {{ i }}</div>
+                                <div class="text-white small fw-700">Performance Review: Edition {{ i }}</div>
                             </div>
                         </div>
                     </div>
@@ -203,46 +144,38 @@
                 </div>
             </section>
         </div>
-
-        <!-- Right Column: Buyer's Toolbox -->
     </div>
 
     <!-- Upcoming Vehicles Vertical Showcase -->
     <section class="upcoming-showcase py-5" style="border-top: 1px solid var(--glass-border);">
         <h2 class="fw-800 mb-4 text-white" style="font-size: 1.5rem;">Upcoming Cars in India 2026</h2>
         <div class="row g-4">
-            <div class="col-lg-8">
+            <div class="col-lg-12">
                 {% for car in cars %}
-                <div
-                    class="upcoming-list-item bg-white p-3 rounded-4 mb-3 d-flex gap-4 shadow-sm text-dark align-items-center border border-light">
+                <div class="upcoming-list-item p-3 rounded-4 mb-3 d-flex gap-4 shadow-sm align-items-center">
                     <div class="upcoming-img rounded-3 overflow-hidden"
-                        style="width: 140px; height: 90px; flex-shrink: 0;">
+                        style="width: 140px; height: 90px; flex-shrink: 0; border: 1px solid var(--glass-border); background: #0b1120;">
                         {% if car.car_image %}
-                        <img src="{{ car.car_image.url }}" class="w-100 h-100" style="object-fit: cover;">
+                        <img src="{{ car.car_image.url }}" class="w-100 h-100" style="object-fit: contain;">
+                        {% else %}
+                        <img src="{% static 'images/placeholder-car.jpg' %}" class="w-100 h-100"
+                            style="object-fit: contain; filter: brightness(0.8);">
                         {% endif %}
                     </div>
                     <div class="flex-grow-1">
                         <div class="badge bg-warning-subtle text-warning smallest fw-800 mb-2"
-                            style="color: #854d0e !important;">Unveiled: 26 Feb</div>
+                            style="background: rgba(255, 193, 7, 0.1) !important;">Unveiled: 26 Feb</div>
                         <h5 class="fw-800 mb-1"><a href="{% url 'cars:car_detail' car.vin %}"
-                                class="text-dark text-decoration-none">{{ car.brand }} {{ car.model }} ›</a></h5>
-                        <div class="fw-800 small">₹{{ car.price }} <span class="text-muted smallest fw-500">Estimated
-                                Price</span></div>
+                                class="text-white text-decoration-none">{{ car.brand }} {{ car.model }} ›</a></h5>
+                        <div class="fw-800 small text-accent">₹{{ car.price }} <span
+                                class="text-muted smallest fw-500">Estimated Price</span></div>
                     </div>
                     <div class="text-end">
-                        <button class="btn btn-outline-primary rounded-pill px-4 fw-800 small">Get Alerts</button>
+                        <button class="btn btn-outline-light rounded-pill px-4 fw-800 small">Get
+                            Alerts</button>
                     </div>
                 </div>
                 {% endfor %}
-            </div>
-            <div class="col-lg-4">
-                <div class="newsletter-card p-4 rounded-4 shadow-lg"
-                    style="background: #ffffff; border: 1px solid #e2e8f0; color: #1f2937;">
-                    <div class="icon h2 mb-3">🔔</div>
-                    <h5 class="fw-800 mb-2">Never miss an update</h5>
-                    <p class="text-muted small mb-4">Receive latest updates from Vehicle Vault direct to your inbox.</p>
-                    <button class="btn btn-primary rounded-pill w-100 fw-800 py-3">Subscribe Now</button>
-                </div>
             </div>
         </div>
     </section>
@@ -250,270 +183,5 @@
 
 <!-- Deep Content Footer -->
 </div>
-
-<style>
-    /* Premium Portal Layout */
-    .portal-container {
-        max-width: 1440px;
-        margin: 0 auto;
-        padding: 0 1.5rem;
-    }
-
-    /* Brand Grid Optimization */
-    .brand-grid {
-        display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        background: white;
-        border-radius: 20px;
-        overflow: hidden;
-        border: 1px solid #e5e7eb;
-        transition: transform 0.3s ease;
-    }
-
-    .brand-item {
-        padding: 24px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        border: 0.5px solid #f3f4f6;
-        cursor: pointer;
-        transition: all 0.25s ease;
-    }
-
-    .brand-item:hover {
-        background: #f8fafc;
-        transform: translateY(-2px);
-        box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.02);
-    }
-
-    .brand-item span {
-        font-size: 0.85rem;
-        font-weight: 700;
-        color: #1e293b;
-        /* Premium slate for white background */
-        margin-top: 4px;
-        transition: all 0.3s ease;
-        letter-spacing: -0.2px;
-    }
-
-    .brand-item:hover span {
-        color: #1e40af;
-    }
-
-    .brand-logo-placeholder {
-        width: 48px;
-        height: 48px;
-        background: #f1f5f9;
-        border-radius: 14px;
-        margin-bottom: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 900;
-        color: #1e40af;
-        transition: all 0.3s ease;
-    }
-
-    .brand-item:hover .brand-logo-placeholder {
-        background: #1e40af;
-        color: white;
-        transform: rotate(-5deg);
-    }
-
-    /* Discovery Pills - Responsive Horizontal Scroll */
-    .pill-cloud {
-        display: flex;
-        gap: 10px;
-        overflow-x: auto;
-        padding-bottom: 5px;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .pill-cloud::-webkit-scrollbar {
-        display: none;
-    }
-
-    .pill-item {
-        background: #f1f5f9;
-        border: 1px solid #e2e8f0;
-        color: #475569;
-        padding: 10px 22px;
-        border-radius: 30px;
-        font-size: 0.85rem;
-        font-weight: 700;
-        cursor: pointer;
-        white-space: nowrap;
-        transition: all 0.2s ease;
-    }
-
-    .pill-item:hover {
-        background: #1e40af;
-        color: white;
-        border-color: #1e40af;
-    }
-
-    /* Multimedia & Video */
-    .video-card {
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .video-card:hover {
-        transform: scale(1.02);
-        z-index: 10;
-    }
-
-    .video-card:hover .play-btn-overlay {
-        transform: translate(-50%, -50%) scale(1.2);
-        background: var(--accent);
-        color: #020617;
-    }
-
-    .play-btn-overlay {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 54px;
-        height: 54px;
-        background: rgba(255, 255, 255, 0.15);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.3rem;
-        transition: all 0.3s ease;
-        backdrop-filter: blur(8px);
-        color: white;
-    }
-
-    /* Utility Tools */
-    .tool-icon {
-        width: 44px;
-        height: 44px;
-        background: #f1f5f9;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.3rem;
-        transition: all 0.3s ease;
-    }
-
-    .tool-item:hover .tool-icon {
-        background: #1e40af;
-        color: white;
-        transform: scale(1.1);
-    }
-
-    /* Upcoming Car Items - Responsive */
-    .upcoming-list-item {
-        transition: all 0.3s ease;
-        border: 1px solid transparent;
-    }
-
-    .upcoming-list-item:hover {
-        border-color: rgba(30, 64, 175, 0.2);
-        background: #f8fafc !important;
-        transform: translateX(10px);
-    }
-
-    /* Media Queries for Elite Responsiveness */
-    @media (max-width: 1200px) {
-        .brand-grid {
-            grid-template-columns: repeat(4, 1fr);
-        }
-    }
-
-    @media (max-width: 992px) {
-        .portal-container {
-            padding: 0 1rem;
-        }
-
-        .col-lg-9 {
-            order: 1;
-        }
-
-        .col-lg-3 {
-            order: 2;
-            margin-top: 2rem;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .brand-grid {
-            grid-template-columns: repeat(3, 1fr);
-        }
-
-        .upcoming-list-item {
-            flex-direction: column;
-            text-align: center;
-            padding: 1.5rem !important;
-        }
-
-        .upcoming-img {
-            width: 100% !important;
-            height: 180px !important;
-            margin-bottom: 1rem;
-        }
-
-        .upcoming-list-item .text-end {
-            text-align: center !important;
-            width: 100%;
-            margin-top: 1rem;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .brand-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        .brand-item {
-            padding: 15px;
-        }
-
-        .brand-logo-placeholder {
-            width: 38px;
-            height: 38px;
-            font-size: 0.9rem;
-        }
-    }
-
-    /* Discovery Tabs Polishing */
-    #discoveryTabs .nav-link {
-        border: none;
-        color: #64748b;
-        transition: all 0.3s ease;
-        position: relative;
-    }
-
-    #discoveryTabs .nav-link.active {
-        color: #1e40af !important;
-        background: transparent !important;
-    }
-
-    #discoveryTabs .nav-link.active::after {
-        content: "";
-        position: absolute;
-        bottom: -8px;
-        left: 0;
-        width: 100%;
-        height: 3px;
-        background: #1e40af;
-        border-radius: 10px;
-    }
-
-    .smallest {
-        font-size: 0.72rem;
-    }
-
-    .fw-800 {
-        font-weight: 800;
-    }
-
-    .fw-900 {
-        font-weight: 900;
-    }
-</style>
 
 {% endblock %}

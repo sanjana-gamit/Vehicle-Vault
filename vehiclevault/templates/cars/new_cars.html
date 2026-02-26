@@ -3,79 +3,116 @@
 {% load static %}
 {% block content %}
 
-<section class="cars-page">
-    <div class="section-header">
-        <div class="badge bg-danger-subtle text-danger mb-3"
-            style="border-radius: 20px; padding: 8px 20px; font-weight: 600; letter-spacing: 1px;">JUST ARRIVED</div>
-        <h2>2025 Model Showcase</h2>
-        <p>Discover the latest engineering marvels and newest additions to our flagship collection.</p>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/category.css' %}">
+{% endblock %}
+
+<!-- Bespoke Hero Section -->
+<div class="category-hero position-relative overflow-hidden mb-5">
+    <div
+        class="container h-100 position-relative z-1 d-flex flex-column justify-content-center align-items-center text-center">
+        <div class="badge bg-primary-subtle text-accent mb-3 rounded-pill px-4 py-2 fw-800 letter-spacing-1 shadow">
+            VAULT PREMIERE
+        </div>
+        <h1 class="category-title display-2 fw-900 text-white mb-2">2025 <span class="text-accent">Fleet</span></h1>
+        <p class="category-subtitle lead text-white-50 fw-500 max-w-700">Discover the latest engineering marvels,
+            futuristic designs, and newest additions to our flagship collection.</p>
     </div>
+</div>
 
-    <div class="car-grid">
+<div class="container pb-5 mb-5">
+    <!-- Premium Masonry Flex Gallery -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {% for car in cars %}
-        <div class="car-card new-arrival-card">
-            <div class="img-container">
-                {% if car.car_image %}
-                <img src="{{ car.car_image.url }}" alt="{{ car.brand }} {{ car.model }}">
-                {% else %}
-                <img src="{% static 'images/logo.png' %}" alt="Default Image">
-                {% endif %}
-                <div class="new-badge position-absolute top-0 start-0 m-3"
-                    style="background: var(--accent); color: var(--bg-dark); border-radius: 8px; padding: 5px 12px; font-weight: 800; font-size: 0.7rem; text-transform: uppercase;">
-                    New Arrival
-                </div>
-            </div>
+        <div class="col">
+            <div
+                class="gallery-card bg-glass border border-secondary border-opacity-25 rounded-4 overflow-hidden h-100 d-flex flex-column position-relative shadow-lg">
 
-            <div class="car-info">
-                <div class="d-flex justify-content-between align-items-start mb-2">
-                    <div>
-                        <span class="text-muted small">{{ car.brand }}</span>
-                        <h3 class="mb-0">{{ car.model }}</h3>
+                <!-- Exclusive Badge for New Models -->
+                <div class="position-absolute top-0 start-0 m-3 z-3">
+                    <span class="badge bg-accent text-dark fw-800 px-3 py-2 rounded-pill shadow">
+                        <i class="fas fa-star me-1"></i> New Arrival
+                    </span>
+                </div>
+
+                <!-- Showcase Image Area -->
+                <div class="gallery-image-wrapper position-relative"
+                    style="height: 260px; background: radial-gradient(circle at center, rgba(15,23,42,1) 0%, rgba(2,6,23,1) 100%);">
+                    {% if car.car_image %}
+                    <img src="{{ car.car_image.url }}" alt="{{ car.brand }} {{ car.model }}"
+                        class="gallery-image w-100 h-100" style="object-fit: contain; padding: 1.5rem;">
+                    {% else %}
+                    <img src="{% static 'images/placeholder-car.jpg' %}" alt="Placeholder"
+                        class="gallery-image w-100 h-100 opacity-50"
+                        style="object-fit: cover; filter: grayscale(100%);">
+                    {% endif %}
+
+                    <!-- Hover Action Overlay -->
+                    <div class="gallery-overlay d-flex justify-content-center align-items-center">
+                        <a href="{% url 'cars:car_detail' car.vin %}"
+                            class="btn btn-primary rounded-pill fw-700 px-4 py-2 shadow-lg me-2">
+                            <i class="fas fa-eye me-2"></i> Inspect
+                        </a>
+                        <a href="{% url 'cars:add_to_compare' car.id %}"
+                            class="btn btn-outline-light rounded-pill px-3 py-2" title="Compare">
+                            <i class="fas fa-balance-scale"></i>
+                        </a>
                     </div>
-                    <span class="badge bg-dark border border-secondary">{{ car.launch_year }}</span>
                 </div>
 
-                <p class="price mb-4">₹{{ car.price }}</p>
+                <!-- Info Block -->
+                <div class="gallery-info p-4 d-flex flex-column flex-grow-1">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <div>
+                            <span class="text-white-50 fw-700 small letter-spacing-1 text-uppercase">{{ car.brand
+                                }}</span>
+                            <h3 class="text-white fw-900 mb-0 mt-1 fs-4">{{ car.model }}</h3>
+                        </div>
+                        <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-max">{{
+                            car.launch_year }}</span>
+                    </div>
 
-                <div class="d-grid gap-2">
-                    <a href="{% url 'cars:car_detail' car.vin %}" class="card-btn">View Masterpiece</a>
-                    <a href="{% url 'cars:add_to_compare' car.id %}" class="btn btn-sm btn-outline-secondary"
-                        style="border-radius: 12px; font-weight: 600;">+ Compare</a>
-                </div>
+                    <div class="price-block mt-3 mb-4">
+                        <span class="h4 text-accent fw-800 m-0">₹{{ car.price|floatformat:2 }}</span>
+                    </div>
 
-                {% if user.is_authenticated %}
-                {% if user.role == 'Admin' or user == car.seller %}
-                <div class="mt-3 pt-3 border-top border-secondary d-flex gap-2">
-                    <a href="{% url 'cars:car_edit' car.vin %}" class="btn btn-sm btn-outline-info w-100"
-                        style="border-radius: 10px;">Edit</a>
-                    <a href="{% url 'cars:car_delete' car.vin %}" class="btn btn-sm btn-outline-danger w-100"
-                        style="border-radius: 10px;" onclick="return confirm('Remove this listing?');">Delete</a>
+                    <!-- Tech Specs Row -->
+                    <div
+                        class="spec-row mt-auto pt-3 border-top border-secondary border-opacity-25 d-flex justify-content-between text-white-50 small fw-600">
+                        <span class="spec-item"><i class="fas fa-gas-pump text-primary me-1"></i> {{ car.fuel_type
+                            }}</span>
+                        <span class="spec-item"><i class="fas fa-cogs text-info me-1"></i> {{
+                            car.transmission|default:"Auto" }}</span>
+                        <span class="spec-item"><i class="fas fa-users text-success me-1"></i> {{
+                            car.seating_capacity|default:"5" }} Seats</span>
+                    </div>
                 </div>
-                {% endif %}
-                {% endif %}
             </div>
         </div>
         {% empty %}
-        <div class="text-center w-100 py-5">
-            <div class="fs-1 mb-4">🆕</div>
-            <p style="font-size: 1.2rem; color: var(--text-muted);">Fresh stock is on the way! Check back soon for the
-                latest 2025 models.</p>
-            <a href="{% url 'cars:all_cars' %}" class="login-btn mt-3">Browse All Cars</a>
+        <div class="col-12 text-center py-5 my-5">
+            <div class="d-inline-flex align-items-center justify-content-center bg-dark rounded-circle mb-4 shadow"
+                style="width: 120px; height: 120px; border: 2px solid rgba(56, 189, 248, 0.2);">
+                <i class="fas fa-flag-checkered fa-3x text-accent opacity-75"></i>
+            </div>
+            <h3 class="text-white fw-800 mb-3">Fresh Stock Imminent</h3>
+            <p class="text-white-50 lead mx-auto" style="max-width: 600px;">Our 2025 fleet is currently being curated.
+                Check back soon for the latest automotive masterpieces.</p>
+            <a href="{% url 'cars:all_cars' %}"
+                class="btn btn-outline-primary rounded-pill px-5 py-3 mt-4 fw-800">Browse Full Inventory</a>
         </div>
         {% endfor %}
     </div>
-</section>
+</div>
 
 <style>
-    .new-arrival-card {
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        background: linear-gradient(145deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0) 100%);
-        transition: var(--transition);
+    /* Unique overrides for the New Arrivals route (inherits main styles from category.css) */
+    .bg-accent {
+        background-color: var(--accent) !important;
     }
 
-    .new-arrival-card:hover {
-        border-color: var(--accent);
-        transform: translateY(-10px);
+    .text-dark {
+        color: #0b1120 !important;
     }
 </style>
 

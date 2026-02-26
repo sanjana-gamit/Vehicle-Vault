@@ -8,8 +8,7 @@
         <div class="badge bg-danger-subtle text-danger mb-3"
             style="border-radius: 20px; padding: 8px 20px; font-weight: 600; letter-spacing: 1px;">TOTAL SYSTEM CONTROL
         </div>
-        <h2>Administrative Dashboard</h2>
-        <p>Welcome back, {{ user.name|default:user.email }}. Oversee platform operations and user access.</p>
+        <h2 class="text-white">Administrative Dashboard</h2>
     </div>
 
     <div class="row g-4 mt-2">
@@ -43,10 +42,11 @@
             <div class="dashboard-card h-100 p-5 shadow-lg text-center"
                 style="background: var(--bg-card); border-radius: 32px; border: 1px solid var(--glass-border); transition: var(--transition);">
                 <div class="fs-1 mb-3">📊</div>
-                <h3 class="fw-800 mb-2">Platform Analytics</h3>
-                <p class="text-muted small mb-4">Real-time metrics on sales, user engagement, and collection growth.</p>
-                <a href="#" class="btn btn-outline-secondary w-100 py-3"
-                    style="border-radius: 12px; font-weight: 700; opacity: 0.5;">Coming Soon</a>
+                <h3 class="fw-800 mb-2 text-white">Platform Analytics</h3>
+                <p class="small mb-4" style="color: var(--text-muted);">Real-time metrics on sales, user engagement, and
+                    collection growth.</p>
+                <a href="#" class="btn btn-outline-light w-100 py-3 disabled"
+                    style="border-radius: 12px; font-weight: 700; opacity: 0.3;">Coming Soon</a>
             </div>
         </div>
     </div>

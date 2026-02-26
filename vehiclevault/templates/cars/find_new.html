@@ -14,94 +14,120 @@
             vehicles. Filter by lifestyle, budget, or performance to find your perfect match.</p>
 
         <!-- Master Search -->
-        <div class="search-hero-box mt-5 mx-auto shadow-2xl" style="max-width: 800px;">
-            <div class="input-group p-2"
-                style="background: rgba(15, 23, 42, 0.8); border: 1px solid var(--glass-border); border-radius: 24px;">
-                <span class="input-group-text bg-transparent border-0 ps-4">🔍</span>
-                <input type="text" class="form-control bg-transparent border-0 text-white py-4"
-                    placeholder="Search luxury brands, body styles, or features..." style="font-size: 1.1rem;">
-                <button class="login-btn px-5" style="border-radius: 18px;">Search Vault</button>
-            </div>
+        <div class="search-hero-box mt-5 mx-auto shadow-2xl position-relative" style="max-width: 800px; z-index: 10;">
+            <form action="{% url 'cars:all_cars' %}" method="GET">
+                <div class="input-group p-2"
+                    style="background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 24px;">
+                    <span class="input-group-text bg-transparent border-0 ps-4 text-accent"><i
+                            class="fas fa-search fs-5"></i></span>
+                    <input type="text" name="q"
+                        class="form-control bg-transparent border-0 text-white py-4 master-search-input"
+                        placeholder="Search luxury brands, body styles, or features..."
+                        style="font-size: 1.1rem; outline: none; box-shadow: none;">
+                    <button type="submit" class="btn text-bg-dark px-5"
+                        style="border-radius: 18px; background: linear-gradient(135deg, var(--accent), var(--primary)) !important; border: none; font-weight: 800; font-size: 1.1rem; transition: all 0.3s ease;">Search
+                        Vault</button>
+                </div>
+            </form>
         </div>
     </div>
 
     <!-- Category Shortcuts -->
-    <div class="category-grid row g-4 mb-5 pb-5">
-        <div class="col-6 col-lg-3">
-            <a href="{% url 'cars:car_category' 'SUV' %}"
-                class="category-card text-center p-5 d-block text-decoration-none">
-                <div class="fs-1 mb-3">🏔️</div>
-                <h4 class="text-white fw-700">SUVs</h4>
-                <p class="text-muted small mb-0">Unmatched Power</p>
-            </a>
-        </div>
-        <div class="col-6 col-lg-3">
-            <a href="{% url 'cars:car_category' 'Sedan' %}"
-                class="category-card text-center p-5 d-block text-decoration-none">
-                <div class="fs-1 mb-3">🏙️</div>
-                <h4 class="text-white fw-700">Sedans</h4>
-                <p class="text-muted small mb-0">Pure Elegance</p>
-            </a>
-        </div>
-        <div class="col-6 col-lg-3">
-            <a href="{% url 'cars:electric_cars' %}" class="category-card text-center p-5 d-block text-decoration-none">
-                <div class="fs-1 mb-3">⚡</div>
-                <h4 class="text-white fw-700">Electric</h4>
-                <p class="text-muted small mb-0">Silence Reimagined</p>
-            </a>
-        </div>
-        <div class="col-6 col-lg-3">
-            <a href="{% url 'cars:new_cars' %}"
-                class="category-card text-center p-5 d-block text-decoration-none highlight-card">
-                <div class="fs-1 mb-3">🏁</div>
-                <h4 class="text-white fw-700">2025 Fleet</h4>
-                <p class="text-muted small mb-0">The Newest Arrivals</p>
-            </a>
-        </div>
+    <div class="category-grid mb-5 pb-5">
+        <a href="{% url 'cars:car_category' 'SUV' %}" class="category-card text-decoration-none">
+            <div class="fs-1 mb-3 card-icon"><i class="fas fa-mountain"></i></div>
+            <h4 class="text-white fw-800">SUVs</h4>
+            <p class="text-white-50 small mb-0 fw-600">Unmatched Power</p>
+        </a>
+
+        <a href="{% url 'cars:car_category' 'Sedan' %}" class="category-card text-decoration-none">
+            <div class="fs-1 mb-3 card-icon"><i class="fas fa-building"></i></div>
+            <h4 class="text-white fw-800">Sedans</h4>
+            <p class="text-white-50 small mb-0 fw-600">Pure Elegance</p>
+        </a>
+
+        <a href="{% url 'cars:electric_cars' %}" class="category-card text-decoration-none">
+            <div class="fs-1 mb-3 card-icon text-accent"><i class="fas fa-bolt"></i></div>
+            <h4 class="text-white fw-800">Electric</h4>
+            <p class="text-white-50 small mb-0 fw-600">Silence Reimagined</p>
+        </a>
+
+        <a href="{% url 'cars:new_cars' %}" class="category-card highlight-card text-decoration-none">
+            <div class="fs-1 mb-3 card-icon"><i class="fas fa-flag-checkered"></i></div>
+            <h4 class="text-white fw-800">2025 Fleet</h4>
+            <p class="text-white-50 small mb-0 fw-600">The Newest Arrivals</p>
+        </a>
     </div>
 
     <!-- Interactive Finder Section -->
-    <div class="finder-section p-5 mb-5 shadow-lg"
-        style="background: var(--bg-card); border-radius: 40px; border: 1px solid var(--glass-border);">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <h2 class="fw-800 mb-4">Precision Selection</h2>
-                <div class="finder-controls">
-                    <div class="mb-4">
-                        <label class="form-label text-muted small fw-700 letter-spacing-1">BUDGET SCALE</label>
-                        <input type="range" class="form-range custom-range" min="0" max="10000000" step="500000">
-                        <div class="d-flex justify-content-between text-muted small mt-2">
+    <div class="finder-section p-4 p-md-5 mb-5 shadow-lg position-relative overflow-hidden"
+        style="background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(2,6,23,0.95)); border-radius: 40px; border: 1px solid rgba(56, 189, 248, 0.2);">
+
+        <!-- Background Decoration -->
+        <div class="position-absolute top-0 end-0 opacity-10"
+            style="transform: translate(30%, -30%) scale(1.5); pointer-events: none;">
+            <i class="fas fa-compass fa-10x text-accent"></i>
+        </div>
+
+        <div class="row align-items-center position-relative z-1">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <div class="badge bg-primary-subtle text-accent mb-3 rounded-pill px-3 py-2 fw-700 letter-spacing-1">
+                    ADVANCED FILTERING</div>
+                <h2 class="display-5 fw-900 mb-4 text-white">Precision Selection</h2>
+
+                <form action="{% url 'cars:all_cars' %}" method="GET" class="finder-controls pe-lg-4">
+                    <div class="mb-4 bg-dark bg-opacity-50 p-4 rounded-4 border border-secondary border-opacity-25">
+                        <label
+                            class="form-label text-white-50 small fw-800 letter-spacing-1 d-flex justify-content-between">
+                            <span>BUDGET SCALE</span>
+                            <span class="text-accent" id="budgetDisplay">₹50L</span>
+                        </label>
+                        <input type="range" name="budget" class="form-range custom-range mt-2" min="10" max="200"
+                            step="5" value="50"
+                            oninput="document.getElementById('budgetDisplay').innerText = '₹' + this.value + 'L'">
+                        <div class="d-flex justify-content-between text-white-50 small mt-2 fw-600">
                             <span>₹10L</span>
-                            <span>₹1Cr+</span>
+                            <span>₹2Cr+</span>
                         </div>
                     </div>
-                    <div class="row g-3">
+
+                    <div class="row g-3 mb-4">
                         <div class="col-md-6">
-                            <label class="form-label text-muted small fw-700">FUEL PREFERENCE</label>
-                            <select class="form-select bg-dark border-secondary text-white py-3"
-                                style="border-radius: 12px;">
-                                <option>Petrol (High Octane)</option>
-                                <option>Electric (Sustainability)</option>
-                                <option>Hybrid (Efficiency)</option>
-                                <option>Diesel (Torque)</option>
+                            <label class="form-label text-white-50 small fw-800 letter-spacing-1">FUEL
+                                PREFERENCE</label>
+                            <select name="fuel"
+                                class="form-select bg-dark bg-opacity-75 border-secondary border-opacity-50 text-white py-3"
+                                style="border-radius: 12px; font-weight: 600;">
+                                <option value="">All Types</option>
+                                <option value="Petrol">Petrol (High Octane)</option>
+                                <option value="Electric">Electric (Sustainability)</option>
+                                <option value="Hybrid">Hybrid (Efficiency)</option>
+                                <option value="Diesel">Diesel (Torque)</option>
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label text-muted small fw-700">TRANSMISSION</label>
-                            <select class="form-select bg-dark border-secondary text-white py-3"
-                                style="border-radius: 12px;">
-                                <option>Automatic (PDK/DSG)</option>
-                                <option>Manual (Pure Control)</option>
+                            <label class="form-label text-white-50 small fw-800 letter-spacing-1">TRANSMISSION</label>
+                            <select name="transmission"
+                                class="form-select bg-dark bg-opacity-75 border-secondary border-opacity-50 text-white py-3"
+                                style="border-radius: 12px; font-weight: 600;">
+                                <option value="">Any</option>
+                                <option value="Automatic">Automatic (PDK/DSG)</option>
+                                <option value="Manual">Manual (Pure Control)</option>
                             </select>
                         </div>
                     </div>
-                    <button class="login-btn w-100 mt-5 py-4 fw-800">DISCOVER MATCHES</button>
-                </div>
+                    <button type="submit" class="btn w-100 py-4 fw-900 text-bg-dark"
+                        style="background: linear-gradient(135deg, var(--accent), var(--primary)) !important; border: none; border-radius: 16px; font-size: 1.1rem; letter-spacing: 1px; box-shadow: 0 10px 25px rgba(56,189,248,0.2);">DISCOVER
+                        EXACT MATCHES</button>
+                </form>
             </div>
-            <div class="col-lg-6 d-none d-lg-block text-center">
-                <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&q=80" alt="Car Detail"
-                    class="img-fluid rounded-circle shadow-lg"
-                    style="width: 80%; border: 10px solid var(--glass-border);">
+            <div class="col-lg-6 text-center position-relative">
+                <div class="glow-orb position-absolute top-50 start-50 translate-middle"
+                    style="width: 300px; height: 300px; background: radial-gradient(circle, rgba(56,189,248,0.2) 0%, rgba(0,0,0,0) 70%); z-index: -1;">
+                </div>
+                <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&q=80"
+                    alt="Precision Selection" class="img-fluid rounded-circle shadow-2xl finder-img"
+                    style="width: 85%; aspect-ratio: 1/1; object-fit: cover; border: 4px solid rgba(56,189,248,0.3); padding: 10px; background: rgba(0,0,0,0.5);">
             </div>
         </div>
     </div>
@@ -121,31 +147,95 @@
 
 <style>
     .discovery-container {
-        padding: 80px 0;
+        padding: 60px 0;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    /* Category Grid Layout */
+    .category-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 25px;
+        justify-content: center;
     }
 
     .category-card {
-        background: rgba(255, 255, 255, 0.02);
-        border: 1px solid var(--glass-border);
+        flex: 1 1 calc(25% - 25px);
+        min-width: 250px;
+        background: linear-gradient(180deg, rgba(15, 23, 42, 0.8), rgba(2, 6, 23, 0.9));
+        border: 1px solid rgba(255, 255, 255, 0.05);
         border-radius: 32px;
-        transition: var(--transition);
+        transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        padding: 40px 20px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .category-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.1), transparent 50%);
+        pointer-events: none;
     }
 
     .category-card:hover {
-        background: var(--bg-card);
-        border-color: var(--accent);
         transform: translateY(-12px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        border-color: rgba(56, 189, 248, 0.4);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(56, 189, 248, 0.1);
+    }
+
+    .category-card:hover .card-icon {
+        transform: scale(1.1);
+        color: var(--accent);
+    }
+
+    .card-icon {
+        transition: all 0.4s ease;
+        color: rgba(255, 255, 255, 0.8);
     }
 
     .highlight-card {
-        background: linear-gradient(145deg, rgba(56, 189, 248, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+        background: linear-gradient(145deg, rgba(15, 23, 42, 0.9) 0%, rgba(2, 6, 23, 1) 100%);
         border-color: rgba(56, 189, 248, 0.3);
+    }
+
+    .highlight-card .card-icon {
+        color: var(--accent);
+    }
+
+    /* Finder Hero specific input */
+    .master-search-input::placeholder {
+        color: rgba(255, 255, 255, 0.4) !important;
+        font-weight: 500;
+    }
+
+    .master-search-input:focus {
+        background: transparent !important;
+        color: #fff !important;
     }
 
     .custom-range::-webkit-slider-thumb {
         background: var(--accent);
         box-shadow: 0 0 20px var(--accent);
+        width: 20px;
+        height: 20px;
+        margin-top: -8px;
+        /* Offset to center relative to track */
+    }
+
+    .custom-range::-webkit-slider-runnable-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        height: 6px;
     }
 
     .grayscale {
@@ -162,13 +252,39 @@
         letter-spacing: 2px;
     }
 
+    .finder-img {
+        transition: transform 1s ease;
+    }
+
+    .finder-section:hover .finder-img {
+        transform: rotate(2deg) scale(1.02);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 1024px) {
+        .category-card {
+            flex: 1 1 calc(50% - 25px);
+        }
+    }
+
     @media (max-width: 768px) {
         .display-3 {
             font-size: 2.5rem;
         }
 
+        .display-5 {
+            font-size: 2rem;
+        }
+
         .category-card {
-            padding: 30px !important;
+            padding: 30px 20px !important;
+            flex: 1 1 100%;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .discovery-container {
+            padding: 40px 15px;
         }
     }
 </style>

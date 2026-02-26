@@ -1,4 +1,23 @@
 /* ===============================
+   TOP BAR
+================================ */
+.top-bar {
+    height: 38px;
+    background: rgba(2, 6, 23, 0.9);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    z-index: 1001;
+    position: relative;
+}
+
+.hover-text-accent:hover {
+    color: var(--accent) !important;
+}
+
+.tracking-widest {
+    letter-spacing: 2px;
+}
+
+/* ===============================
    NAVBAR BASE
 ================================ */
 .navbar {
@@ -66,7 +85,7 @@
 
 .nav-links a {
     text-decoration: none;
-    color: #e5e7eb;
+    color: #fff;
     font-weight: 500;
     font-size: 15px;
     padding: 8px 10px;
@@ -81,7 +100,7 @@
 .btn-group button {
     padding: 8px 14px;
     background: transparent;
-    color: #e5e7eb;
+    color: #fff;
     border: none;
     cursor: pointer;
     font-weight: 500;
@@ -150,7 +169,8 @@
     display: block;
     padding: 12px 18px;
     font-size: 14px;
-    color: #cbd5f5;
+    color: var(--text-muted);
+    /* Brighter than #cbd5f5 */
 }
 
 .dropdown-menu a:hover {
