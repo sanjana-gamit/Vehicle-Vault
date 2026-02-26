@@ -1,84 +1,73 @@
 {% extends 'base.html' %}
-{% block title %}Upcoming Cars | Vehicle Vault{% endblock %}
+{% block title %}Upcoming Cars 2026 | Vehicle Vault{% endblock %}
 {% load static %}
 {% block content %}
 
-<section class="cars-page">
-    <div class="section-header">
-        <div class="badge bg-primary-subtle text-primary mb-3"
-            style="border-radius: 20px; padding: 8px 20px; font-weight: 600; letter-spacing: 1px;">COMING SOON</div>
-        <h2>The Future of Performance</h2>
-        <p>Preview the most anticipated vehicle launches of 2026 and beyond.</p>
+<div class="portal-container py-5">
+    <!-- Elite Header -->
+    <div class="elite-header text-center mb-5 pb-4">
+        <div class="badge bg-warning-subtle text-warning mb-3 px-4 py-2 rounded-pill fw-800" style="letter-spacing: 2px; border: 1px solid rgba(255,193,7,0.2);">FUTURE REVELATIONS</div>
+        <h1 class="display-3 fw-900 text-white mb-3" style="letter-spacing: -2px;">Upcoming Masterpieces</h1>
+        <p class="lead text-white opacity-50 mx-auto" style="max-width: 600px;">A curtain-raiser for the most anticipated automotive launches of 2026. Precision engineered, future-ready.</p>
     </div>
 
-    <div class="car-grid">
+    <!-- Upcoming Grid -->
+    <div class="row g-4">
         {% for car in cars %}
-        <div class="car-card upcoming-card">
-            <div class="img-container">
-                {% if car.car_image %}
-                <img src="{{ car.car_image.url }}" alt="{{ car.brand }} {{ car.model }}"
-                    style="filter: grayscale(0.4) brightness(0.8);">
-                {% else %}
-                <img src="{% static 'images/logo.png' %}" alt="Default Image">
-                {% endif %}
-                <div class="launch-badge position-absolute top-0 start-0 m-3"
-                    style="background: var(--bg-dark); color: var(--accent); border: 1px solid var(--accent); border-radius: 12px; padding: 10px 18px; font-weight: 800; font-size: 0.8rem; backdrop-filter: blur(10px);">
-                    EST. {{ car.launch_year }}
-                </div>
-            </div>
-
-            <div class="car-info">
-                <div class="text-accent small fw-bold mb-1" style="letter-spacing: 2px;">EXCLUSIVE PREVIEW</div>
-                <h3>{{ car.brand }} {{ car.model }}</h3>
-                <p class="price" style="color: var(--text-muted); font-size: 1.2rem;">Expected: ₹{{ car.price }}</p>
-
-                <div class="progress mb-4"
-                    style="height: 6px; background: rgba(255,255,255,0.05); border-radius: 10px;">
-                    <div class="progress-bar"
-                        style="width: 75%; background: linear-gradient(90deg, var(--accent), var(--primary));"></div>
+        <div class="col-md-6 col-lg-4">
+            <div class="glass-card h-100 p-3 rounded-4 shadow-lg position-relative overflow-hidden" style="background: var(--bg-card); border: 1px solid var(--glass-border); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+                <div class="img-container rounded-3 overflow-hidden position-relative mb-4" style="height: 220px;">
+                    {% if car.car_image %}
+                    <img src="{{ car.car_image.url }}" class="w-100 h-100" style="object-fit: cover; filter: brightness(0.7) grayscale(0.2);">
+                    {% endif %}
+                    <div class="position-absolute top-0 start-0 m-3 px-3 py-2 rounded-3 text-white smallest fw-900" style="background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);">
+                        EST. LAUNCH: {{ car.launch_year }}
+                    </div>
                 </div>
 
-                <div class="d-grid gap-2">
-                    <button class="card-btn"
-                        onclick="alert('Coming soon! We will notify you when pre-orders open.');">Notify Me</button>
-                    <a href="{% url 'cars:add_to_compare' car.id %}" class="btn btn-sm btn-outline-secondary"
-                        style="border-radius: 12px; font-weight: 600;">+ Compare</a>
-                </div>
-                <a href="{% url 'cars:car_detail' car.vin %}"
-                    class="btn btn-link text-accent mt-2 text-decoration-none small">Technical Preview →</a>
+                <div class="card-content px-2">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="text-accent smallest fw-800" style="letter-spacing: 1px;">EXCLUSIVE PREVIEW</span>
+                        <div class="dot-status active"></div>
+                    </div>
+                    <h3 class="h4 fw-800 text-white mb-2">{{ car.brand }} {{ car.model }}</h3>
+                    <div class="price-narrative mb-4">
+                        <span class="text-white h5 fw-800">₹{{ car.price }}</span>
+                        <span class="smallest opacity-50 ms-2">Expected Price</span>
+                    </div>
 
-                {% if user.is_authenticated %}
-                {% if user.role == 'Admin' or user == car.seller %}
-                <div class="mt-4 pt-3 border-top border-secondary d-flex gap-2">
-                    <a href="{% url 'cars:car_edit' car.vin %}" class="btn btn-sm btn-outline-info w-100"
-                        style="border-radius: 10px;">Edit</a>
-                    <a href="{% url 'cars:car_delete' car.vin %}" class="btn btn-sm btn-outline-danger w-100"
-                        style="border-radius: 10px;" onclick="return confirm('Remove this preview?');">Delete</a>
+                    <div class="anticipation-meter mb-4">
+                        <div class="d-flex justify-content-between smallest text-white opacity-50 mb-1">
+                            <span>Market Anticipation</span>
+                            <span>95%</span>
+                        </div>
+                        <div class="progress bg-dark" style="height: 4px; border-radius: 10px;">
+                            <div class="progress-bar" style="width: 95%; background: linear-gradient(90deg, var(--accent), #fff);"></div>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-accent rounded-pill fw-800 py-3 mb-2" onclick="alert('Subscription confirmed for {{ car.model }} alerts!')">Get Launch Alerts</button>
+                        <a href="{% url 'cars:car_detail' car.vin %}" class="btn btn-outline-light border-opacity-10 rounded-pill fw-800 py-2 small">Explore Technical Specs</a>
+                    </div>
                 </div>
-                {% endif %}
-                {% endif %}
             </div>
         </div>
         {% empty %}
-        <div class="text-center w-100 py-5">
-            <div class="fs-1 mb-4">🚀</div>
-            <p style="font-size: 1.2rem; color: var(--text-muted);">Stay tuned! New previews are arriving shortly.</p>
-            <a href="{% url 'cars:all_cars' %}" class="login-btn mt-3">Explore Current Inventory</a>
+        <div class="col-12 text-center py-5">
+            <div class="empty-state-icon mb-4" style="font-size: 4rem; opacity: 0.2;">🚀</div>
+            <h2 class="text-white fw-800">The Future is Being Written</h2>
+            <p class="text-white opacity-50">New previews are currently being cataloged. Check back for 2027 revelations.</p>
         </div>
         {% endfor %}
     </div>
-</section>
+</div>
 
 <style>
-    .upcoming-card {
-        border: 1px dashed var(--glass-border);
-        transition: var(--transition);
-    }
-
-    .upcoming-card:hover {
-        border-style: solid;
-        border-color: var(--accent);
-    }
+.glass-card:hover { transform: translateY(-10px); border-color: var(--accent) !important; }
+.dot-status { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 10px #22c55e; }
+.btn-accent { background: var(--accent); color: #020617; border: none; }
+.btn-accent:hover { background: #fff; color: #020617; }
 </style>
 
 {% endblock %}

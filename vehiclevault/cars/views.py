@@ -13,6 +13,8 @@ from .forms import (
 from .models import (
     Car,
     CarCategory,
+    Brand,
+    DiscoveryPill,
     CarListing,
     TestDrive,
     CarListingImage,
@@ -50,6 +52,9 @@ def CarsListView(request):
     fuel = request.GET.get("fuel")
     q = request.GET.get("q")
     brand = request.GET.get("brand")
+    body_type = request.GET.get("filter") # Mapping 'filter' param to body type
+    transmission = request.GET.get("transmission")
+    seating = request.GET.get("seating")
 
     if fuel:
         cars = cars.filter(fuel_type__iexact=fuel)
@@ -57,8 +62,32 @@ def CarsListView(request):
         cars = cars.filter(Q(brand__icontains=q) | Q(model__icontains=q))
     if brand:
         cars = cars.filter(brand__icontains=brand)
+    if body_type:
+        cars = cars.filter(category__name__icontains=body_type)
+    if transmission:
+        cars = cars.filter(transmission__iexact=transmission)
+    if seating:
+        cars = cars.filter(seating_capacity=seating)
 
-    return render(request, "cars/all_cars.html", {"cars": cars.distinct()})
+    pills = DiscoveryPill.objects.all()
+    
+    # Categorize pills for the multi-tab discovery section
+    discovery_context = {
+        "budget_pills": pills.filter(pill_type="Budget"),
+        "body_pills": pills.filter(pill_type="Body Type"),
+        "fuel_pills": pills.filter(pill_type="Fuel Type"),
+        "transmission_pills": pills.filter(pill_type="Transmission"),
+        "seating_pills": pills.filter(pill_type="Seating"),
+        "popular_pills": pills.filter(pill_type="Popular"),
+    }
+
+    context = {
+        "cars": cars.distinct(),
+        "brands": Brand.objects.all(),
+        **discovery_context,
+    }
+
+    return render(request, "cars/all_cars.html", context)
 
 def UsedCarsListView(request):
     # Filtering for cars that have a listing and are NOT new (inventory/stock based logic)

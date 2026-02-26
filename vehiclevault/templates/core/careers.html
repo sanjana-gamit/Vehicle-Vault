@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Careers | Vehicle Vault{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="glass-card p-5 rounded-4 shadow-lg text-white"
+        style="background: var(--bg-card); border: 1px solid var(--glass-border);">
+        <div class="text-center mb-5">
+            <span class="badge bg-info text-dark px-3 py-2 rounded-pill mb-3 fw-800">JOIN THE TEAM</span>
+            <h1 class="display-4 fw-900 mb-4">Engineer the Future of<br>Automotive Excellence.</h1>
+            <p class="lead opacity-75 mx-auto" style="max-width: 700px;">We are a collective of dreamers, engineers, and
+                car enthusiasts building the digital vault for the world's finest vehicles.</p>
+        </div>
+
+        <div class="row g-4 mt-4">
+            <div class="col-md-6">
+                <div class="p-4 rounded-4 h-100"
+                    style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);">
+                    <h4 class="fw-800 mb-3">Our Culture</h4>
+                    <p class="opacity-75">At Vehicle Vault, we believe in radical transparency, uncompromising quality,
+                        and the relentless pursuit of precision in everything we build.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-4 rounded-4 h-100"
+                    style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);">
+                    <h4 class="fw-800 mb-3">Open Roles</h4>
+                    <div
+                        class="role-item d-flex justify-content-between align-items-center p-3 border-bottom border-light border-opacity-10">
+                        <div class="fw-700">Senior Django Architect</div>
+                        <span class="badge bg-primary rounded-pill">Remote</span>
+                    </div>
+                    <div
+                        class="role-item d-flex justify-content-between align-items-center p-3 border-bottom border-light border-opacity-10">
+                        <div class="fw-700">UI/UX Designer (Elite Collection)</div>
+                        <span class="badge bg-primary rounded-pill">Bangalore</span>
+                    </div>
+                    <div class="mt-4 text-center">
+                        <a href="mailto:careers@vehiclevault.com" class="text-accent fw-800 text-decoration-none">View
+                            All Positions ›</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

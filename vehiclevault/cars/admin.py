@@ -7,6 +7,8 @@ from .models import (
     Buyer,
     Seller,
     CarCategory,
+    Brand,
+    DiscoveryPill,
     Car,
     CarListing,
     CarListingImage,
@@ -73,12 +75,27 @@ class SellerAdmin(admin.ModelAdmin):
     list_filter = ("rating",)
     autocomplete_fields = ("user",)
 
-@admin.register(CarCategory)
-class CarCategoryAdmin(admin.ModelAdmin):
-    list_display = ("name", "slug")
+@admin.register(Brand)
+class BrandAdmin(admin.ModelAdmin):
+    list_display = ("name", "is_featured", "order", "preview")
+    list_editable = ("is_featured", "order")
     search_fields = ("name",)
-    prepopulated_fields = {"slug": ("name",)}
-    pass
+
+    def preview(self, obj):
+        if obj.logo:
+            return format_html(
+                '<img src="{}" width="40" style="border-radius:4px;" />',
+                obj.logo.url,
+            )
+        return "—"
+    preview.short_description = "Logo"
+
+@admin.register(DiscoveryPill)
+class DiscoveryPillAdmin(admin.ModelAdmin):
+    list_display = ("label", "pill_type", "order")
+    list_filter = ("pill_type",)
+    list_editable = ("order",)
+    search_fields = ("label",)
 
 # =========================
 # CAR ADMIN

@@ -109,6 +109,27 @@ def terms(request):
 def about(request):
     return render(request, "core/about.html")
 
+def car_loan(request):
+    return render(request, "core/car_loan.html")
+
+def car_insurance(request):
+    return render(request, "core/car_insurance.html")
+
+def car_valuation(request):
+    return render(request, "core/car_valuation.html")
+
+def sell_car(request):
+    return render(request, "core/sell_car.html")
+
+def help_center(request):
+    return render(request, "core/help_center.html")
+
+def sitemap(request):
+    return render(request, "core/sitemap.html")
+
+def careers(request):
+    return render(request, "core/careers.html")
+
 # =========================
 # DASHBOARDS
 # =========================

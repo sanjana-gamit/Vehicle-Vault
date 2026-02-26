@@ -23,12 +23,16 @@
             <div class="col-6 col-md-2">
                 <h6 class="text-white fw-800 mb-3 small">SERVICES</h6>
                 <ul class="list-unstyled smallest opacity-75">
-                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Car Loan</a></li>
-                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Car Insurance</a></li>
-                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Car Valuation</a></li>
+                    <li class="mb-2"><a href="{% url 'core:car_loan' %}" class="text-white text-decoration-none">Car
+                            Loan</a></li>
+                    <li class="mb-2"><a href="{% url 'core:car_insurance' %}"
+                            class="text-white text-decoration-none">Car Insurance</a></li>
+                    <li class="mb-2"><a href="{% url 'core:car_valuation' %}"
+                            class="text-white text-decoration-none">Car Valuation</a></li>
                     <li class="mb-2"><a href="{% url 'cars:test_drives' %}" class="text-white text-decoration-none">Book
                             Test Drive</a></li>
-                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Sell Your Car</a></li>
+                    <li class="mb-2"><a href="{% url 'core:sell_car' %}" class="text-white text-decoration-none">Sell
+                            Your Car</a></li>
                 </ul>
             </div>
 
@@ -40,8 +44,10 @@
                             Us</a></li>
                     <li class="mb-2"><a href="{% url 'core:faq' %}" class="text-white text-decoration-none">FAQs</a>
                     </li>
-                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Help Center</a></li>
-                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Sitemap</a></li>
+                    <li class="mb-2"><a href="{% url 'core:help_center' %}" class="text-white text-decoration-none">Help
+                            Center</a></li>
+                    <li class="mb-2"><a href="{% url 'core:sitemap' %}"
+                            class="text-white text-decoration-none">Sitemap</a></li>
                 </ul>
             </div>
 
@@ -51,7 +57,8 @@
                 <ul class="list-unstyled smallest opacity-75">
                     <li class="mb-2"><a href="{% url 'core:about' %}" class="text-white text-decoration-none">About
                             Us</a></li>
-                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Careers</a></li>
+                    <li class="mb-2"><a href="{% url 'core:careers' %}"
+                            class="text-white text-decoration-none">Careers</a></li>
                     <li class="mb-2"><a href="{% url 'core:privacy' %}" class="text-white text-decoration-none">Privacy
                             Policy</a></li>
                     <li class="mb-2"><a href="{% url 'core:terms' %}" class="text-white text-decoration-none">Terms &

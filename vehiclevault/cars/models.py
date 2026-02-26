@@ -106,6 +106,41 @@ class CarCategory(models.Model):
     def __str__(self):
         return self.name
 
+class Brand(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    logo = models.ImageField(upload_to="brands/", blank=True, null=True)
+    is_featured = models.BooleanField(default=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order', 'name']
+
+    def __str__(self):
+        return self.name
+
+class DiscoveryPill(models.Model):
+    label = models.CharField(max_length=50)
+    filter_value = models.CharField(max_length=100)
+    pill_type = models.CharField(
+        max_length=20,
+        choices=[
+            ('Budget', 'Budget'), 
+            ('Body Type', 'Body Type'),
+            ('Fuel Type', 'Fuel Type'),
+            ('Transmission', 'Transmission'),
+            ('Seating', 'Seating Capacity'),
+            ('Popular', 'Popular Searches')
+        ],
+        default='Budget'
+    )
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['pill_type', 'order']
+
+    def __str__(self):
+        return f"{self.pill_type}: {self.label}"
+
 class Car(models.Model):
     seller = models.ForeignKey(
         User,

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}Car Loan | Vehicle Vault{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="glass-card p-5 rounded-4 shadow-lg text-white"
+        style="background: var(--bg-card); border: 1px solid var(--glass-border);">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <span class="badge bg-primary px-3 py-2 rounded-pill mb-3 fw-800">VAULT FINANCING</span>
+                <h1 class="display-4 fw-900 mb-4">Instant Car Loans.<br>Zero Commute.</h1>
+                <p class="lead opacity-75 mb-5">Get pre-approved in minutes with our elite banking partners. We offer
+                    the industry's most competitive ROI for your next masterpiece.</p>
+                <div class="d-flex gap-4 mb-5">
+                    <div class="stat-item">
+                        <div class="h3 fw-900 m-0">8.5%</div>
+                        <div class="smallest opacity-50 text-uppercase">Starting ROI</div>
+                    </div>
+                    <div class="stat-item border-start ps-4">
+                        <div class="h3 fw-900 m-0">10 Min</div>
+                        <div class="smallest opacity-50 text-uppercase">Approval Time</div>
+                    </div>
+                </div>
+                <button class="btn btn-primary rounded-pill px-5 py-3 fw-800 shadow-lg">Check Eligibility</button>
+            </div>
+            <div class="col-lg-6 mt-5 mt-lg-0">
+                <div class="loan-calculator-preview p-4 rounded-4"
+                    style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);">
+                    <h5 class="fw-800 mb-4">Quick EMI Estimator</h5>
+                    <div class="mb-4">
+                        <label class="smallest fw-700 opacity-50 mb-2">LOAN AMOUNT</label>
+                        <div class="h4 fw-900">₹ 15,00,000</div>
+                        <input type="range" class="form-range" style="accent-color: var(--accent);">
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <label class="smallest fw-700 opacity-50 mb-2">TENURE (MONTHS)</label>
+                            <div class="fw-800">60 Months</div>
+                        </div>
+                        <div class="col-6 text-end">
+                            <label class="smallest fw-700 opacity-50 mb-2">ESTIMATED EMI</label>
+                            <div class="fw-800 text-accent">₹ 30,776/mo</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

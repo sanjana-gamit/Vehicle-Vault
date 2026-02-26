@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Car Insurance | Vehicle Vault{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="glass-card p-5 rounded-4 shadow-lg text-white"
+        style="background: var(--bg-card); border: 1px solid var(--glass-border);">
+        <div class="row align-items-center">
+            <div class="col-lg-6 order-lg-2">
+                <span class="badge bg-success px-3 py-2 rounded-pill mb-3 fw-800">VAULT PROTECTION</span>
+                <h1 class="display-4 fw-900 mb-4">Precision Coverage.<br>Ultimate Peace.</h1>
+                <p class="lead opacity-75 mb-5">Secure your investment with tailored insurance plans from top-tier
+                    providers. Comprehensive protection for elite vehicles.</p>
+                <div class="row g-4 mb-5">
+                    <div class="col-6">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="icon-box h2 m-0 text-accent">🛡️</div>
+                            <div class="fw-800 small">Zero Dep Cover</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="icon-box h2 m-0 text-accent">🚀</div>
+                            <div class="fw-800 small">Quick Claims</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-success rounded-pill px-5 py-3 fw-800 shadow-lg">Compare Plans</button>
+            </div>
+            <div class="col-lg-6 order-lg-1 mt-5 mt-lg-0">
+                <div class="insurance-graphic rounded-4 overflow-hidden shadow-lg"
+                    style="background: linear-gradient(135deg, #064e3b, #022c22); height: 400px; display: flex; align-items: center; justify-content: center;">
+                    <div class="text-center">
+                        <div class="display-1">🔒</div>
+                        <div class="fw-900 h4 mt-3">Vault Shield Enabled</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

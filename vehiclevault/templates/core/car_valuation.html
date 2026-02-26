@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Car Valuation | Vehicle Vault{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="glass-card p-5 rounded-4 shadow-lg text-white text-center"
+        style="background: var(--bg-card); border: 1px solid var(--glass-border); max-width: 900px; margin: 0 auto;">
+        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill mb-3 fw-800">PRECISION VALUATION</span>
+        <h1 class="display-5 fw-900 mb-4">Know the True Value of Your Car.</h1>
+        <p class="lead opacity-75 mb-5 mx-auto" style="max-width: 600px;">Our proprietary algorithm analyzes thousands
+            of data points to give you the most accurate market price for your vehicle in seconds.</p>
+
+        <div class="valuation-form p-4 rounded-4 mb-5"
+            style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <select class="form-select bg-dark text-white border-secondary rounded-pill py-3 px-4">
+                        <option>Select Brand</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <select class="form-select bg-dark text-white border-secondary rounded-pill py-3 px-4">
+                        <option>Select Model</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <button class="btn btn-warning w-100 rounded-pill py-3 fw-800">Check Price</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 text-start">
+            <div class="col-md-4">
+                <div class="p-3 rounded-4 border border-light border-opacity-10">
+                    <div class="h4">📊</div>
+                    <div class="fw-800 small">Market Trends</div>
+                    <p class="smallest opacity-50 m-0">Real-time data from 500+ portals.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-3 rounded-4 border border-light border-opacity-10">
+                    <div class="h4">🔍</div>
+                    <div class="fw-800 small">Verified Stats</div>
+                    <p class="smallest opacity-50 m-0">Based on actual transaction prices.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-3 rounded-4 border border-light border-opacity-10">
+                    <div class="h4">📜</div>
+                    <div class="fw-800 small">Free Report</div>
+                    <p class="smallest opacity-50 m-0">Detailed PDF valuation report.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

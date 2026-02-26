@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}Help Center | Vehicle Vault{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="glass-card p-5 rounded-4 shadow-lg text-white"
+        style="background: var(--bg-card); border: 1px solid var(--glass-border);">
+        <h1 class="display-5 fw-900 mb-2">Vault Help Center</h1>
+        <p class="lead opacity-75 mb-5">Find answers, get support, and navigate the elite car discovery universe.</p>
+
+        <div class="search-bar p-4 rounded-4 mb-5"
+            style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);">
+            <div class="input-group">
+                <input type="text" class="form-control bg-transparent text-white border-0 py-2"
+                    placeholder="Search for topics, articles or guides...">
+                <button class="btn btn-primary rounded-pill px-4">Search</button>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="p-4 rounded-4 h-100"
+                    style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);">
+                    <div class="h4 mb-3">👤</div>
+                    <h5 class="fw-800">Account Support</h5>
+                    <ul class="list-unstyled smallest opacity-75">
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Resetting your password</a>
+                        </li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Managing your profile</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 rounded-4 h-100"
+                    style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);">
+                    <div class="h4 mb-3">🏎️</div>
+                    <h5 class="fw-800">Buying & Selling</h5>
+                    <ul class="list-unstyled smallest opacity-75">
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">How to list a vehicle</a>
+                        </li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Booking a test drive</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 rounded-4 h-100"
+                    style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);">
+                    <div class="h4 mb-3">🛠️</div>
+                    <h5 class="fw-800">Technical Issues</h5>
+                    <ul class="list-unstyled smallest opacity-75">
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Browser compatibility</a>
+                        </li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">App notifications</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

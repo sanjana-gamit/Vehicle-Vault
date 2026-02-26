@@ -12,6 +12,15 @@ urlpatterns = [
     path("privacy/", views.privacy, name="privacy"),
     path("terms/", views.terms, name="terms"),
     path("about/", views.about, name="about"),
+
+    # Services
+    path("car-loan/", views.car_loan, name="car_loan"),
+    path("car-insurance/", views.car_insurance, name="car_insurance"),
+    path("car-valuation/", views.car_valuation, name="car_valuation"),
+    path("sell-your-car/", views.sell_car, name="sell_car"),
+    path("help-center/", views.help_center, name="help_center"),
+    path("sitemap/", views.sitemap, name="sitemap"),
+    path("careers/", views.careers, name="careers"),
     
     # Dashboards
     path("dashboard/admin/", views.admin_dashboard, name="admin_dashboard"),

@@ -7,50 +7,35 @@
     <!-- Main Content Row -->
     <div class="row g-4">
         <!-- Left Column: Discovery & Listings -->
-        <div class="col-lg-9">
+        <div class="col-lg-12">
             <!-- Brand Showcase -->
             <section class="brand-showcase mb-5">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2 class="fw-800 m-0" style="font-size: 1.5rem; letter-spacing: -0.5px;">All Brands</h2>
-                    <a href="#" class="text-accent small fw-700 text-decoration-none">View More Brands</a>
+                <div class="d-flex justify-content-between align-items-end mb-4">
+                    <div>
+                        <div class="badge bg-primary-subtle text-primary smallest fw-800 mb-2 px-3 rounded-pill"
+                            style="letter-spacing: 1px;">PREMIUM PARTNERS</div>
+                        <h2 class="fw-800 m-0 text-white" style="font-size: 1.7rem; letter-spacing: -1px;">All Brands
+                            <span class="opacity-25 ms-2" style="font-weight: 400;">({{ brands.count }}
+                                Manufacturers)</span>
+                        </h2>
+                    </div>
+                    <a href="#"
+                        class="btn btn-link text-accent small fw-800 text-decoration-none p-0 pb-1 border-bottom border-accent border-opacity-25">View
+                        All ›</a>
                 </div>
-                <div class="brand-grid shadow-sm">
-                    <div class="brand-item">
-                        <div class="brand-logo-placeholder">T</div><span>Tata</span>
+                <div class="brand-grid shadow-lg">
+                    {% for brand in brands %}
+                    <div class="brand-item" onclick="window.location.href='?brand={{ brand.name }}'">
+                        {% if brand.logo %}
+                        <img src="{{ brand.logo.url }}" class="brand-logo-placeholder p-2" style="object-fit: contain;">
+                        {% else %}
+                        <div class="brand-logo-placeholder">{{ brand.name|slice:":1" }}</div>
+                        {% endif %}
+                        <span>{{ brand.name }}</span>
                     </div>
-                    <div class="brand-item">
-                        <div class="brand-logo-placeholder">M</div><span>Maruti Suzuki</span>
-                    </div>
-                    <div class="brand-item">
-                        <div class="brand-logo-placeholder">M</div><span>Mahindra</span>
-                    </div>
-                    <div class="brand-item">
-                        <div class="brand-logo-placeholder">H</div><span>Hyundai</span>
-                    </div>
-                    <div class="brand-item">
-                        <div class="brand-logo-placeholder">N</div><span>Nissan</span>
-                    </div>
-                    <div class="brand-item">
-                        <div class="brand-logo-placeholder">T</div><span>Toyota</span>
-                    </div>
-                    <div class="brand-item">
-                        <div class="brand-logo-placeholder">K</div><span>Kia</span>
-                    </div>
-                    <div class="brand-item">
-                        <div class="brand-logo-placeholder">S</div><span>Skoda</span>
-                    </div>
-                    <div class="brand-item">
-                        <div class="brand-logo-placeholder">B</div><span>BMW</span>
-                    </div>
-                    <div class="brand-item">
-                        <div class="brand-logo-placeholder">R</div><span>Renault</span>
-                    </div>
-                    <div class="brand-item">
-                        <div class="brand-logo-placeholder">M</div><span>MG</span>
-                    </div>
-                    <div class="brand-item">
-                        <div class="brand-logo-placeholder">V</div><span>Volkswagen</span>
-                    </div>
+                    {% empty %}
+                    <div class="p-4 text-center w-100 text-muted small">No brands added in admin.</div>
+                    {% endfor %}
                 </div>
             </section>
 
@@ -60,20 +45,101 @@
                     style="background: var(--bg-card); border-radius: 20px; border: 1px solid var(--glass-border);">
                     <h4 class="fw-800 mb-4" style="font-size: 1.3rem;">Find The Cars Of Your Choice</h4>
                     <ul class="nav nav-tabs border-0 mb-4 gap-4" id="discoveryTabs">
-                        <li class="nav-item"><a class="nav-link active p-0 fw-800 text-uppercase small"
+                        <li class="nav-item"><a class="nav-link active p-0 fw-800 text-uppercase smallest"
                                 data-bs-toggle="tab" href="#budget">Budget</a></li>
-                        <li class="nav-item"><a class="nav-link p-0 fw-800 text-uppercase small text-muted"
+                        <li class="nav-item"><a class="nav-link p-0 fw-800 text-uppercase smallest text-muted"
                                 data-bs-toggle="tab" href="#bodyType">Body Type</a></li>
+                        <li class="nav-item"><a class="nav-link p-0 fw-800 text-uppercase smallest text-muted"
+                                data-bs-toggle="tab" href="#fuelType">Fuel Type</a></li>
+                        <li class="nav-item"><a class="nav-link p-0 fw-800 text-uppercase smallest text-muted"
+                                data-bs-toggle="tab" href="#transmission">Transmission</a></li>
+                        <li class="nav-item"><a class="nav-link p-0 fw-800 text-uppercase smallest text-muted"
+                                data-bs-toggle="tab" href="#seating">Seating</a></li>
+                        <li class="nav-item"><a class="nav-link p-0 fw-800 text-uppercase smallest text-muted"
+                                data-bs-toggle="tab" href="#popular">Popular</a></li>
                     </ul>
-                    <div class="tab-content">
-                        <div class="pill-cloud d-flex flex-wrap gap-2">
-                            <div class="pill-item">Under 5 Lakh</div>
-                            <div class="pill-item">Under 10 Lakh</div>
-                            <div class="pill-item">Under 15 Lakh</div>
-                            <div class="pill-item">Under 20 Lakh</div>
-                            <div class="pill-item">Under 30 Lakh</div>
-                            <div class="pill-item">Under 50 Lakh</div>
-                            <div class="pill-item">Luxury Cars</div>
+                    <div class="tab-content" id="discoveryTabContent">
+                        <!-- Budget Tab -->
+                        <div class="tab-pane fade show active" id="budget">
+                            <p class="smallest text-muted mb-3"><i class="bi bi-info-circle me-1"></i> Quick Tip: Most
+                                buyers in India opt for the 5-10 Lakh range for city commutes.</p>
+                            <div class="pill-cloud d-flex flex-wrap gap-2">
+                                {% for pill in budget_pills %}
+                                <div class="pill-item" onclick="window.location.href='?filter={{ pill.filter_value }}'">
+                                    {{ pill.label }}</div>
+                                {% empty %}
+                                <div class="smallest text-muted opacity-50">Manage budget filters in admin.</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!-- Body Type Tab -->
+                        <div class="tab-pane fade" id="bodyType">
+                            <p class="smallest text-muted mb-3"><i class="bi bi-info-circle me-1"></i> Trend: SUVs
+                                currently dominate 50% of the new car market.</p>
+                            <div class="pill-cloud d-flex flex-wrap gap-2">
+                                {% for pill in body_pills %}
+                                <div class="pill-item" onclick="window.location.href='?filter={{ pill.filter_value }}'">
+                                    {{ pill.label }}</div>
+                                {% empty %}
+                                <div class="smallest text-muted opacity-50">Manage body type filters in admin.</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!-- Fuel Type Tab -->
+                        <div class="tab-pane fade" id="fuelType">
+                            <p class="smallest text-muted mb-3"><i class="bi bi-info-circle me-1"></i> Insight: Electric
+                                vehicles (EVs) offer the lowest running cost per km.</p>
+                            <div class="pill-cloud d-flex flex-wrap gap-2">
+                                {% for pill in fuel_pills %}
+                                <div class="pill-item" onclick="window.location.href='?fuel={{ pill.filter_value }}'">{{
+                                    pill.label }}</div>
+                                {% empty %}
+                                <div class="smallest text-muted opacity-50">Manage fuel filters in admin.</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!-- Transmission Tab -->
+                        <div class="tab-pane fade" id="transmission">
+                            <p class="smallest text-muted mb-3"><i class="bi bi-info-circle me-1"></i> Choice: Automatic
+                                is preferred for heavy traffic, Manual for performance enthusiasts.</p>
+                            <div class="pill-cloud d-flex flex-wrap gap-2">
+                                {% for pill in transmission_pills %}
+                                <div class="pill-item"
+                                    onclick="window.location.href='?transmission={{ pill.filter_value }}'">{{ pill.label
+                                    }}</div>
+                                {% empty %}
+                                <div class="smallest text-muted opacity-50">Manage transmission filters in admin.</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!-- Seating Tab -->
+                        <div class="tab-pane fade" id="seating">
+                            <p class="smallest text-muted mb-3"><i class="bi bi-info-circle me-1"></i> Advice: 7-Seaters
+                                are ideal for large families and luxury long-distance travel.</p>
+                            <div class="pill-cloud d-flex flex-wrap gap-2">
+                                {% for pill in seating_pills %}
+                                <div class="pill-item"
+                                    onclick="window.location.href='?seating={{ pill.filter_value }}'">{{ pill.label }}
+                                </div>
+                                {% empty %}
+                                <div class="smallest text-muted opacity-50">Manage seating filters in admin.</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!-- Popular Tab -->
+                        <div class="tab-pane fade" id="popular">
+                            <p class="smallest text-muted mb-3"><i class="bi bi-info-circle me-1"></i> Hot Now: These
+                                are the most searched categories this week.</p>
+                            <div class="pill-cloud d-flex flex-wrap gap-2">
+                                {% for pill in popular_pills %}
+                                <div class="pill-item bg-warning-subtle border-warning-subtle text-dark"
+                                    onclick="window.location.href='?q={{ pill.filter_value }}'">
+                                    <span class="me-1">🔥</span>{{ pill.label }}
+                                </div>
+                                {% empty %}
+                                <div class="smallest text-muted opacity-50">Manage popular searches in admin.</div>
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -82,17 +148,18 @@
             <!-- Featured section (CarWale Style Cards) -->
             <section class="featured-cars-section mb-5">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2 class="fw-800 m-0" style="font-size: 1.5rem;">Featured Cars</h2>
+                    <h2 class="fw-800 m-0 text-white" style="font-size: 1.5rem;">Featured Cars</h2>
                     <div class="featured-tabs d-flex gap-4">
                         <span class="text-accent fw-800 border-bottom border-accent pb-1"
                             style="cursor: pointer;">Trending</span>
-                        <span class="text-muted fw-800" style="cursor: pointer;">Upcoming</span>
+                        <a href="{% url 'cars:upcoming_cars' %}"
+                            class="text-muted fw-800 text-decoration-none">Upcoming</a>
                     </div>
                 </div>
                 <div class="row g-4">
                     {% for car in cars|slice:":3" %}
                     <div class="col-md-4">
-                        <div class="portal-car-card bg-white rounded-4 overflow-hidden shadow-sm"
+                        <div class="portal-car-card bg-white rounded-4 overflow-hidden shadow-sm border border-light"
                             style="color: #1f2937;">
                             <div class="img-container position-relative" style="height: 160px;">
                                 {% if car.car_image %}
@@ -117,7 +184,7 @@
 
             <!-- Multimedia Gallery: Expert Reviews & Videos -->
             <section class="portal-videos mb-5">
-                <h2 class="fw-800 mb-4" style="font-size: 1.5rem;">Expert Reviews & Videos</h2>
+                <h2 class="fw-800 mb-4 text-white" style="font-size: 1.5rem;">Expert Reviews & Videos</h2>
                 <div class="row g-3">
                     {% for i in "123456" %}
                     <div class="col-md-4">
@@ -138,56 +205,16 @@
         </div>
 
         <!-- Right Column: Buyer's Toolbox -->
-        <aside class="col-lg-3">
-            <div class="sticky-top" style="top: 100px;">
-                <div class="tool-card p-4 mb-4 shadow-sm"
-                    style="background: white; border-radius: 24px; color: #1f2937;">
-                    <h5 class="fw-800 mb-4">Car Buyer's Tools</h5>
-                    <div class="tool-item d-flex align-items-center gap-3 mb-4 py-2 border-bottom border-light">
-                        <div class="tool-icon">📍</div>
-                        <div>
-                            <div class="fw-800 small">Locate Dealer</div>
-                            <div class="text-muted smallest">Find showrooms near you</div>
-                        </div>
-                    </div>
-                    <div class="tool-item d-flex align-items-center gap-3 mb-4 py-2 border-bottom border-light">
-                        <div class="tool-icon">💰</div>
-                        <div>
-                            <div class="fw-800 small">Instant Car Loan</div>
-                            <div class="text-muted smallest">Best ROI within minutes</div>
-                        </div>
-                    </div>
-                    <div class="tool-item d-flex align-items-center gap-3 py-2">
-                        <div class="tool-icon">🚗</div>
-                        <div>
-                            <div class="fw-800 small">Used Cars</div>
-                            <div class="text-muted smallest">Best priced certified cars</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="ad-banner-side p-4 rounded-4 text-white text-center shadow-lg"
-                    style="background: linear-gradient(135deg, #1e40af, #1e3a8a); min-height: 400px; display: flex; flex-direction: column; justify-content: center;">
-                    <div class="h1 mb-4">Epic journeys. <br>Epic benefits.</div>
-                    <p class="opacity-75 small mb-5">Now enjoy epic peace of mind with 5-year extended warranty.</p>
-                    <div class="mt-auto">
-                        <div class="fw-900 display-6">₹ 1 80 000*</div>
-                        <div class="smallest opacity-50">BENEFITS UP TO</div>
-                        <button class="btn btn-light rounded-pill w-100 mt-4 fw-800 py-3">Explore Now</button>
-                    </div>
-                </div>
-            </div>
-        </aside>
     </div>
 
     <!-- Upcoming Vehicles Vertical Showcase -->
     <section class="upcoming-showcase py-5" style="border-top: 1px solid var(--glass-border);">
-        <h2 class="fw-800 mb-4" style="font-size: 1.5rem;">Upcoming Cars in India 2026</h2>
+        <h2 class="fw-800 mb-4 text-white" style="font-size: 1.5rem;">Upcoming Cars in India 2026</h2>
         <div class="row g-4">
             <div class="col-lg-8">
                 {% for car in cars %}
                 <div
-                    class="upcoming-list-item bg-white p-3 rounded-4 mb-3 d-flex gap-4 shadow-sm text-dark align-items-center">
+                    class="upcoming-list-item bg-white p-3 rounded-4 mb-3 d-flex gap-4 shadow-sm text-dark align-items-center border border-light">
                     <div class="upcoming-img rounded-3 overflow-hidden"
                         style="width: 140px; height: 90px; flex-shrink: 0;">
                         {% if car.car_image %}
@@ -197,7 +224,8 @@
                     <div class="flex-grow-1">
                         <div class="badge bg-warning-subtle text-warning smallest fw-800 mb-2"
                             style="color: #854d0e !important;">Unveiled: 26 Feb</div>
-                        <h5 class="fw-800 mb-1">{{ car.brand }} {{ car.model }} ›</h5>
+                        <h5 class="fw-800 mb-1"><a href="{% url 'cars:car_detail' car.vin %}"
+                                class="text-dark text-decoration-none">{{ car.brand }} {{ car.model }} ›</a></h5>
                         <div class="fw-800 small">₹{{ car.price }} <span class="text-muted smallest fw-500">Estimated
                                 Price</span></div>
                     </div>
@@ -208,8 +236,8 @@
                 {% endfor %}
             </div>
             <div class="col-lg-4">
-                <div class="newsletter-card p-4 rounded-4 shadow-sm"
-                    style="background: #f8fafc; border: 1px solid #e2e8f0; color: #1f2937;">
+                <div class="newsletter-card p-4 rounded-4 shadow-lg"
+                    style="background: #ffffff; border: 1px solid #e2e8f0; color: #1f2937;">
                     <div class="icon h2 mb-3">🔔</div>
                     <h5 class="fw-800 mb-2">Never miss an update</h5>
                     <p class="text-muted small mb-4">Receive latest updates from Vehicle Vault direct to your inbox.</p>
@@ -224,113 +252,267 @@
 </div>
 
 <style>
-    /* Brand & Tab Overrides */
+    /* Premium Portal Layout */
+    .portal-container {
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+    }
+
+    /* Brand Grid Optimization */
     .brand-grid {
         display: grid;
         grid-template-columns: repeat(6, 1fr);
         background: white;
-        border-radius: 16px;
+        border-radius: 20px;
         overflow: hidden;
         border: 1px solid #e5e7eb;
+        transition: transform 0.3s ease;
     }
 
     .brand-item {
-        padding: 20px;
+        padding: 24px;
         display: flex;
         flex-direction: column;
         align-items: center;
         border: 0.5px solid #f3f4f6;
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: all 0.25s ease;
     }
 
     .brand-item:hover {
-        background: #f9fafb;
+        background: #f8fafc;
+        transform: translateY(-2px);
+        box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.02);
+    }
+
+    .brand-item span {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #1e293b;
+        /* Premium slate for white background */
+        margin-top: 4px;
+        transition: all 0.3s ease;
+        letter-spacing: -0.2px;
+    }
+
+    .brand-item:hover span {
+        color: #1e40af;
     }
 
     .brand-logo-placeholder {
-        width: 44px;
-        height: 44px;
-        background: #eff6ff;
-        border-radius: 50%;
-        margin-bottom: 10px;
+        width: 48px;
+        height: 48px;
+        background: #f1f5f9;
+        border-radius: 14px;
+        margin-bottom: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
         font-weight: 900;
         color: #1e40af;
+        transition: all 0.3s ease;
     }
 
-    .brand-item span {
-        font-size: 0.8rem;
-        font-weight: 700;
-        color: #4b5563;
+    .brand-item:hover .brand-logo-placeholder {
+        background: #1e40af;
+        color: white;
+        transform: rotate(-5deg);
+    }
+
+    /* Discovery Pills - Responsive Horizontal Scroll */
+    .pill-cloud {
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;
+        padding-bottom: 5px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .pill-cloud::-webkit-scrollbar {
+        display: none;
     }
 
     .pill-item {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        color: #f3f4f6;
-        padding: 8px 18px;
+        background: #f1f5f9;
+        border: 1px solid #e2e8f0;
+        color: #475569;
+        padding: 10px 22px;
         border-radius: 30px;
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         font-weight: 700;
         cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.2s ease;
     }
 
     .pill-item:hover {
-        background: var(--accent);
-        color: #020617;
+        background: #1e40af;
+        color: white;
+        border-color: #1e40af;
+    }
+
+    /* Multimedia & Video */
+    .video-card {
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .video-card:hover {
+        transform: scale(1.02);
+        z-index: 10;
     }
 
     .video-card:hover .play-btn-overlay {
-        transform: scale(1.1);
+        transform: translate(-50%, -50%) scale(1.2);
         background: var(--accent);
         color: #020617;
     }
 
     .play-btn-overlay {
-        width: 50px;
-        height: 50px;
-        background: rgba(255, 255, 255, 0.2);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 54px;
+        height: 54px;
+        background: rgba(255, 255, 255, 0.15);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.2rem;
+        font-size: 1.3rem;
         transition: all 0.3s ease;
-        backdrop-filter: blur(5px);
+        backdrop-filter: blur(8px);
+        color: white;
     }
 
+    /* Utility Tools */
     .tool-icon {
-        width: 40px;
-        height: 40px;
+        width: 44px;
+        height: 44px;
         background: #f1f5f9;
         border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.2rem;
+        font-size: 1.3rem;
+        transition: all 0.3s ease;
     }
 
-    @media (max-width: 992px) {
+    .tool-item:hover .tool-icon {
+        background: #1e40af;
+        color: white;
+        transform: scale(1.1);
+    }
+
+    /* Upcoming Car Items - Responsive */
+    .upcoming-list-item {
+        transition: all 0.3s ease;
+        border: 1px solid transparent;
+    }
+
+    .upcoming-list-item:hover {
+        border-color: rgba(30, 64, 175, 0.2);
+        background: #f8fafc !important;
+        transform: translateX(10px);
+    }
+
+    /* Media Queries for Elite Responsiveness */
+    @media (max-width: 1200px) {
         .brand-grid {
             grid-template-columns: repeat(4, 1fr);
         }
     }
 
-    @media (max-width: 576px) {
+    @media (max-width: 992px) {
+        .portal-container {
+            padding: 0 1rem;
+        }
+
+        .col-lg-9 {
+            order: 1;
+        }
+
+        .col-lg-3 {
+            order: 2;
+            margin-top: 2rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .brand-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .upcoming-list-item {
+            flex-direction: column;
+            text-align: center;
+            padding: 1.5rem !important;
+        }
+
+        .upcoming-img {
+            width: 100% !important;
+            height: 180px !important;
+            margin-bottom: 1rem;
+        }
+
+        .upcoming-list-item .text-end {
+            text-align: center !important;
+            width: 100%;
+            margin-top: 1rem;
+        }
+    }
+
+    @media (max-width: 480px) {
         .brand-grid {
             grid-template-columns: repeat(2, 1fr);
         }
+
+        .brand-item {
+            padding: 15px;
+        }
+
+        .brand-logo-placeholder {
+            width: 38px;
+            height: 38px;
+            font-size: 0.9rem;
+        }
+    }
+
+    /* Discovery Tabs Polishing */
+    #discoveryTabs .nav-link {
+        border: none;
+        color: #64748b;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    #discoveryTabs .nav-link.active {
+        color: #1e40af !important;
+        background: transparent !important;
+    }
+
+    #discoveryTabs .nav-link.active::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: #1e40af;
+        border-radius: 10px;
+    }
+
+    .smallest {
+        font-size: 0.72rem;
+    }
+
+    .fw-800 {
+        font-weight: 800;
     }
 
     .fw-900 {
         font-weight: 900;
-    }
-
-    .border-accent {
-        border-color: var(--accent) !important;
     }
 </style>
 

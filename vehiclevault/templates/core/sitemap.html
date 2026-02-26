@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Sitemap | Vehicle Vault{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="glass-card p-5 rounded-4 shadow-lg text-white"
+        style="background: var(--bg-card); border: 1px solid var(--glass-border);">
+        <h1 class="display-5 fw-900 mb-5">Vault Sitemap</h1>
+        <div class="row g-5">
+            <div class="col-md-4">
+                <h5 class="fw-800 mb-4 border-bottom border-light border-opacity-10 pb-2">Main Navigation</h5>
+                <ul class="list-unstyled opacity-75">
+                    <li class="mb-3"><a href="{% url 'cars:home' %}" class="text-white text-decoration-none">Home
+                            Showcase</a></li>
+                    <li class="mb-3"><a href="{% url 'cars:all_cars' %}" class="text-white text-decoration-none">Elite
+                            Inventory</a></li>
+                    <li class="mb-3"><a href="{% url 'cars:compare_cars' %}"
+                            class="text-white text-decoration-none">Comparison Engine</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5 class="fw-800 mb-4 border-bottom border-light border-opacity-10 pb-2">Vault Services</h5>
+                <ul class="list-unstyled opacity-75">
+                    <li class="mb-3"><a href="{% url 'core:car_loan' %}" class="text-white text-decoration-none">Car
+                            Financing</a></li>
+                    <li class="mb-3"><a href="{% url 'core:car_insurance' %}"
+                            class="text-white text-decoration-none">Elite Insurance</a></li>
+                    <li class="mb-3"><a href="{% url 'core:car_valuation' %}"
+                            class="text-white text-decoration-none">Car Valuation</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5 class="fw-800 mb-4 border-bottom border-light border-opacity-10 pb-2">Company</h5>
+                <ul class="list-unstyled opacity-75">
+                    <li class="mb-3"><a href="{% url 'core:about' %}" class="text-white text-decoration-none">About the
+                            Brand</a></li>
+                    <li class="mb-3"><a href="{% url 'core:privacy' %}" class="text-white text-decoration-none">Privacy
+                            & Data</a></li>
+                    <li class="mb-3"><a href="{% url 'core:terms' %}" class="text-white text-decoration-none">Legal
+                            Terms</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
