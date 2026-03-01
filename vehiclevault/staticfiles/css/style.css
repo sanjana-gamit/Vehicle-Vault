@@ -1,0 +1,475 @@
+/* ===============================
+   GLOBAL TOKENS & RESET
+================================ */
+:root {
+    --primary: #0ea5e9;
+    --primary-dark: #0369a1;
+    --accent: #38bdf8;
+    --bg-dark: #050816;
+    --bg-card: #0a0f25;
+    --bg-gradient: linear-gradient(rgba(5, 8, 22, 0.9), rgba(10, 15, 37, 0.98)), url('../images/bg_main.png');
+    --text-main: #ffffff;
+    --text-muted: #cbd5e1;
+    /* Max contrast bright slate */
+    --glass-bg: rgba(15, 23, 42, 0.75);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--bg-gradient) fixed;
+    color: var(--text-main);
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* ===============================
+   HIGH CONTRAST OVERRIDES
+=============================== */
+.text-muted,
+.text-secondary {
+    color: var(--text-muted) !important;
+}
+
+.text-white-50 {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.small.text-muted,
+.smallest.text-muted {
+    color: #f1f5f9 !important;
+    opacity: 1 !important;
+}
+
+/* ===============================
+   HERO SECTION
+================================ */
+.hero {
+    position: relative;
+    width: 100%;
+    height: 90vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* HERO TEXT */
+.hero-text {
+    position: absolute;
+    z-index: 10;
+    text-align: left;
+    max-width: 520px;
+    left: 8%;
+    color: #fff;
+}
+
+.hero-text h1 {
+    font-size: 52px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 15px;
+}
+
+.hero-text p {
+    font-size: 18px;
+    color: var(--text-muted);
+    /* Fixed from dark blue */
+    margin-bottom: 25px;
+}
+
+/* HERO BUTTON */
+.hero-btn {
+    display: inline-block;
+    padding: 14px 32px;
+    border-radius: 30px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    color: var(--bg-dark);
+    font-weight: 700;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.hero-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(56, 189, 248, 0.3);
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(2, 6, 23, 0.3), rgba(2, 6, 23, 0.8));
+    z-index: 1;
+}
+
+.hero-text {
+    z-index: 2;
+}
+
+/* ===============================
+   CAROUSEL
+================================ */
+.carousel,
+.carousel-inner,
+.carousel-item,
+.carousel-item img {
+    height: 100%;
+}
+
+.carousel-item img {
+    object-fit: cover;
+    filter: brightness(60%);
+}
+
+.hero .carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* 🔥 KEY LINE */
+}
+
+/* Fade effect enhancement */
+.carousel-fade .carousel-item {
+    transition: opacity 1s ease-in-out;
+}
+
+/* ===============================
+   FEATURES SECTION
+================================ */
+.features {
+    background: var(--bg-dark);
+    padding: 80px 60px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.feature-card {
+    background: var(--bg-card);
+    padding: 35px;
+    border-radius: 24px;
+    text-align: left;
+    transition: var(--transition);
+    border: 1px solid var(--glass-border);
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--primary);
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.feature-card h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--accent);
+}
+
+.feature-card p {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* Hover Effect */
+.feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+    border-color: rgba(56, 189, 248, 0.3);
+}
+
+.feature-card:hover::before {
+    opacity: 1;
+}
+
+/* ===============================
+   CAR GRID & CARDS
+================================ */
+.cars-page {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 50px 40px;
+}
+
+.car-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.car-card {
+    background: var(--bg-card);
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+    transition: var(--transition);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.car-card:hover {
+    transform: translateY(-10px);
+    border-color: rgba(56, 189, 248, 0.4);
+    box-shadow: var(--shadow-lg);
+}
+
+.car-card .img-container {
+    height: 220px;
+    overflow: hidden;
+    position: relative;
+    background: #0b1120;
+    /* Deep dark background for uncropped images */
+}
+
+.car-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* changed to ensure full image is visible */
+    transition: transform 0.6s ease;
+}
+
+.car-card:hover img {
+    transform: scale(1.1);
+}
+
+.car-info {
+    padding: 24px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.car-card h3 {
+    font-size: 1.3rem;
+    /* Scaled down for mobile */
+    font-weight: 800;
+    margin-bottom: 8px;
+    color: var(--text-main);
+    line-height: 1.2;
+}
+
+.car-card .price {
+    font-size: 1.5rem;
+    /* Scaled down for mobile */
+    font-weight: 800;
+    color: var(--accent);
+    margin-bottom: 20px;
+}
+
+@media (min-width: 768px) {
+    .car-card h3 {
+        font-size: 1.6rem;
+    }
+
+    .car-card .price {
+        font-size: 1.8rem;
+    }
+}
+
+
+.card-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 12px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    color: var(--bg-dark);
+    border-radius: 14px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: var(--transition);
+    margin-top: auto;
+}
+
+.card-btn:hover {
+    filter: brightness(1.1);
+    transform: scale(1.02);
+}
+
+/* ===============================
+   DASHBOARD & COMMON SECTIONS
+================================ */
+.dashboard-container {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 40px;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section-header h2 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 10px;
+}
+
+.section-header p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+.dashboard-card {
+    background: var(--bg-card);
+    padding: 40px;
+    border-radius: 28px;
+    border: 1px solid var(--glass-border);
+    text-align: center;
+    transition: var(--transition);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--accent);
+    box-shadow: var(--shadow-lg);
+}
+
+.card-icon {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.dashboard-card h4 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.dashboard-card p {
+    color: var(--text-muted);
+    margin-bottom: 25px;
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+@media (max-width: 992px) {
+    .hero-text {
+        left: 6%;
+        max-width: 420px;
+    }
+
+    .hero-text h1 {
+        font-size: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero {
+        height: 80vh;
+    }
+
+    .hero-text {
+        position: absolute;
+        left: 5%;
+        right: 5%;
+        text-align: center;
+    }
+
+    .hero-text h1 {
+        font-size: 34px;
+    }
+
+    .features {
+        padding: 60px 25px;
+    }
+
+    .dashboard-container {
+        padding: 0 15px;
+        margin: 30px auto;
+    }
+
+    .section-header h2 {
+        font-size: 2rem;
+    }
+
+    .car-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (min-width: 1600px) {
+    .hero {
+        height: 85vh;
+    }
+
+    .hero-text h1 {
+        font-size: 64px;
+    }
+}
+
+@media (max-width: 1599px) {
+    .hero-text h1 {
+        font-size: 54px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .hero {
+        height: 75vh;
+    }
+
+    .hero-text {
+        left: 5%;
+    }
+
+    .hero-text h1 {
+        font-size: 42px;
+    }
+
+    .car-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        height: 55vh;
+    }
+
+    .hero-text h1 {
+        font-size: 26px;
+    }
+
+    .hero-text p {
+        font-size: 14px;
+    }
+
+    .cars-page {
+        padding: 30px 15px;
+    }
+}

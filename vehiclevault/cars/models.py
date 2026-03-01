@@ -188,10 +188,15 @@ class Car(models.Model):
     is_available = models.BooleanField(default=True)
 
     car_image = models.ImageField(upload_to="cars/", blank=True, null=True)
+    is_upcoming = models.BooleanField(default=False)
+    is_electric = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
         self.is_available = self.stock > 0
+        if self.fuel_type in ["Electric", "EV"]:
+            self.is_electric = True
+        
         if not self.slug:
             self.slug = slugify(f"{self.brand}-{self.model}-{self.launch_year}")
         super().save(*args, **kwargs)

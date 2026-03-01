@@ -236,7 +236,24 @@
 <!-- Hero Title Section -->
 <section class="hero-section">
     <div class="container text-center">
-        <div class="car-subtitle">{{ car.launch_year }} MODEL {{ car.category.name|default:"" }}</div>
+        <div class="car-subtitle mb-2">{{ car.launch_year }} MODEL {{ car.category.name|default:"" }}</div>
+
+        <div class="d-flex justify-content-center gap-3 mb-3">
+            {% if car.is_upcoming %}
+            <span class="badge rounded-pill bg-warning text-dark px-3 py-2 fw-bold"
+                style="letter-spacing: 1px; font-size: 0.85rem;">
+                <i class="fas fa-clock me-1"></i> UPCOMING PREVIEW
+            </span>
+            {% endif %}
+
+            {% if car.is_electric %}
+            <span class="badge rounded-pill bg-info text-dark px-3 py-2 fw-bold"
+                style="letter-spacing: 1px; font-size: 0.85rem;">
+                <i class="fas fa-bolt me-1"></i> ELECTRIC VEHICLE
+            </span>
+            {% endif %}
+        </div>
+
         <h1 class="car-title">{{ car.brand }} {{ car.model }}</h1>
     </div>
 </section>

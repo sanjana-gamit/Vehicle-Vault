@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-
+from django.core.mail import send_mail
+from django.conf import settings
 from .forms import UserLoginForm, UserSignupForm 
-from cars.models import User, Buyer, Seller 
+from cars.models import User, Buyer, Seller, Car 
 from django.shortcuts import get_object_or_404
 
 def admin_required(view_func):
@@ -52,6 +53,30 @@ def UserSignupView(request):
     if request.method == "POST":
         form = UserSignupForm(request.POST)
         if form.is_valid():
+            email_address = form.cleaned_data["email"]
+            
+            from django.core.mail import EmailMessage
+            import os
+            
+            email_msg = EmailMessage(
+                subject="Welcome to Vehicle Vault",
+                body="Thank you for creating an account with Vehicle Vault! Please find the welcome guide attached.",
+                from_email=settings.EMAIL_HOST_USER,
+                to=[email_address],
+            )
+            
+            # Attach PDF if it exists
+            pdf_path = os.path.join(settings.MEDIA_ROOT, 'documents', 'welcome_guide.pdf')
+            if os.path.exists(pdf_path):
+                email_msg.attach_file(pdf_path)
+                
+            # Attach Image if it exists
+            image_path = os.path.join(settings.MEDIA_ROOT, 'documents', 'Vehicle Vault.png')
+            if os.path.exists(image_path):
+                email_msg.attach_file(image_path)
+                
+            email_msg.send(fail_silently=False)
+            
             user = form.save(commit=False)
             user.set_password(form.cleaned_data["password"])
             user.save()
@@ -145,7 +170,8 @@ def admin_dashboard(request):
     if request.user.role != "Admin":
         messages.error(request, "Access Denied: Admins Only")
         return redirect("cars:home")
-    return render(request, "core/admin_dashboard.html")
+    cars = Car.objects.all().order_by("-created_at")
+    return render(request, "core/admin_dashboard.html", {"cars": cars})
 
 @login_required
 def seller_dashboard(request):

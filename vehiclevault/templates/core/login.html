@@ -7,7 +7,8 @@
 <style>
     /* Professional Login Page Styles */
     body {
-        background: var(--bg-gradient) fixed;
+        background: url('{% static "images/bg2.jpg" %}') no-repeat center center fixed;
+        background-size: cover;
     }
 
     .login-container {
@@ -90,6 +91,18 @@
         background-color: rgba(255, 255, 255, 0.08);
         box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15);
         color: #fff;
+    }
+
+    .login-form-side select.form-select option {
+        color: #000;
+        background-color: #fff;
+    }
+
+    .login-form-side input.form-control::placeholder {
+        color: #acbbc9;
+        /* Visible light-slate gray */
+        opacity: 1;
+        /* Override Firefox's default opacity */
     }
 
     .btn-login {

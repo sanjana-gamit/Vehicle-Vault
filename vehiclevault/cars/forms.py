@@ -69,6 +69,8 @@ class CarForm(forms.ModelForm):
             "launch_year": forms.NumberInput(attrs={"class": "form-control"}),
             "stock": forms.NumberInput(attrs={"class": "form-control"}),
             "car_image": forms.ClearableFileInput(attrs={"class": "form-control"}),
+            "is_upcoming": forms.CheckboxInput(attrs={"class": "form-check-input mt-0"}),
+            "is_electric": forms.CheckboxInput(attrs={"class": "form-check-input mt-0"}),
         }
 
     def clean_vin(self):

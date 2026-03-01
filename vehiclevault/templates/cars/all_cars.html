@@ -94,13 +94,30 @@
                                 style="height: 180px; background: #0b1120;">
                                 {% if car.car_image %}
                                 <img src="{{ car.car_image.url }}" class="w-100 h-100" style="object-fit: contain;">
+                                {% elif car.brand == 'BMW' or car.brand == 'Audi' or car.brand == 'Mercedes' or
+                                car.brand == 'Kia' or car.brand == 'MG' or car.brand == 'Mahindra' or car.brand ==
+                                'Nissan' or car.brand == 'Tata' or car.brand == 'Honda' %}
+                                <img src="{% static 'images/'|add:car.brand|add:'.jpg' %}" class="w-100 h-100"
+                                    style="object-fit: contain;">
                                 {% else %}
                                 <img src="{% static 'images/placeholder-car.jpg' %}" class="w-100 h-100"
                                     style="object-fit: contain; filter: brightness(0.8);">
                                 {% endif %}
-                                <div class="position-absolute top-0 start-0 m-2 tag-new py-1 px-3 text-white smallest fw-900 rounded-pill shadow-sm"
-                                    style="background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.1);">
-                                    VAULT VERIFIED</div>
+                                <div class="position-absolute top-0 start-0 m-2 d-flex flex-column gap-1">
+                                    <div class="tag-new py-1 px-3 text-white smallest fw-900 rounded-pill shadow-sm d-inline-block"
+                                        style="background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.1); width: fit-content;">
+                                        VAULT VERIFIED</div>
+                                    {% if car.is_upcoming %}
+                                    <div class="tag-new py-1 px-3 text-dark smallest fw-900 rounded-pill shadow-sm bg-warning d-inline-block"
+                                        style="width: fit-content;">
+                                        UPCOMING</div>
+                                    {% endif %}
+                                    {% if car.is_electric %}
+                                    <div class="tag-new py-1 px-3 text-dark smallest fw-900 rounded-pill shadow-sm bg-info d-inline-block"
+                                        style="width: fit-content;">
+                                        ELECTRIC</div>
+                                    {% endif %}
+                                </div>
                             </div>
                             <div class="p-3">
                                 <h6 class="fw-800 mb-1 text-white">{{ car.brand }} {{ car.model }}</h6>
@@ -157,6 +174,11 @@
                         style="width: 140px; height: 90px; flex-shrink: 0; border: 1px solid var(--glass-border); background: #0b1120;">
                         {% if car.car_image %}
                         <img src="{{ car.car_image.url }}" class="w-100 h-100" style="object-fit: contain;">
+                        {% elif car.brand == 'BMW' or car.brand == 'Audi' or car.brand == 'Mercedes' or car.brand ==
+                        'Kia' or car.brand == 'MG' or car.brand == 'Mahindra' or car.brand == 'Nissan' or car.brand ==
+                        'Tata' or car.brand == 'Honda' %}
+                        <img src="{% static 'images/'|add:car.brand|add:'.jpg' %}" class="w-100 h-100"
+                            style="object-fit: contain;">
                         {% else %}
                         <img src="{% static 'images/placeholder-car.jpg' %}" class="w-100 h-100"
                             style="object-fit: contain; filter: brightness(0.8);">

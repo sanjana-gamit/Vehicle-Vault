@@ -7,9 +7,9 @@
                 class="text-decoration-none smallest fw-700 text-white-50 hover-text-accent transition-all">
                 <i class="fas fa-phone-alt text-accent me-2"></i>+91 9876543210
             </a>
-            <a href="mailto:concierge@vehiclevault.com"
+            <a href="mailto:vehiclevault11@gmail.com"
                 class="text-decoration-none smallest fw-700 text-white-50 hover-text-accent transition-all">
-                <i class="fas fa-envelope text-accent me-2"></i>concierge@vehiclevault.com
+                <i class="fas fa-envelope text-accent me-2"></i>vehiclevault11@gmail.com
             </a>
         </div>
         <div class="top-bar-right d-flex gap-4 d-none d-md-flex">
@@ -74,7 +74,11 @@
         </li>
 
         <!-- News & Test Drives -->
+        {% if user.is_authenticated %}
+        {% if user.role == "Admin" or user.role == "Seller" %}
         <li><a href="{% url 'cars:inventory' %}">Inventory</a></li>
+        {% endif %}
+        {% endif %}
         <li><a href="{% url 'cars:test_drives' %}">Test Drives</a></li>
 
         <!-- More Dropdown -->

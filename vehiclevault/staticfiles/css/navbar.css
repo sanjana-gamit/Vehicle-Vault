@@ -1,0 +1,265 @@
+/* ===============================
+   TOP BAR
+================================ */
+.top-bar {
+    height: 38px;
+    background: rgba(2, 6, 23, 0.9);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    z-index: 1001;
+    position: relative;
+}
+
+.hover-text-accent:hover {
+    color: var(--accent) !important;
+}
+
+.tracking-widest {
+    letter-spacing: 2px;
+}
+
+/* ===============================
+   NAVBAR BASE
+================================ */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 60px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.4s ease;
+}
+
+.navbar.scrolled {
+    background: rgba(2, 6, 23, 0.95);
+    padding: 10px 60px;
+}
+
+/* ===============================
+   LOGO
+================================ */
+.logo a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+}
+
+.logo img {
+    width: 38px;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.logo a:hover img {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.logo span {
+    letter-spacing: 0.5px;
+}
+
+/* ===============================
+   NAV LINKS
+================================ */
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.nav-links li {
+    position: relative;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+    font-size: 15px;
+    padding: 8px 10px;
+    transition: all 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #38bdf8;
+}
+
+/* Buttons for dropdowns */
+.btn-group button {
+    padding: 8px 14px;
+    background: transparent;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+.btn-group .dropdown-toggle-split {
+    padding: 8px 10px;
+    margin-left: -5px;
+}
+
+.btn-group button:hover {
+    color: #38bdf8;
+    background: rgba(56, 189, 248, 0.1);
+}
+
+/* Uniform button behavior */
+.btn-car,
+.btn-compare,
+.btn-more,
+.dropdown-toggle-split {
+    background-color: transparent !important;
+    border: none !important;
+}
+
+/* Optional: keep split dropdown the same height */
+.btn-group button {
+    border-radius: 4px 0 0 4px;
+}
+
+.btn-group .dropdown-toggle-split {
+    border-radius: 0 4px 4px 0;
+}
+
+/* ===============================
+   DROPDOWN
+================================ */
+.dropdown>a {
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 15px);
+    left: 0;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    min-width: 220px;
+    border-radius: 16px;
+    padding: 12px 8px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-menu li {
+    width: 100%;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 12px 18px;
+    font-size: 14px;
+    color: var(--text-muted);
+    /* Brighter than #cbd5f5 */
+}
+
+.dropdown-menu a:hover {
+    background: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
+}
+
+/* SHOW DROPDOWN */
+.dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+/* ===============================
+   RIGHT SECTION
+================================ */
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* SEARCH */
+.search-box input {
+    padding: 10px 20px;
+    border-radius: 24px;
+    border: 1px solid var(--glass-border);
+    outline: none;
+    background: rgba(2, 6, 23, 0.4);
+    color: #fff;
+    font-size: 14px;
+    width: 200px;
+    transition: var(--transition);
+}
+
+.search-box input:focus {
+    width: 240px;
+    background: rgba(2, 6, 23, 0.7);
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+}
+
+/* LOGIN / ACCOUNT BUTTONS */
+.login-btn {
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    color: var(--bg-dark);
+    padding: 10px 22px;
+    border-radius: 24px;
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: var(--transition);
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(56, 189, 248, 0.4);
+}
+
+.login-btn.btn-outline {
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    color: var(--text-main);
+}
+
+.login-btn.btn-outline:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--accent);
+}
+
+/* ===============================
+   RESPONSIVE (MOBILE)
+================================ */
+@media (max-width: 992px) {
+    .navbar {
+        padding: 14px 20px;
+    }
+
+    .nav-links {
+        display: none;
+        /* add hamburger later if needed */
+    }
+
+    .search-box input {
+        width: 130px;
+    }
+}
