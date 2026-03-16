@@ -3,6 +3,22 @@
 
 {% block title %}{{ car.brand }} {{ car.model }} | Vehicle Vault{% endblock %}
 
+{% block extra_head %}
+<!-- Google Model Viewer -->
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+<style>
+    model-viewer {
+        width: 100%;
+        height: 500px;
+        background-color: #0f172a;
+        --poster-color: transparent;
+    }
+    .modal-3d {
+        max-width: 900px;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <style>
     /* Professional Luxury Car Detail Styles */
@@ -13,7 +29,7 @@
     /* Hero Banner Area */
     .hero-section {
         position: relative;
-        background: linear-gradient(135deg, #0f172a, #1e293b);
+        background: linear-gradient(135deg, #020617, #0f172a);
         padding: 60px 0;
         color: white;
         overflow: hidden;
@@ -26,7 +42,7 @@
         right: 0;
         bottom: 0;
         left: 0;
-        background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.1), transparent 50%);
+        background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.05), transparent 50%);
         pointer-events: none;
     }
 
@@ -254,7 +270,12 @@
             {% endif %}
         </div>
 
-        <h1 class="car-title">{{ car.brand }} {{ car.model }}</h1>
+        <div class="d-flex align-items-center justify-content-center gap-4">
+            {% if brand.logo %}
+            <img src="{{ brand.logo.url }}" alt="{{ car.brand }}" style="height: 60px; filter: brightness(0) invert(1);">
+            {% endif %}
+            <h1 class="car-title m-0">{{ car.brand }} {{ car.model }}</h1>
+        </div>
     </div>
 </section>
 
@@ -274,6 +295,15 @@
                 {% else %}
                 <img src="{% static 'images/placeholder-car.jpg' %}" alt="Placeholder" class="showcase-image">
                 {% endif %}
+
+                <!-- 3D Toggle Overlay -->
+                <div class="position-absolute bottom-0 end-0 m-4">
+                    <button class="btn btn-primary rounded-pill px-4 py-2 fw-bold shadow-lg border-0" 
+                            style="background: linear-gradient(135deg, #6366f1, #4f46e5);"
+                            data-bs-toggle="modal" data-bs-target="#modal3D">
+                        <i class="fas fa-cube me-2"></i> Launch 3D Showroom
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -351,18 +381,62 @@
                         </div>
                     </div>
 
-                    <!-- Spec 7: Transmission -->
+                    <!-- Perf 1: Horsepower -->
                     <div class="col-md-6">
                         <div class="spec-item">
-                            <div class="spec-icon">⚙️</div>
+                            <div class="spec-icon">🐎</div>
                             <div class="spec-content">
-                                <h6>Transmission</h6>
-                                <p>{{ car.transmission }}</p>
+                                <h6>Horsepower</h6>
+                                <p>{{ car.horsepower|default:"N/A" }} HP</p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Spec 8: Capacity -->
+                    <!-- Perf 2: Torque -->
+                    <div class="col-md-6">
+                        <div class="spec-item">
+                            <div class="spec-icon">🌀</div>
+                            <div class="spec-content">
+                                <h6>Peak Torque</h6>
+                                <p>{{ car.torque|default:"N/A" }} NM</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Perf 3: 0-100 -->
+                    <div class="col-md-6">
+                        <div class="spec-item">
+                            <div class="spec-icon">🚀</div>
+                            <div class="spec-content">
+                                <h6>Acceleration (0-100)</h6>
+                                <p>{{ car.acceleration_0_100|default:"N/A" }} Seconds</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Perf 4: Top Speed -->
+                    <div class="col-md-6">
+                        <div class="spec-item">
+                            <div class="spec-icon">🏁</div>
+                            <div class="spec-content">
+                                <h6>Top Speed</h6>
+                                <p>{{ car.top_speed|default:"N/A" }} KM/H</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Perf 5: Safety -->
+                    <div class="col-md-6">
+                        <div class="spec-item">
+                            <div class="spec-icon">🛡️</div>
+                            <div class="spec-content">
+                                <h6>Safety Rating</h6>
+                                <p>{{ car.safety_rating }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Perf 6: Capacity -->
                     <div class="col-md-6">
                         <div class="spec-item">
                             <div class="spec-icon">💺</div>
@@ -375,16 +449,89 @@
                 </div>
             </div>
 
-            <!-- Description Area (Optional expansion) -->
+            <!-- Pros & Cons Section -->
+            <div class="mt-5">
+                <div class="row g-4 mb-5">
+                    <div class="col-md-6">
+                        <div class="p-4 rounded-4" style="background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2);">
+                            <h5 class="text-success fw-bold mb-3"><i class="fas fa-check-circle me-2"></i> Vault Pros</h5>
+                            <ul class="text-white-50 small mb-0 ps-3">
+                                <li class="mb-2">Exceptional Build Quality</li>
+                                <li class="mb-2">Advanced Driving Dynamics</li>
+                                <li>State-of-the-Art Infotainment</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-4 rounded-4" style="background: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.2);">
+                            <h5 class="text-danger fw-bold mb-3"><i class="fas fa-exclamation-triangle me-2"></i> Vault Considerations</h5>
+                            <ul class="text-white-50 small mb-0 ps-3">
+                                <li class="mb-2">Premium Maintenance Costs</li>
+                                <li>Limited Rear visibility</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Description Area -->
             <div class="mt-5">
                 <h4 class="fw-bold mb-3 text-white">Vault Overview</h4>
-                <p style="color: var(--text-muted); line-height: 1.8; font-size: 1.05rem;">
+                <p style="color: var(--text-muted); line-height: 1.8; font-size: 1.05rem;" class="mb-5">
                     The {{ car.launch_year }} {{ car.brand }} {{ car.model }} is a premium selection from the Vehicle
                     Vault curated collection.
                     Renowned for superior engineering and uncompromising luxury, this vehicle has been carefully sourced
                     to meet the highest
                     standards of performance and aesthetics. Contact the seller below to arrange a secure transaction.
                 </p>
+
+                <!-- Interactive EMI Calculator -->
+                <h4 class="fw-bold mb-4 text-white"><i class="fas fa-calculator text-accent me-2"></i> EMI Estimator
+                </h4>
+                <div class="specs-card mb-4" id="emi-calculator">
+                    <div class="row g-4 align-items-center">
+                        <div class="col-md-7 pe-md-4" style="border-right: 1px solid var(--glass-border);">
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <label class="form-label text-muted fw-600 mb-0">Down Payment (₹)</label>
+                                    <span class="text-white fw-bold" id="down-payment-display">₹0</span>
+                                </div>
+                                <input type="range" class="form-range" id="down-payment" min="0"
+                                    max="{{ car.price|floatformat:'0' }}" step="10000" value="0">
+                            </div>
+
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <label class="form-label text-muted fw-600 mb-0">Interest Rate (%)</label>
+                                    <span class="text-white fw-bold" id="interest-rate-display">9.5%</span>
+                                </div>
+                                <input type="range" class="form-range" id="interest-rate" min="7" max="15" step="0.1"
+                                    value="9.5">
+                            </div>
+
+                            <div class="mb-2">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <label class="form-label text-muted fw-600 mb-0">Loan Tenure (Years)</label>
+                                    <span class="text-white fw-bold" id="loan-tenure-display">5 Years</span>
+                                </div>
+                                <input type="range" class="form-range" id="loan-tenure" min="1" max="7" step="1"
+                                    value="5">
+                            </div>
+                        </div>
+
+                        <div class="col-md-5 text-center px-4">
+                            <div class="p-4 rounded-4"
+                                style="background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.05);">
+                                <h5 class="text-muted fw-bold mb-3"
+                                    style="font-size: 0.9rem; text-transform: uppercase;">Estimated Monthly EMI</h5>
+                                <h2 class="text-white fw-900 mb-3" id="emi-result"
+                                    style="font-size: 2.5rem; letter-spacing: -1px;">₹0</h2>
+                                <p class="smallest text-white-50 mb-0">* Indicative figures purely for estimation
+                                    purposes.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -416,11 +563,14 @@
 
                 {% if user.is_authenticated %}
                 {% if user.role == 'Buyer' %}
-                <a href="#" class="btn-action-primary">
+                <a href="{% url 'cars:purchase_car' car.vin %}" class="btn-action-primary" style="background: linear-gradient(135deg, #10b981, #059669); border: none; box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.39);">
+                    <i class="bi bi-bag-check me-2"></i> <span>Buy Now</span>
+                </a>
+                <a href="#" class="btn-action-secondary mb-3">
                     <span>Request Test Drive</span>
                 </a>
                 <a href="mailto:{{ car.seller.email }}?subject=Inquiry: {{ car.brand }} {{ car.model }}"
-                    class="btn-action-secondary mt-2">
+                    class="btn-action-secondary">
                     Contact Seller
                 </a>
                 {% elif user == car.seller or user.role == 'Admin' %}
@@ -450,6 +600,116 @@
                         style="color: #94a3b8; text-decoration: none; font-size: 0.9rem;">
                         ← Back to Inventory
                     </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Similar Cars Section -->
+    {% if similar_cars %}
+    <div class="mt-5 pt-5 pb-3" style="border-top: 1px solid var(--glass-border);">
+        <h3 class="fw-bold mb-4 text-white">Similar Vehicles in the Vault</h3>
+        <div class="row g-4">
+            {% for sim_car in similar_cars %}
+            <div class="col-md-3">
+                <div class="card bg-transparent border-0 h-100" style="transition: transform 0.3s ease;">
+                    <a href="{% url 'cars:car_detail' sim_car.vin %}" class="text-decoration-none d-block h-100 pb-3"
+                        style="background: var(--bg-card); border-radius: 16px; border: 1px solid var(--glass-border); overflow: hidden;">
+                        <div style="height: 150px; background: #0f172a;"
+                            class="d-flex align-items-center justify-content-center">
+                            {% if sim_car.car_image %}
+                            <img src="{{ sim_car.car_image.url }}" class="w-100 h-100" style="object-fit: cover;">
+                            {% else %}
+                            <img src="{% static 'images/placeholder-car.jpg' %}" class="w-100 h-100"
+                                style="object-fit: cover;">
+                            {% endif %}
+                        </div>
+                        <div class="p-3">
+                            <h6 class="text-white fw-800 mb-1">{{ sim_car.brand }} {{ sim_car.model }}</h6>
+                            <p class="text-muted small mb-0">{{ sim_car.launch_year }} • ₹{{ sim_car.price }}</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Safely pass the python variable to JS.
+        const carPrice = parseFloat("{{ car.price|stringformat:'f'|default:'0' }}");
+        const dpInput = document.getElementById("down-payment");
+        const irInput = document.getElementById("interest-rate");
+        const ltInput = document.getElementById("loan-tenure");
+
+        const dpDisplay = document.getElementById("down-payment-display");
+        const irDisplay = document.getElementById("interest-rate-display");
+        const ltDisplay = document.getElementById("loan-tenure-display");
+        const emiResult = document.getElementById("emi-result");
+
+        // Format number to INR currency locale
+        const formatCurrency = (amount) => {
+            return new Intl.NumberFormat('en-IN').format(Math.round(amount));
+        };
+
+        function calculateEMI() {
+            const P = carPrice - parseFloat(dpInput.value); // Principal amount
+            const R = parseFloat(irInput.value) / 12 / 100; // Monthly interest rate
+            const N = parseFloat(ltInput.value) * 12; // Tenure in months
+
+            // Update displays
+            dpDisplay.textContent = "₹" + formatCurrency(dpInput.value);
+            irDisplay.textContent = irInput.value + "%";
+            ltDisplay.textContent = ltInput.value + " Years";
+
+            if (P <= 0 || R === 0 || N === 0) {
+                emiResult.textContent = "₹0";
+                return;
+            }
+
+            // EMI Formula: P * R * (1+R)^N / ((1+R)^N - 1)
+            const emi = P * R * Math.pow(1 + R, N) / (Math.pow(1 + R, N) - 1);
+            emiResult.textContent = "₹" + formatCurrency(emi);
+        }
+
+        // Attach event listeners
+        dpInput.addEventListener("input", calculateEMI);
+        irInput.addEventListener("input", calculateEMI);
+        ltInput.addEventListener("input", calculateEMI);
+
+        // Initial rendering
+        calculateEMI();
+    });
+</script>
+
+<!-- 3D View Modal -->
+<div class="modal fade" id="modal3D" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-dark border-0 rounded-4 overflow-hidden shadow-2xl">
+            <div class="modal-header border-0 p-4 bg-gradient-to-r from-blue-900 to-slate-900">
+                <h5 class="modal-title text-white fw-bold"><i class="fas fa-vr-cardboard me-2"></i> 3D Virtual Showroom: {{ car.brand }} {{ car.model }}</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0 position-relative">
+                <model-viewer src="{{ car.three_d_model_url|default:'https://modelviewer.dev/shared-assets/models/Astronaut.glb' }}"
+                              ios-src=""
+                              alt="A 3D model of a car"
+                              shadow-intensity="1"
+                              camera-controls
+                              auto-rotate
+                              ar
+                              style="width: 100%; height: 500px; background: radial-gradient(circle, #1e293b, #0f172a);">
+                </model-viewer>
+                
+                <div class="position-absolute bottom-0 start-0 w-100 p-4" style="background: linear-gradient(transparent, rgba(0,0,0,0.8));">
+                    <div class="d-flex justify-content-between align-items-center text-white-50 small">
+                        <span><i class="fas fa-mouse me-2"></i> Drag to Rotate</span>
+                        <span><i class="fas fa-expand me-2"></i> Pinch to Zoom</span>
+                        <span><i class="fas fa-mobile-alt me-2"></i> AR Compatible</span>
+                    </div>
                 </div>
             </div>
         </div>

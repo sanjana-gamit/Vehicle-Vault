@@ -9,34 +9,82 @@
     <div class="row g-4">
         <!-- Add Car -->
         <div class="col-md-4">
-            <div class="dashboard-card">
+            <div class="dashboard-card h-100">
                 <div class="card-icon">➕</div>
                 <h4 class="text-white">Add New Car</h4>
                 <p style="color: var(--text-muted);">List a new high-performance vehicle in our curated inventory.</p>
-                <a href="{% url 'cars:add' %}" class="card-btn">Add Car</a>
+                <a href="{% url 'cars:add' %}" class="card-btn mt-auto">Add Car</a>
             </div>
         </div>
 
         <!-- Inventory -->
         <div class="col-md-4">
-            <div class="dashboard-card">
+            <div class="dashboard-card h-100">
                 <div class="card-icon">🚗</div>
                 <h4 class="text-white">My Inventory</h4>
                 <p style="color: var(--text-muted);">Monitor your active listings and update vehicle specifications.</p>
-                <a href="{% url 'cars:inventory' %}" class="card-btn">View Inventory</a>
+                <a href="{% url 'cars:inventory' %}" class="card-btn mt-auto">View Inventory</a>
             </div>
         </div>
 
         <!-- Test Drives -->
         <div class="col-md-4">
-            <div class="dashboard-card">
+            <div class="dashboard-card h-100">
                 <div class="card-icon">📅</div>
                 <h4 class="text-white">Appointments</h4>
-                <p style="color: var(--text-muted);">Manage test drive requests and coordinate with potential buyers.
-                </p>
-                <a href="{% url 'cars:test_drives' %}" class="card-btn">View Schedule</a>
+                <p style="color: var(--text-muted);">Manage test drive requests and coordinate with potential buyers.</p>
+                <a href="{% url 'cars:test_drives' %}" class="card-btn mt-auto">View Schedule</a>
             </div>
         </div>
+    </div>
+
+    <!-- Recent Sales Section -->
+    <div class="mt-5 p-4 rounded-4" style="background: var(--bg-card); border: 1px solid var(--glass-border);">
+        <h3 class="fw-bold mb-4 text-white">Recent Sales</h3>
+        {% if sales %}
+            <div class="table-responsive">
+                <table class="table table-dark table-hover mb-0">
+                    <thead class="text-secondary small text-uppercase">
+                        <tr>
+                            <th>Car</th>
+                            <th>Buyer</th>
+                            <th>Amount</th>
+                            <th>Method</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="align-middle">
+                        {% for sale in sales %}
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="rounded-2 me-3" style="width: 40px; height: 30px; background: #0f172a; overflow: hidden;">
+                                            {% if sale.car.car_image %}
+                                                <img src="{{ sale.car.car_image.url }}" class="w-100 h-100" style="object-fit: cover;">
+                                            {% endif %}
+                                        </div>
+                                        <span>{{ sale.car.brand }} {{ sale.car.model }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="small fw-medium">{{ sale.user.name|default:sale.user.email }}</div>
+                                    <div class="text-muted smallest">{{ sale.user.email }}</div>
+                                </td>
+                                <td>₹{{ sale.price }}</td>
+                                <td>{{ sale.payment_method }}</td>
+                                <td class="small">{{ sale.created_at|date:"M d, Y" }}</td>
+                                <td><span class="badge bg-success rounded-pill px-3">{{ sale.payment_status }}</span></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="text-center py-5">
+                <p class="text-muted mb-0">No sales recorded in the vault yet.</p>
+            </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

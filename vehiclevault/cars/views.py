@@ -9,6 +9,7 @@ from .forms import (
     CarForm,
     CarListingImageForm,
     TestDriveForm,
+    PurchaseForm,
 )
 from .models import (
     Car,
@@ -18,6 +19,7 @@ from .models import (
     CarListing,
     TestDrive,
     CarListingImage,
+    Purchase,
 )
 
 User = get_user_model()
@@ -38,13 +40,14 @@ def HomeView(request):
         .prefetch_related("images")
         .order_by("-created_at")[:8]
     )
-    return render(request, "home.html", {"listings": listings})
+    brands = Brand.objects.all().order_by('order', 'name')
+    return render(request, "home.html", {
+        "listings": listings,
+        "brands": brands
+    })
 
 def find_new(request):
     return render(request, "cars/find_new.html")
-
-
-
 
 def CarsListView(request):
     cars = Car.objects.order_by("-created_at")
@@ -73,30 +76,26 @@ def CarsListView(request):
         try:
             budget_lower = budget.lower()
             if "under" in budget_lower:
-                # Expecting format "under-10-lakh" or "under-10"
                 parts = [p for p in budget_lower.split("-") if p.isdigit()]
                 if parts:
                     max_val = int(parts[0]) * 100000
                     cars = cars.filter(price__lt=max_val)
             elif "over" in budget_lower:
-                # Expecting format "over-50-lakh" or "over-50"
                 parts = [p for p in budget_lower.split("-") if p.isdigit()]
                 if parts:
                     min_val = int(parts[0]) * 100000
                     cars = cars.filter(price__gt=min_val)
             elif "-" in budget:
-                # Expecting format "5-10-lakh" or "5-10"
                 parts = [p for p in budget.split("-") if p.isdigit()]
                 if len(parts) >= 2:
                     min_val = int(parts[0]) * 100000
                     max_val = int(parts[1]) * 100000
                     cars = cars.filter(price__range=(min_val, max_val))
         except (ValueError, IndexError):
-            pass # Invalid budget format, skip filtering
+            pass 
 
     pills = DiscoveryPill.objects.all()
     
-    # Categorize pills for the multi-tab discovery section
     discovery_context = {
         "budget_pills": pills.filter(pill_type="Budget"),
         "body_pills": pills.filter(pill_type="Body Type"),
@@ -115,9 +114,6 @@ def CarsListView(request):
     return render(request, "cars/all_cars.html", context)
 
 def UsedCarsListView(request):
-    # Filtering for cars that have a listing and are NOT new (inventory/stock based logic)
-    # Since we don't have a 'condition' field, we'll show all available car listings
-    # as 'Used' implies pre-owned/listed by sellers.
     cars = Car.objects.filter(stock__gt=0).order_by("-created_at")
     return render(request, "cars/used_cars.html", {"cars": cars})
 
@@ -131,27 +127,34 @@ def InventoryListView(request):
     return render(request, "cars/inventory.html", {"cars": cars})
 
 def UpcomingCarsListView(request):
-    # Filtering for cars with future launch year (2026+)
     cars = Car.objects.filter(launch_year__gte=2026).order_by("launch_year")
     return render(request, "cars/upcoming_cars.html", {"cars": cars})
 
 def ElectricCarsListView(request):
-    # Filtering for cars with fuel_type='Electric'
-    # Checking for common variations just in case
     cars = Car.objects.filter(
-        Q(fuel_type__iexact='Electric') | 
-        Q(fuel_type__iexact='EV')
+        Q(fuel_type__iexact="Electric") | 
+        Q(fuel_type__iexact="EV")
     ).order_by("-created_at")
     return render(request, "cars/electric_cars.html", {"cars": cars})
 
 def NewCarsListView(request):
-    # Filtering for current year models (2025)
     cars = Car.objects.filter(launch_year=2025).order_by("-created_at")
     return render(request, "cars/new_cars.html", {"cars": cars})
 
 def CarDetailView(request, vin):
     car = get_object_or_404(Car, vin=vin)
-    return render(request, "cars/car_detail.html", {"car": car})
+    
+    brand = Brand.objects.filter(name__iexact=car.brand).first()
+    similar_cars = Car.objects.filter(
+        Q(category=car.category) | Q(brand=car.brand)
+    ).exclude(vin=car.vin)[:4]
+    
+    context = {
+        "car": car,
+        "brand": brand,
+        "similar_cars": similar_cars
+    }
+    return render(request, "cars/car_detail.html", context)
 
 def CarCategoryView(request, category_name):
     category = get_object_or_404(CarCategory, name__iexact=category_name)
@@ -172,7 +175,6 @@ def CarCreateView(request):
         car = form.save(commit=False)
         car.seller = request.user
         
-        # Handle the manual file input from template
         images = request.FILES.getlist("images")
         if images and not car.car_image:
             car.car_image = images[0]
@@ -185,6 +187,7 @@ def CarCreateView(request):
     return render(request, "cars/add_car.html", {
         "car_form": form,
     })
+
 @seller_or_admin_required
 def CarUpdateView(request, vin):
     if request.user.role == User.Role.ADMIN:
@@ -226,7 +229,6 @@ def compare_cars(request):
     cars = Car.objects.filter(id__in=compare_list)
     return render(request, "cars/compare.html", {"cars": cars})
 
-
 def add_to_compare(request, car_id):
     compare_list = request.session.get("compare_list", [])
 
@@ -264,11 +266,10 @@ def TestDrivesView(request):
 
     drives = base_qs.order_by("-created_at")
     
-    # Calculate stats for the dashboard header
     stats = {
-        'total': drives.count(),
-        'pending': base_qs.filter(status='Pending').count(),
-        'confirmed': base_qs.filter(status='Confirmed').count(),
+        "total": drives.count(),
+        "pending": base_qs.filter(status="Pending").count(),
+        "confirmed": base_qs.filter(status="Confirmed").count(),
     }
 
     return render(request, "testdrives/list.html", {
@@ -280,12 +281,11 @@ def TestDrivesView(request):
 def UpdateTestDriveStatusView(request, drive_id, status):
     drive = get_object_or_404(TestDrive, test_drive_id=drive_id)
     
-    # Permission check: Only the seller of the listing can update status
     if drive.listing.seller != request.user and request.user.role != User.Role.ADMIN:
         messages.error(request, "Unauthorized access 🚫")
         return redirect("cars:test_drives")
-        
-    valid_statuses = dict(TestDrive._meta.get_field('status').choices).keys()
+
+    valid_statuses = dict(TestDrive._meta.get_field("status").choices).keys()
     if status in valid_statuses:
         drive.status = status
         drive.save()
@@ -294,3 +294,49 @@ def UpdateTestDriveStatusView(request, drive_id, status):
         messages.error(request, "Invalid status update 😬")
         
     return redirect("cars:test_drives")
+
+@login_required
+def PurchaseCarView(request, vin):
+    car = get_object_or_404(Car, vin=vin)
+    
+    if request.user.role != User.Role.BUYER:
+        messages.error(request, "Only buyers can purchase cars 🛒")
+        return redirect("cars:car_detail", vin=vin)
+    
+    form = PurchaseForm(request.POST or None)
+    
+    if request.method == "POST" and form.is_valid():
+        purchase = form.save(commit=False)
+        purchase.user = request.user
+        purchase.car = car
+        purchase.price = car.price
+        
+        if purchase.payment_method == "EMI":
+            purchase.is_emi = True
+            months = int(form.cleaned_data["emi_months"])
+            down_payment = form.cleaned_data["down_payment"]
+            principal = float(car.price) - float(down_payment)
+            rate = 0.08 
+            total_payable = principal * (1 + (rate * months / 12))
+            purchase.monthly_installment = total_payable / months
+            purchase.emi_months = months
+            purchase.down_payment = down_payment
+        
+        purchase.payment_status = "Completed" 
+        purchase.save()
+        
+        car.stock -= 1
+        car.save()
+        
+        messages.success(request, f"Congratulations! You have purchased the {car} 🎉")
+        return redirect("cars:purchase_success", purchase_id=purchase.purchase_id)
+
+    return render(request, "cars/purchase_checkout.html", {
+        "car": car,
+        "form": form
+    })
+
+@login_required
+def PurchaseSuccessView(request, purchase_id):
+    purchase = get_object_or_404(Purchase, purchase_id=purchase_id)
+    return render(request, "cars/purchase_success.html", {"purchase": purchase})

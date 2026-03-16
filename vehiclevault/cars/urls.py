@@ -31,4 +31,7 @@ urlpatterns = [
     # Test drives
     path("testdrives/", views.TestDrivesView, name="test_drives"),
     path("testdrives/update/<uuid:drive_id>/<str:status>/", views.UpdateTestDriveStatusView, name="update_test_drive_status"),
+    # Purchase
+    path("purchase/<str:vin>/", views.PurchaseCarView, name="purchase_car"),
+    path("purchase/success/<uuid:purchase_id>/", views.PurchaseSuccessView, name="purchase_success"),
 ]

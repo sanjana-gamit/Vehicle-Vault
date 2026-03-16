@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
 from .forms import UserLoginForm, UserSignupForm 
-from cars.models import User, Buyer, Seller, Car 
+from cars.models import User, Buyer, Seller, Car, Purchase
 from django.shortcuts import get_object_or_404
 
 def admin_required(view_func):
@@ -171,21 +171,30 @@ def admin_dashboard(request):
         messages.error(request, "Access Denied: Admins Only")
         return redirect("cars:home")
     cars = Car.objects.all().order_by("-created_at")
-    return render(request, "core/admin_dashboard.html", {"cars": cars})
+    purchases = Purchase.objects.all().select_related('car', 'user').order_by('-created_at')
+    return render(request, "core/admin_dashboard.html", {
+        "cars": cars,
+        "purchases": purchases
+    })
 
 @login_required
 def seller_dashboard(request):
     if request.user.role not in ["Seller", "Dealer"]:
         messages.error(request, "Access Denied: Sellers & Dealers Only")
         return redirect("cars:home")
-    return render(request, "core/seller_dashboard.html")
+    
+    # Get purchases for cars listed by this seller
+    sales = Purchase.objects.filter(car__seller=request.user).select_related('car', 'user').order_by('-created_at')
+    return render(request, "core/seller_dashboard.html", {"sales": sales})
 
 @login_required
 def buyer_dashboard(request):
     if request.user.role != "Buyer":
         messages.error(request, "Access Denied: Buyers Only")
         return redirect("cars:home")
-    return render(request, "core/buyer_dashboard.html")
+    
+    purchases = Purchase.objects.filter(user=request.user).select_related('car').order_by('-created_at')
+    return render(request, "core/buyer_dashboard.html", {"purchases": purchases})
 
 # =========================
 # USER MANAGEMENT

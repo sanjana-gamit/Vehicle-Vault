@@ -1,0 +1,428 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<!-- Executive Professional Aesthetics -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+    :root {
+        --vault-navy: #0f172a;
+        --vault-slate: #1e293b;
+        --vault-accent: #3b82f6;
+        --glass-bg: rgba(15, 23, 42, 0.85);
+        --glass-border: rgba(255, 255, 255, 0.1);
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background: #020617;
+        color: #f1f5f9;
+        min-height: 100vh;
+    }
+
+    .checkout-container {
+        padding: 60px 0;
+        animation: subtleSlideIn 0.6s ease-out;
+    }
+
+    @keyframes subtleSlideIn {
+        from { opacity: 0; transform: translateY(15px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Executive Glass Card */
+    .executive-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6);
+    }
+
+    .sidebar-preview {
+        position: sticky;
+        top: 30px;
+        background: linear-gradient(135deg, #1e293b, #0f172a);
+        border: 1px solid var(--glass-border);
+    }
+
+    .car-display {
+        height: 240px;
+        background: #000;
+        border-radius: 16px;
+        margin-bottom: 25px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .car-display img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    /* Professional Selection Grid */
+    .selection-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        gap: 12px;
+    }
+
+    .method-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--glass-border);
+        border-radius: 12px;
+        padding: 20px 10px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .method-card i {
+        font-size: 1.5rem;
+        margin-bottom: 12px;
+        color: #64748b;
+    }
+
+    .method-card span {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .selection-input:checked + .method-card {
+        background: rgba(59, 130, 246, 0.08);
+        border-color: var(--vault-accent);
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
+    }
+
+    .selection-input:checked + .method-card i {
+        color: var(--vault-accent);
+    }
+
+    .selection-input:checked + .method-card span {
+        color: #fff;
+    }
+
+    /* Executive Form Styling */
+    .label-institutional {
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+        color: #475569;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .input-institutional {
+        background: rgba(0, 0, 0, 0.4) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        color: #fff !important;
+        border-radius: 8px !important;
+        padding: 12px 16px !important;
+        font-weight: 500 !important;
+    }
+
+    .input-institutional:focus {
+        border-color: var(--vault-accent) !important;
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1) !important;
+    }
+
+    /* Financial Calculator Panel */
+    .financial-panel {
+        background: rgba(255, 255, 255, 0.01);
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        border-radius: 16px;
+        padding: 24px;
+        margin-top: 24px;
+    }
+
+    .stat-row {
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 12px;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .stat-label {
+        font-size: 0.65rem;
+        font-weight: 700;
+        color: #64748b;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+    }
+
+    .stat-value {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: white;
+    }
+
+    .btn-executive-confirm {
+        background: var(--vault-accent);
+        border: none;
+        padding: 18px;
+        border-radius: 12px;
+        font-weight: 700;
+        color: white;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-executive-confirm:hover {
+        background: #2563eb;
+        transform: translateY(-1px);
+        box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+    }
+
+    .invoice-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .invoice-total {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: var(--vault-accent);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="checkout-container">
+    <div class="container">
+        <div class="row g-5">
+            <!-- Purchase Details -->
+            <div class="col-lg-7">
+                <div class="executive-card p-5">
+                    <header class="mb-5">
+                        <h2 class="fw-extrabold text-white mb-2">Secure Purchase</h2>
+                        <p class="text-muted small">Configure your acquisition details and primary payment method.</p>
+                    </header>
+
+                    <form method="post" id="purchase-form">
+                        {% csrf_token %}
+                        
+                        <!-- Payment Method -->
+                        <div class="mb-5">
+                            <label class="label-institutional">Primary Payment Method</label>
+                            <div class="selection-grid">
+                                <div>
+                                    <input type="radio" class="selection-input d-none" name="payment_method" id="cash" value="Cash" checked>
+                                    <label class="method-card" for="cash">
+                                        <i class="fas fa-wallet"></i>
+                                        <span>Full Payment</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="radio" class="selection-input d-none" name="payment_method" id="card" value="Card">
+                                    <label class="method-card" for="card">
+                                        <i class="fas fa-credit-card"></i>
+                                        <span>Credit Card</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="radio" class="selection-input d-none" name="payment_method" id="bank" value="Bank Transfer">
+                                    <label class="method-card" for="bank">
+                                        <i class="fas fa-random"></i>
+                                        <span>Bank Transfer</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="radio" class="selection-input d-none" name="payment_method" id="emi" value="EMI">
+                                    <label class="method-card" for="emi">
+                                        <i class="fas fa-calendar-check"></i>
+                                        <span>EMI Plan</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- EMI Panel -->
+                        <div id="emi-settings" class="financial-panel d-none">
+                            <div class="d-flex align-items-center mb-4">
+                                <div class="bg-primary rounded-circle p-2 me-3" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-percentage text-white small"></i>
+                                </div>
+                                <h6 class="text-white fw-bold mb-0">Finance Customization</h6>
+                            </div>
+                            
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <label class="label-institutional">Tenure (Months)</label>
+                                    {{ form.emi_months }}
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="label-institutional">Down Payment (₹)</label>
+                                    {{ form.down_payment }}
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mt-3">
+                                <div class="col-6">
+                                    <div class="stat-row">
+                                        <div class="stat-label">Monthly EMI</div>
+                                        <div class="stat-value text-primary" id="emi-amount">₹0.00</div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="stat-row">
+                                        <div class="stat-label">Total Payable</div>
+                                        <div class="stat-value" id="total-payable">₹0.00</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-5">
+                            <button type="submit" class="btn btn-executive-confirm w-100 py-3">
+                                Confirm & Authorize Purchase
+                            </button>
+                            <div class="text-center mt-3">
+                                <a href="{% url 'cars:car_detail' car.vin %}" class="text-secondary text-decoration-none small">
+                                    <i class="fas fa-chevron-left me-1"></i> Back to Review Specifications
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Invoice Sidebar -->
+            <div class="col-lg-5">
+                <div class="executive-card sidebar-preview p-4">
+                    <div class="car-display">
+                        {% if car.car_image %}
+                            <img src="{{ car.car_image.url }}" alt="{{ car.brand }}">
+                        {% else %}
+                            <i class="fas fa-car-side fa-4x text-white-50"></i>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="px-2">
+                        <header class="mb-4">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h4 class="fw-bold text-white mb-1">{{ car.brand }} {{ car.model }}</h4>
+                                    <p class="text-muted small mb-0">{{ car.vin }} | {{ car.launch_year }} Series</p>
+                                </div>
+                                <div class="bg-success bg-opacity-10 text-success small fw-bold px-2 py-1 rounded">STOCK OK</div>
+                            </div>
+                        </header>
+
+                        <div class="invoice-details mt-4">
+                            <div class="invoice-item">
+                                <span class="text-muted">Vehicle MSRP</span>
+                                <span class="text-white fw-bold">₹{{ car.price|floatformat:0 }}</span>
+                            </div>
+                            <div class="invoice-item">
+                                <span class="text-muted">Documentation & Fees</span>
+                                <span class="text-success small fw-bold">COMPLIMENTARY</span>
+                            </div>
+                            <div class="invoice-item">
+                                <span class="text-muted">Dealer Logistics</span>
+                                <span class="text-success small fw-bold">WAIVED</span>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top border-secondary border-opacity-25">
+                                <h5 class="text-white fw-bold mb-0">Order Total</h5>
+                                <div class="invoice-total">₹{{ car.price|floatformat:0 }}</div>
+                            </div>
+                        </div>
+
+                        <div class="mt-5 p-3 rounded bg-white bg-opacity-5 border-start border-3 border-primary">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-lock text-primary me-3 mt-1"></i>
+                                <div class="small">
+                                    <div class="text-white fw-bold mb-1">Encrypted Transaction</div>
+                                    <p class="text-muted mb-0">This transaction is secured with industry-standard bank-level encryption.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const paymentMethods = document.querySelectorAll('input[name="payment_method"]');
+        const emiSettings = document.getElementById('emi-settings');
+        const emiMonthsSelect = document.querySelector('select[name="emi_months"]');
+        const downPaymentInput = document.querySelector('input[name="down_payment"]');
+        const emiDisplay = document.getElementById('emi-amount');
+        const totalPayableDisplay = document.getElementById('total-payable');
+        const carPrice = parseFloat("{{ car.price|floatformat:2 }}");
+
+        // Executive Input Cleanup
+        const institutionalInputs = [emiMonthsSelect, downPaymentInput];
+        institutionalInputs.forEach(input => {
+            if(input) {
+                input.classList.add('input-institutional');
+                if(input.tagName === 'SELECT') input.classList.add('form-select');
+                else input.classList.add('form-control');
+            }
+        });
+
+        function updateEMI() {
+            const months = parseInt(emiMonthsSelect.value) || 0;
+            const downPayment = parseFloat(downPaymentInput.value) || 0;
+            const principal = carPrice - downPayment;
+            
+            if (months > 0 && principal > 0) {
+                const annualRate = 0.08;
+                const totalInterest = principal * (annualRate * months / 12);
+                const totalPayable = principal + totalInterest;
+                const monthlyEMI = totalPayable / months;
+                
+                emiDisplay.textContent = '₹' + monthlyEMI.toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+                totalPayableDisplay.textContent = '₹' + totalPayable.toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+            } else {
+                emiDisplay.textContent = '₹0';
+                totalPayableDisplay.textContent = '₹0';
+            }
+        }
+
+        paymentMethods.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'EMI') {
+                    emiSettings.classList.remove('d-none');
+                    emiMonthsSelect.required = true;
+                    if (!downPaymentInput.value) downPaymentInput.value = (carPrice * 0.2).toFixed(0);
+                    updateEMI();
+                } else {
+                    emiSettings.classList.add('d-none');
+                    emiMonthsSelect.required = false;
+                }
+            });
+        });
+
+        if(emiMonthsSelect) emiMonthsSelect.addEventListener('change', updateEMI);
+        if(downPaymentInput) downPaymentInput.addEventListener('input', updateEMI);
+
+        // Initial Selection State
+        const activeMethod = document.querySelector('input[name="payment_method"]:checked');
+        if (activeMethod && activeMethod.value === 'EMI') {
+            emiSettings.classList.remove('d-none');
+            updateEMI();
+        }
+    });
+</script>
+{% endblock %}

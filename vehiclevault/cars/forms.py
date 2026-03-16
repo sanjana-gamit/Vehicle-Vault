@@ -12,6 +12,7 @@ from .models import (
     CarListing,
     CarListingImage,
     TestDrive,
+    Purchase,
 )
 
 class UserSignupForm(UserCreationForm):
@@ -148,3 +149,43 @@ class TestDriveForm(forms.ModelForm):
         if date < timezone.now().date():
             raise ValidationError("Proposed date cannot be in the past.")
         return date
+
+class PurchaseForm(forms.ModelForm):
+    # EMI options
+    EMI_CHOICES = [
+        (3, '3 Months'),
+        (6, '6 Months'),
+        (12, '12 Months'),
+        (24, '24 Months'),
+    ]
+    emi_months = forms.ChoiceField(
+        choices=EMI_CHOICES, 
+        required=False,
+        widget=forms.Select(attrs={'class': 'form-select'})
+    )
+    
+    down_payment = forms.DecimalField(
+        required=False,
+        widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter down payment', 'step': '0.01'})
+    )
+
+    class Meta:
+        model = Purchase
+        fields = ('payment_method', 'emi_months', 'down_payment')
+        widgets = {
+            'payment_method': forms.Select(attrs={'class': 'form-select', 'id': 'id_payment_method'}),
+        }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        payment_method = cleaned_data.get('payment_method')
+        emi_months = cleaned_data.get('emi_months')
+        down_payment = cleaned_data.get('down_payment')
+
+        if payment_method == 'EMI':
+            if not emi_months:
+                self.add_error('emi_months', 'Please select EMI duration.')
+            if down_payment is None or down_payment < 0:
+                self.add_error('down_payment', 'Enter a valid down payment.')
+        
+        return cleaned_data

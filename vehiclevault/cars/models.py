@@ -190,6 +190,16 @@ class Car(models.Model):
     car_image = models.ImageField(upload_to="cars/", blank=True, null=True)
     is_upcoming = models.BooleanField(default=False)
     is_electric = models.BooleanField(default=False)
+    
+    # Enhanced Technical Specs
+    horsepower = models.PositiveIntegerField(default=0)
+    torque = models.PositiveIntegerField(default=0)
+    top_speed = models.PositiveIntegerField(default=0)
+    acceleration_0_100 = models.DecimalField(max_digits=4, decimal_places=1, default=0.0)
+    engine_details = models.CharField(max_length=200, blank=True)
+    safety_rating = models.CharField(max_length=10, default="N/A")
+    three_d_model_url = models.URLField(blank=True, null=True)
+    
     created_at = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
@@ -265,5 +275,39 @@ class TestDrive(models.Model):
         default="Pending",
     )
 
+
     notes = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+class Purchase(models.Model):
+    purchase_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="purchases")
+    car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name="purchases")
+    
+    price = models.DecimalField(max_digits=12, decimal_places=2)
+    
+    PAYMENT_METHOD_CHOICES = [
+        ("Cash", "Cash"),
+        ("Card", "Card"),
+        ("Bank Transfer", "Bank Transfer"),
+        ("EMI", "EMI"),
+    ]
+    payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES, default="Cash")
+    
+    PAYMENT_STATUS_CHOICES = [
+        ("Pending", "Pending"),
+        ("Completed", "Completed"),
+        ("Cancelled", "Cancelled"),
+    ]
+    payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS_CHOICES, default="Pending")
+    
+    # EMI Details
+    is_emi = models.BooleanField(default=False)
+    emi_months = models.PositiveIntegerField(null=True, blank=True)
+    monthly_installment = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+    down_payment = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Purchase {self.purchase_id} | {self.car} | {self.user.email}"
