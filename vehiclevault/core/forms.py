@@ -34,7 +34,7 @@ class UserLoginForm(forms.Form):
         })
     )
     role = forms.ChoiceField(
-        choices=User.Role.choices,
+        choices=User.Role.choices, # type: ignore
         widget=forms.Select(attrs={
             "class": "form-select"
         })
@@ -72,7 +72,7 @@ class UserSignupForm(forms.ModelForm):
     )
 
     role = forms.ChoiceField(
-        choices=User.Role.choices,
+        choices=User.Role.choices, # type: ignore
         widget=forms.RadioSelect(attrs={
             "class": "form-check-input"
         })
@@ -104,7 +104,7 @@ class UserSignupForm(forms.ModelForm):
         return cleaned_data
 
     def clean_email(self):
-        email = self.cleaned_data.get("email").lower()
+        email = self.cleaned_data.get("email").lower() # type: ignore
         if User.objects.filter(email=email).exists():
             raise ValidationError("This email is already registered 👀")
         return email

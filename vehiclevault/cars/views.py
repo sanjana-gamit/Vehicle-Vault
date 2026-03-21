@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.conf import settings
-
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
 
 from cars.forms import (
     CarListingForm,
@@ -39,7 +40,7 @@ User = get_user_model()
 def seller_or_admin_required(view_func):
     @login_required
     def wrapper(request, *args, **kwargs):
-        if request.user.role not in [User.Role.SELLER, User.Role.ADMIN]:
+        if request.user.role not in [User.Role.SELLER, User.Role.ADMIN]: # type: ignore
             messages.error(request, "Seller or Admin access only 🚫")
             return redirect("cars:home")
         return view_func(request, *args, **kwargs)
@@ -151,7 +152,7 @@ def UsedCarsListView(request):
 
 @seller_or_admin_required
 def InventoryListView(request):
-    if request.user.role == User.Role.ADMIN:
+    if request.user.role == User.Role.ADMIN: # type: ignore
         cars = Car.objects.all().order_by("-created_at")
     else:
         cars = Car.objects.filter(seller=request.user).order_by("-created_at")
@@ -233,7 +234,7 @@ def CarCreateView(request):
 
 @seller_or_admin_required
 def CarUpdateView(request, vin):
-    if request.user.role == User.Role.ADMIN:
+    if request.user.role == User.Role.ADMIN: # type: ignore
         car = get_object_or_404(Car, vin=vin)
     else:
         car = get_object_or_404(Car, vin=vin, seller=request.user)
@@ -265,7 +266,7 @@ def CarUpdateView(request, vin):
 
 @seller_or_admin_required
 def CarDeleteView(request, vin):
-    if request.user.role == User.Role.ADMIN:
+    if request.user.role == User.Role.ADMIN: # type: ignore
         car = get_object_or_404(Car, vin=vin)
     else:
         car = get_object_or_404(Car, vin=vin, seller=request.user)
@@ -302,13 +303,13 @@ def remove_from_compare(request, car_id):
 @login_required
 def ScheduleTestDriveView(request, vin):
     car = get_object_or_404(Car, vin=vin)
-    listing = car.listings.first()
+    listing = car.listings.first() # type: ignore
     
     if not listing:
         messages.error(request, "No active listing found for this vehicle. 🚫")
         return redirect("cars:car_detail", vin=vin)
 
-    if request.user.role != User.Role.BUYER:
+    if request.user.role != User.Role.BUYER: # type: ignore
         messages.error(request, "Only registered buyers can request test drives. 🏎️")
         return redirect("cars:car_detail", vin=vin)
 
@@ -340,7 +341,7 @@ def ScheduleTestDriveView(request, vin):
 
 @login_required
 def TestDrivesView(request):
-    if request.user.role == User.Role.BUYER:
+    if request.user.role == User.Role.BUYER: # type: ignore
         base_qs = (
             TestDrive.objects.filter(buyer=request.user)
             .select_related("listing__car", "listing__seller")
@@ -370,11 +371,11 @@ def TestDrivesView(request):
 def UpdateTestDriveStatusView(request, drive_id, status):
     drive = get_object_or_404(TestDrive, test_drive_id=drive_id)
     
-    if drive.listing.seller != request.user and request.user.role != User.Role.ADMIN:
+    if drive.listing.seller != request.user and request.user.role != User.Role.ADMIN: # type: ignore
         messages.error(request, "Unauthorized access 🚫")
         return redirect("cars:test_drives")
 
-    valid_statuses = dict(TestDrive._meta.get_field("status").choices).keys()
+    valid_statuses = dict(TestDrive._meta.get_field("status").choices).keys() # type: ignore
     if status in valid_statuses:
         drive.status = status
         drive.save()
@@ -398,7 +399,7 @@ def PurchaseCarView(request, vin):
         except (ValueError, TypeError):
             deal_id = None
     
-    if request.user.role != User.Role.BUYER:
+    if request.user.role != User.Role.BUYER: # type: ignore
 
         messages.error(request, "Only buyers can purchase cars 🛒")
         return redirect("cars:car_detail", vin=vin)
@@ -447,7 +448,7 @@ def PurchaseCarView(request, vin):
         amount_in_paise = int(charge_amount * 100)
         
         # Generate official Razorpay Order
-        razorpay_order = client.order.create(dict(
+        razorpay_order = client.order.create(dict( # type: ignore
             amount=amount_in_paise,
             currency='INR',
             payment_capture='1' 
@@ -487,7 +488,7 @@ def RazorpayCallbackView(request):
         
         client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
         try:
-            client.utility.verify_payment_signature({
+            client.utility.verify_payment_signature({ # type: ignore
                 'razorpay_order_id': order_id,
                 'razorpay_payment_id': payment_id,
                 'razorpay_signature': signature
@@ -506,15 +507,12 @@ def RazorpayCallbackView(request):
                 car.save()
                 
             # Mark listing as Sold (unless it's just a token booking and not full acquisition)
-            listing = car.listings.first()
+            listing = car.listings.first() # type: ignore
             if listing and not purchase.is_token_booking:
                 listing.status = "Sold"
                 listing.save()
                 
             # Executive Invoicing Automation
-            from django.core.mail import EmailMultiAlternatives
-            from django.template.loader import render_to_string
-            
             amount_secured = 50000.00 if purchase.is_token_booking else purchase.price
                 
             ctx = {
@@ -556,7 +554,7 @@ def RazorpayCallbackView(request):
                 log_activity(listing.seller, "Asset Sold", f"{car.brand} {car.model} acquired by {purchase.user.name or purchase.user.email} for ₹{purchase.price}.")
             return redirect("cars:purchase_success", purchase_id=purchase.purchase_id)
             
-        except razorpay.errors.SignatureVerificationError:
+        except razorpay.errors.SignatureVerificationError: # type: ignore
             messages.error(request, "Gateway Security Warning: Invalid signature. Transaction Reversed ⚠️")
             purchase.payment_status = "Cancelled"
             purchase.save()
@@ -613,7 +611,7 @@ def ChatView(request, other_user_id):
     buyer = request.user if request.user.role == 'Buyer' else other_user
     seller = request.user if request.user.role == 'Seller' else other_user
     
-    if buyer.role == 'Buyer' and seller.role == 'Seller':
+    if buyer.role == 'Buyer' and seller.role == 'Seller': # type: ignore
         deal_qs = Deal.objects.filter(buyer=buyer, listing__seller=seller).exclude(status__in=['Rejected', 'Cancelled']).order_by('-updated_at')
         if listing:
             deal_qs = deal_qs.filter(listing=listing)
@@ -685,7 +683,7 @@ def WithdrawListingView(request, listing_id):
     listing = get_object_or_404(CarListing, listing_id=listing_id)
     
     # Control
-    if request.user != listing.seller and request.user.role != User.Role.ADMIN:
+    if request.user != listing.seller and request.user.role != User.Role.ADMIN: # type: ignore
         messages.error(request, "Unauthorized 🚫")
         return redirect('cars:inventory')
 
@@ -719,4 +717,4 @@ def toggle_wishlist(request, car_id):
 def wishlist_page(request):
     """Show all cars saved in the buyer's wishlist."""
     items = Wishlist.objects.filter(user=request.user).select_related("car__category")
-    return render(request, "cars/wishlist.html", {"wishlist_items": items})
+    return render(request, "cars/wishlist.html", {"wishlist_items": items})

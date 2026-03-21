@@ -65,6 +65,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'core.context_process.user_role',
             ],
         },
     },
@@ -160,3 +161,4 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'vehiclevault11@gmail.com'
 EMAIL_HOST_PASSWORD = 'wycf wgpc vasb ywgw'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

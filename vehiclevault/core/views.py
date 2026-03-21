@@ -2,14 +2,15 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.core.mail import send_mail, EmailMessage
+from django.core.mail import send_mail, EmailMessage, EmailMultiAlternatives
 from django.conf import settings
 from django.utils import timezone
 from datetime import timedelta
 import random
-from core.forms import UserLoginForm, UserSignupForm 
+import os
+from core.forms import UserLoginForm, UserSignupForm
 from cars.models import (
-    User, Buyer, Seller, Car, Purchase, 
+    User, Buyer, Seller, Car, Purchase,
     Deal, ActivityLog, UserTask, TestDrive
 )
 
@@ -34,16 +35,16 @@ def UserLoginView(request):
 
             if user:
                 selected_role = form.cleaned_data.get("role")
-                if user.role != selected_role:
+                if user.role != selected_role: # type: ignore
                     messages.error(request, f"Access Denied: You are not registered as a {selected_role} 🚫")
                 else:
                     login(request, user)
-                    messages.success(request, f"Welcome back, {user.name or user.email}! 🔓")
+                    messages.success(request, f"Welcome back, {user.name or user.email}! 🔓") # type: ignore
 
                     # Redirect to role-based dashboard
-                    if user.role == "Admin":
+                    if user.role == "Admin": # type: ignore
                         return redirect("core:admin_dashboard")
-                    elif user.role in ["Seller", "Dealer"]:
+                    elif user.role in ["Seller", "Dealer"]: # type: ignore
                         return redirect("core:seller_dashboard")
                     else:
                         return redirect("core:buyer_dashboard")
@@ -60,37 +61,28 @@ def UserSignupView(request):
         form = UserSignupForm(request.POST)
         if form.is_valid():
             email_address = form.cleaned_data["email"]
-            
-            from django.core.mail import EmailMessage
-            import os
-            
+
             email_msg = EmailMessage(
                 subject="Welcome to Vehicle Vault",
                 body="Thank you for creating an account with Vehicle Vault! Please find the welcome guide attached.",
                 from_email=settings.EMAIL_HOST_USER,
                 to=[email_address],
             )
-            
+
             # Attach PDF if it exists
             pdf_path = os.path.join(settings.MEDIA_ROOT, 'documents', 'welcome_guide.pdf')
             if os.path.exists(pdf_path):
                 email_msg.attach_file(pdf_path)
-                
+
             # Attach Image if it exists
             image_path = os.path.join(settings.MEDIA_ROOT, 'documents', 'Vehicle Vault.png')
             if os.path.exists(image_path):
                 email_msg.attach_file(image_path)
-                
-            # email_msg.send(fail_silently=False) # Sent after OTP generation
-            
+
             user = form.save(commit=False)
             user.set_password(form.cleaned_data["password"])
-            user.is_active = False # Require OTP
-            
-            import random
-            from django.utils import timezone
-            from datetime import timedelta
-            
+            user.is_active = False  # Require OTP
+
             otp = str(random.randint(100000, 999999))
             user.otp_code = otp
             user.otp_expiry = timezone.now() + timedelta(minutes=15)
@@ -102,12 +94,9 @@ def UserSignupView(request):
             elif role in [User.Role.SELLER, User.Role.DEALER]:
                 Seller.objects.create(user=user)
 
-            # Update email body with OTP
+            # Update email body with OTP and send
             email_msg.body = f"Your Vehicle Vault verification code is: {otp}\n\nThis code will expire in 15 minutes."
             email_msg.send(fail_silently=False)
-            
-            # Log for development
-            print(f"DEBUG: OTP for {email_address} is {otp}")
 
             # Store email in session for OTP verification
             request.session['pending_activation_email'] = email_address
@@ -126,8 +115,7 @@ def VerifyOTPView(request):
 
     if request.method == "POST":
         otp_attempt = request.POST.get("otp")
-        from django.utils import timezone
-        
+
         user = None
         if otp_attempt:
             user = User.objects.filter(email=email, otp_code=otp_attempt, otp_expiry__gt=timezone.now()).first()
@@ -336,7 +324,7 @@ def PasswordResetVerifyView(request):
             user = User.objects.get(email=email)
             
             # Verify OTP and Expiry
-            if user.otp_code == otp and user.otp_expiry > timezone.now():
+            if user.otp_code == otp and user.otp_expiry > timezone.now(): # type: ignore
                 user.set_password(new_password)
                 user.otp_code = None # Clear after use
                 user.otp_expiry = None

@@ -84,7 +84,7 @@ class User(AbstractUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
-    objects = UserManager()
+    objects = UserManager() # type: ignore
 
     def __str__(self):
         return self.email
@@ -108,10 +108,10 @@ class Seller(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="seller_profile")
     dealership_name = models.CharField(max_length=100, blank=True)
     location = models.CharField(max_length=150, blank=True)
-    rating = models.DecimalField(max_digits=3, decimal_places=2, default=0.00)
+    rating = models.DecimalField(max_digits=3, decimal_places=2, default=0.00) # type: ignore
 
     def save(self, *args, **kwargs):
-        if self.user.role != User.Role.SELLER:
+        if self.user.role not in [User.Role.SELLER, User.Role.DEALER]:
             self.user.role = User.Role.SELLER
             self.user.save(update_fields=["role"])
         super().save(*args, **kwargs)
@@ -220,7 +220,7 @@ class Car(models.Model):
     horsepower = models.PositiveIntegerField(default=0)
     torque = models.PositiveIntegerField(default=0)
     top_speed = models.PositiveIntegerField(default=0)
-    acceleration_0_100 = models.DecimalField(max_digits=4, decimal_places=1, default=0.0)
+    acceleration_0_100 = models.DecimalField(max_digits=4, decimal_places=1, default=0.0) # type: ignore
     engine_details = models.CharField(max_length=200, blank=True)
     safety_rating = models.CharField(max_length=10, default="N/A")
     three_d_model_url = models.URLField(blank=True, null=True)
