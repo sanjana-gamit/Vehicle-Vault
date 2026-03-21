@@ -120,17 +120,16 @@
                             <label class="form-label fw-600 small text-white-50">PRIMARY COVER IMAGE</label>
                             <div class="image-upload-container p-4 rounded-4 text-center"
                                 style="background: rgba(255,255,255,0.02); border: 2px dashed var(--glass-border); transition: var(--transition);">
-                                <input type="file" name="car_image" id="id_car_image" class="form-control d-none"
-                                    onchange="previewImage(this)">
-                                <label for="id_car_image" class="cursor-pointer">
-                                    <div id="image_preview_box" class="mb-3 d-none">
-                                        <img id="image_preview" src="#" alt="Preview"
-                                            class="img-fluid rounded-3 shadow-lg" style="max-height: 250px;">
+                                <input type="file" name="images" id="id_images" class="form-control d-none"
+                                    multiple onchange="previewImages(this)">
+                                <label for="id_images" class="cursor-pointer">
+                                    <div id="image_preview_box" class="mb-3 d-none d-flex flex-wrap justify-content-center gap-2">
+                                        <!-- Javascript will inject preview images here -->
                                     </div>
                                     <div id="upload_placeholder">
                                         <div class="fs-1 mb-2 text-accent">📸</div>
-                                        <p class="mb-1 fw-700 text-white">Select a High-Resolution Masterpiece</p>
-                                        <p class="smallest text-white-50 mb-0">Drag and drop or click to browse</p>
+                                        <p class="mb-1 fw-700 text-white" id="upload_text_main">Select a High-Resolution Gallery</p>
+                                        <p class="smallest text-white-50 mb-0">Drag and drop or click to browse multiple images</p>
                                     </div>
                                 </label>
                             </div>
@@ -240,21 +239,36 @@
 </style>
 
 <script>
-    function previewImage(input) {
+    function previewImages(input) {
         const previewBox = document.getElementById('image_preview_box');
-        const previewImage = document.getElementById('image_preview');
         const placeholder = document.getElementById('upload_placeholder');
+        const uploadTextMain = document.getElementById('upload_text_main');
 
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-
-            reader.onload = function (e) {
-                previewImage.src = e.target.result;
-                previewBox.classList.remove('d-none');
-                placeholder.classList.add('d-none');
+        if (input.files && input.files.length > 0) {
+            previewBox.innerHTML = ''; // Clear previous
+            previewBox.classList.remove('d-none');
+            
+            // Limit preview to first 3 to save UI space
+            const maxPreview = Math.min(input.files.length, 3);
+            for(let i=0; i<maxPreview; i++) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement("img");
+                    img.src = e.target.result;
+                    img.className = "img-fluid rounded-3 shadow-lg";
+                    img.style.maxHeight = "150px";
+                    img.style.objectFit = "cover";
+                    previewBox.appendChild(img);
+                }
+                reader.readAsDataURL(input.files[i]);
             }
-
-            reader.readAsDataURL(input.files[0]);
+            
+            uploadTextMain.innerHTML = `<span class="text-success">${input.files.length} Asset(s) Selected for Upload</span>`;
+        } else {
+            previewBox.innerHTML = '';
+            previewBox.classList.add('d-none');
+            placeholder.classList.remove('d-none');
+            uploadTextMain.textContent = "Select a High-Resolution Gallery";
         }
     }
 </script>

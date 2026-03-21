@@ -5,8 +5,9 @@ app_name = "core"
 
 urlpatterns = [
     path('login/', views.UserLoginView, name='login'),
-    path('signup/', views.UserSignupView, name='signup'),
-    path("logout",views.LogoutViewCustom, name='logout'),
+    path("signup/", views.UserSignupView, name="signup"),
+    path("verify-otp/", views.VerifyOTPView, name="verify_otp"),
+    path("logout/", views.LogoutViewCustom, name="logout"),
     path("contact/", views.contact, name="contact"),
     path("faq/", views.faq, name="faq"),
     path("privacy/", views.privacy, name="privacy"),
@@ -28,6 +29,10 @@ urlpatterns = [
     path("dashboard/admin/", views.admin_dashboard, name="admin_dashboard"),
     path("dashboard/seller/", views.seller_dashboard, name="seller_dashboard"),
     path("dashboard/buyer/", views.buyer_dashboard, name="buyer_dashboard"),
+
+    # Password Recovery
+    path("password-reset/", views.PasswordResetRequestView, name="password_reset"),
+    path("password-reset/verify/", views.PasswordResetVerifyView, name="password_reset_verify"),
 
     # User Management
     path("manage-users/", views.UserManageListView, name="manage_users"),

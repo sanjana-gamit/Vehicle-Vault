@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 
-from .models import (
+from cars.models import (
     User,
     Buyer,
     Seller,
@@ -15,22 +15,6 @@ from .models import (
     Purchase,
 )
 
-class UserSignupForm(UserCreationForm):
-    class Meta:
-        model = User
-        fields = ("email", "name", "phone", "role", "password1", "password2")
-        widgets = {
-            "email": forms.EmailInput(attrs={"class": "form-control"}),
-            "name": forms.TextInput(attrs={"class": "form-control"}),
-            "phone": forms.TextInput(attrs={"class": "form-control"}),
-            "role": forms.Select(attrs={"class": "form-select"}),
-        }
-
-    def clean_email(self):
-        email = self.cleaned_data["email"].lower()
-        if User.objects.filter(email=email).exists():
-            raise ValidationError("Email already exists.")
-        return email
 
 class UserLoginForm(forms.Form):
     email = forms.EmailField(
@@ -54,6 +38,12 @@ class CarCategoryForm(forms.ModelForm):
         return name
 
 class CarForm(forms.ModelForm):
+    images = forms.FileField(
+        widget=forms.TextInput(attrs={'type': 'file', 'multiple': True, 'class': 'form-control'}), 
+        required=False, 
+        label="High-Res Gallery Images"
+    )
+
     class Meta:
         model = Car
         exclude = ("created_at", "is_available", "slug", "seller")
@@ -150,6 +140,21 @@ class TestDriveForm(forms.ModelForm):
             raise ValidationError("Proposed date cannot be in the past.")
         return date
 
+class BuyerTestDriveForm(forms.ModelForm):
+    class Meta:
+        model = TestDrive
+        fields = ("proposed_date", "notes")
+        widgets = {
+            "proposed_date": forms.DateInput(attrs={"type": "date", "class": "form-control", "style": "background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); color: white;"}),
+            "notes": forms.Textarea(attrs={"class": "form-control", "rows": 4, "style": "background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); color: white;", "placeholder": "Any specific requests or preferred times?"}),
+        }
+
+    def clean_proposed_date(self):
+        date = self.cleaned_data["proposed_date"]
+        if date < timezone.now().date():
+            raise ValidationError("Proposed date cannot be in the past.")
+        return date
+
 class PurchaseForm(forms.ModelForm):
     # EMI options
     EMI_CHOICES = [
@@ -168,13 +173,29 @@ class PurchaseForm(forms.ModelForm):
         required=False,
         widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter down payment', 'step': '0.01'})
     )
+    
+    shipping_address = forms.CharField(
+        required=False,
+        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 2, 'placeholder': '123 Executive Drive...'}),
+    )
+    
+    contact_number = forms.CharField(
+        required=True,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '+91 XXXX XXXXXX'}),
+    )
+    
+    is_token_booking = forms.BooleanField(
+        required=False,
+        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})
+    )
 
     class Meta:
         model = Purchase
-        fields = ('payment_method', 'emi_months', 'down_payment')
+        fields = ('payment_method', 'emi_months', 'down_payment', 'shipping_address', 'contact_number', 'is_token_booking')
         widgets = {
             'payment_method': forms.Select(attrs={'class': 'form-select', 'id': 'id_payment_method'}),
         }
+
 
     def clean(self):
         cleaned_data = super().clean()

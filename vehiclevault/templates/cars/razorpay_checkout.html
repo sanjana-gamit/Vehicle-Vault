@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 text-center">
+            <div class="glass-card p-5 border-0 rounded-4 shadow-lg" style="background: rgba(11, 17, 32, 0.9); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.05) !important;">
+                <div class="mb-4">
+                    <i class="fas fa-shield-alt fa-3x text-primary shadow-sm" style="filter: drop-shadow(0 0 10px rgba(59,130,246,0.3));"></i>
+                </div>
+                <h3 class="fw-800 text-white mb-2">Secure Payment Gateway</h3>
+                <p class="text-white-50 mb-4">You are securely acquiring the <strong>{{ car.brand }} {{ car.model }}</strong>. Please complete the Razorpay transaction below.</p>
+                
+                <div class="px-4 py-3 border border-white-5 rounded-3 mb-5 d-flex justify-content-between align-items-center" style="background: rgba(0,0,0,0.3);">
+                    <div class="text-start">
+                        <div class="small fw-700 text-muted text-uppercase mb-1">Transaction Total</div>
+                        <div class="text-white fs-4 fw-800">₹{{ amount|floatformat:"0" }}</div>
+                    </div>
+                    {% if purchase.is_token_booking %}
+                    <span class="badge bg-primary bg-opacity-25 text-primary rounded-pill px-3 py-2 fw-700">TOKEN RESERVATION</span>
+                    {% elif purchase.payment_method == 'EMI' %}
+                    <span class="badge bg-warning bg-opacity-25 text-warning rounded-pill px-3 py-2 fw-700">EMI DOWN PAYMENT</span>
+                    {% else %}
+                    <span class="badge bg-success bg-opacity-25 text-success rounded-pill px-3 py-2 fw-700">FULL ACQUISITION</span>
+                    {% endif %}
+                </div>
+
+                <form action="{% url 'cars:razorpay_callback' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="purchase_id" value="{{ purchase.purchase_id }}">
+                    <!-- Razorpay Core Integration -->
+                    <script
+                        src="https://checkout.razorpay.com/v1/checkout.js"
+                        data-key="{{ razorpay_merchant_key }}"
+                        data-amount="{{ amount_in_paise }}"
+                        data-currency="INR"
+                        data-order_id="{{ razorpay_order_id }}"
+                        data-buttontext="AUTHORIZE ₹{{ amount|floatformat:"0" }}"
+                        data-name="Vehicle Vault"
+                        data-description="Secure Vehicle Acquisition"
+                        data-image="https://ui-avatars.com/api/?name=V+V&background=0D8ABC&color=fff"
+                        data-prefill.name="{{ request.user.name|default:request.user.email }}"
+                        data-prefill.email="{{ request.user.email }}"
+                        data-prefill.contact="{{ purchase.contact_number }}"
+                        data-theme.color="#3b82f6"
+                    ></script>
+                </form>
+
+                <div class="small text-muted mt-4">
+                    <i class="fas fa-lock me-1"></i> End-to-end encrypted by Razorpay
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Executive style for Razorpay button injection */
+    .razorpay-payment-button {
+        background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+        color: white !important;
+        border: none !important;
+        padding: 16px 32px !important;
+        border-radius: 50px !important;
+        font-weight: 800 !important;
+        letter-spacing: 1px !important;
+        text-transform: uppercase !important;
+        width: 100% !important;
+        box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.4) !important;
+        transition: all 0.3s ease !important;
+    }
+    .razorpay-payment-button:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 15px 30px -5px rgba(59, 130, 246, 0.5) !important;
+    }
+</style>
+{% endblock %}

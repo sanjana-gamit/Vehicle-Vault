@@ -148,7 +148,7 @@
                                 {% if car.car_image %}
                                 <img src="{{ car.car_image.url }}" class="w-100 h-100" style="object-fit: contain;">
                                 {% else %}
-                                <img src="{% static 'images/placeholder-car.jpg' %}" class="w-100 h-100"
+                                <img src="{% static 'images/placeholder-car.png' %}" class="w-100 h-100"
                                     style="object-fit: contain; filter: brightness(0.8);">
                                 {% endif %}
                                 <div class="position-absolute top-0 start-0 m-2 d-flex flex-column gap-1">
@@ -183,6 +183,14 @@
                                         title="Add to Compare">
                                         ⚖️
                                     </a>
+                                    {% if user.is_authenticated %}
+                                    <a href="{% url 'cars:toggle_wishlist' car.id %}?next={{ request.path }}"
+                                        class="btn btn-outline-light btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                                        style="width: 35px; height: 35px; border-color: rgba(255,255,255,0.2) !important;"
+                                        title="{% if car.id in wishlisted_ids %}Remove from Wishlist{% else %}Add to Wishlist{% endif %}">
+                                        {% if car.id in wishlisted_ids %}❤️{% else %}🤍{% endif %}
+                                    </a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -194,23 +202,21 @@
                 </div>
             </section>
 
-            <!-- Multimedia Gallery: Expert Reviews & Videos -->
-            <section class="portal-videos mb-5">
+            <!-- Automotive Visual Gallery: Static Collection -->
+            <section class="portal-gallery mb-5">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2 class="fw-800 m-0 text-white" style="font-size: 1.5rem;">Expert Walkarounds</h2>
-                    <a href="#" class="smallest text-accent fw-800 text-decoration-none">View All 42+ Clips ›</a>
+                    <h2 class="fw-800 m-0 text-white" style="font-size: 1.5rem;">Collection Spotlight</h2>
+                    <span class="smallest text-accent fw-800">Authentic Visuals</span>
                 </div>
                 <div class="row g-3">
-                    {% for i in "12" %}
-                    <div class="col-md-6">
-                        <div class="video-card rounded-4 overflow-hidden position-relative shadow-sm"
-                            style="height: 180px;">
-                            <div class="bg-dark w-100 h-100 d-flex align-items-center justify-content-center">
-                                <div class="play-btn-overlay">▶</div>
-                            </div>
-                            <div class="position-absolute bottom-0 start-0 w-100 p-3"
+                    {% for img in static_car_images %}
+                    <div class="col-md-4">
+                        <div class="gallery-card rounded-4 overflow-hidden position-relative shadow-sm"
+                            style="height: 140px; border: 1px solid rgba(255,255,255,0.05); background: #0b1120;">
+                            <img src="{% static 'images/' %}{{ img.file }}" class="w-100 h-100" style="object-fit: contain; transition: transform 0.5s ease;">
+                            <div class="position-absolute bottom-0 start-0 w-100 p-2"
                                 style="background: linear-gradient(transparent, rgba(0,0,0,0.8));">
-                                <div class="text-white small fw-700">Performance Review: Edition {{ i }}</div>
+                                <div class="text-white smallest fw-700 text-center">{{ img.name }}</div>
                             </div>
                         </div>
                     </div>
@@ -242,7 +248,7 @@
                                         <img src="{{ car.car_image.url }}" class="w-100 h-100"
                                             style="object-fit: contain;">
                                         {% else %}
-                                        <img src="{% static 'images/placeholder-car.jpg' %}" class="w-100 h-100"
+                                        <img src="{% static 'images/placeholder-car.png' %}" class="w-100 h-100"
                                             style="object-fit: contain; filter: brightness(0.8);">
                                         {% endif %}
                                     </div>

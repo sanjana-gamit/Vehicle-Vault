@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.venv
+venv/
+env/
+ENV/
+
+# Django
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+
+# IDEs
+.vscode/
+.idea/
+.DS_Store
+
+# Static analysis
+pyrightconfig.json

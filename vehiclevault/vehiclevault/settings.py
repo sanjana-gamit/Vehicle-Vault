@@ -140,6 +140,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'cars.User'
 
 # =========================
+# RAZORPAY PAYMENT GATEWAY
+# =========================
+# The user must provide their own test/live keys in production (.env recommended)
+RAZORPAY_KEY_ID = 'rzp_test_PLACEHOLDER_KEY' 
+RAZORPAY_KEY_SECRET = 'rzp_test_PLACEHOLDER_SECRET'
+
+# =========================
 # LOGIN & LOGOUT REDIRECTS
 # =========================
 LOGIN_URL = 'core:login'

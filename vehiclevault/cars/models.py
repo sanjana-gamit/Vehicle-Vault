@@ -12,8 +12,16 @@ class UserManager(BaseUserManager):
             raise ValueError("Email is required")
 
         email = self.normalize_email(email)
+        if 'vault_code' not in extra_fields:
+            extra_fields['vault_code'] = email
+        if 'status' not in extra_fields:
+            extra_fields['status'] = "Inactive"
+            
+        print(f"DEBUG: Creating user with email={email}, username={extra_fields.get('username')}, status={extra_fields.get('status')}")
+        
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
+        print(f"DEBUG: User object created in memory. username={user.username}")
         user.full_clean()
         user.save(using=self._db)
         return user
@@ -34,7 +42,8 @@ class UserManager(BaseUserManager):
         return self._create_user(email, password, **extra_fields)
 
 class User(AbstractUser):
-    username = None
+    vault_code = models.CharField(max_length=150, unique=True, blank=True, null=True)
+    username = None # Remove AbstractUser's username
     user_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(unique=True)
 
@@ -54,6 +63,22 @@ class User(AbstractUser):
         choices=Role.choices,
         default=Role.BUYER,
         db_index=True,
+    )
+
+    is_active = models.BooleanField(default=False) # Overrides AbstractUser's default True
+    otp_code = models.CharField(max_length=6, blank=True, null=True)
+    otp_expiry = models.DateTimeField(blank=True, null=True)
+
+    class AccountStatus(models.TextChoices):
+        INACTIVE = "Inactive", "Inactive"
+        ACTIVE = "Active", "Active"
+        BLOCKED = "Blocked", "Blocked"
+        DELETED = "Deleted", "Deleted"
+
+    status = models.CharField(
+        max_length=10,
+        choices=AccountStatus.choices,
+        default=AccountStatus.INACTIVE,
     )
 
     USERNAME_FIELD = "email"
@@ -214,6 +239,15 @@ class Car(models.Model):
     def __str__(self):
         return f"{self.brand} {self.model}"
 
+class CarImage(models.Model):
+    car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name="gallery")
+    image = models.ImageField(upload_to='car_gallery/')
+    is_feature = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"Gallery Media: {self.car.brand} {self.car.model}"
+
 class CarListing(models.Model):
     listing_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
@@ -231,7 +265,12 @@ class CarListing(models.Model):
 
     status = models.CharField(
         max_length=20,
-        choices=[("Active", "Active"), ("Sold", "Sold")],
+        choices=[
+            ("Active", "Active"), 
+            ("Pending", "Pending"), 
+            ("Sold", "Sold"), 
+            ("Withdrawn", "Withdrawn")
+        ],
         default="Active",
     )
 
@@ -306,8 +345,101 @@ class Purchase(models.Model):
     emi_months = models.PositiveIntegerField(null=True, blank=True)
     monthly_installment = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
     down_payment = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+
+    # Razorpay Gateway Tracking
+    razorpay_order_id = models.CharField(max_length=100, blank=True, null=True)
+    razorpay_payment_id = models.CharField(max_length=100, blank=True, null=True)
+    razorpay_signature = models.CharField(max_length=200, blank=True, null=True)
+    
+    # Logistics & Token Bookings
+    is_token_booking = models.BooleanField(default=False)
+    shipping_address = models.TextField(blank=True)
+    contact_number = models.CharField(max_length=20, blank=True)
     
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Purchase {self.purchase_id} | {self.car} | {self.user.email}"
+
+class Message(models.Model):
+    message_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sent_messages")
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name="received_messages")
+    listing = models.ForeignKey(CarListing, on_delete=models.CASCADE, related_name="messages", null=True, blank=True)
+    
+    content = models.TextField()
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['created_at']
+
+    def __str__(self):
+        return f"From {self.sender} to {self.recipient}"
+
+class Deal(models.Model):
+    deal_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    listing = models.ForeignKey(CarListing, on_delete=models.CASCADE, related_name="deals")
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="deals_as_buyer")
+    
+    offered_price = models.DecimalField(max_digits=12, decimal_places=2)
+    message = models.TextField(blank=True)
+    
+    class Status(models.TextChoices):
+        PROPOSED = "Proposed", "Proposed"
+        NEGOTIATING = "Negotiating", "Negotiating"
+        ACCEPTED = "Accepted", "Accepted"
+        REJECTED = "Rejected", "Rejected"
+        CANCELLED = "Cancelled", "Cancelled"
+
+    status = models.CharField(max_length=20, choices=Status.choices, default=Status.PROPOSED)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Deal on {self.listing.car} | {self.status}"
+
+class ActivityLog(models.Model):
+    log_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="activities")
+    action_type = models.CharField(max_length=50) # e.g., 'Listing Created', 'Price Updated', 'Message Sent'
+    description = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-timestamp']
+
+    def __str__(self):
+        return f"{self.user.email} - {self.action_type} at {self.timestamp}"
+
+class UserTask(models.Model):
+    task_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="tasks")
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    due_date = models.DateTimeField(null=True, blank=True)
+    is_completed = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['due_date', 'created_at']
+
+    def __str__(self):
+        return self.title
+
+class Wishlist(models.Model):
+    wishlist_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="wishlist_items"
+    )
+    car = models.ForeignKey(
+        Car, on_delete=models.CASCADE, related_name="wishlisted_by"
+    )
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("user", "car")
+        ordering = ["-added_at"]
+
+    def __str__(self):
+        return f"{self.user.email} → {self.car}"

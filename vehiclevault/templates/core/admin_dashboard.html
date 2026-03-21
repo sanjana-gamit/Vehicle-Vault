@@ -100,6 +100,33 @@
             </div>
         {% endif %}
     </div>
+
+    <!-- System Activity Log -->
+    <div class="mt-5 p-4 rounded-4" style="background: var(--bg-card); border: 1px solid var(--glass-border);">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="fw-800 m-0 text-white" style="font-size: 1.5rem;">System Activity Log</h3>
+            <span class="badge bg-danger rounded-pill px-3 py-2 smallest fw-700">LIVE FEED</span>
+        </div>
+        <div class="activity-feed custom-scrollbar" style="max-height: 400px; overflow-y: auto;">
+            {% for log in activities %}
+            <div class="d-flex gap-3 mb-3 pb-3" style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                <div class="mt-1" style="width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 6px;"></div>
+                <div class="flex-grow-1">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="text-white small fw-700">{{ log.action_type }}</div>
+                        <div class="smallest text-white-50">{{ log.timestamp|timesince }} ago</div>
+                    </div>
+                    <div class="smallest text-white-50 mt-1">{{ log.description }}</div>
+                    <div class="smallest text-accent opacity-75">{{ log.user.name|default:log.user.email }}</div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="text-center py-5">
+                <p class="text-muted mb-0">No system activity logs recorded yet.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 
 <style>
