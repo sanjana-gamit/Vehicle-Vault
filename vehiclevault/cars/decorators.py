@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.http import HttpResponse
@@ -104,3 +105,20 @@ def buyer_or_seller_or_dealer_or_admin_or_staff_or_finance_or_insurance_or_mecha
             return redirect("cars:home")
         return view_func(request, *args, **kwargs)
     return wrapper
+=======
+from django.shortcuts import redirect
+from django.contrib import messages
+from django.http import HttpResponse
+
+def role_required(allowed_roles=[]):
+    def decorator(view_func):
+        def wrapper(request, *args, **kwargs):
+            if not request.user.is_authenticated:
+                return redirect('core:login')
+            if request.user.role in allowed_roles:
+                return view_func(request, *args, **kwargs)
+            else:
+                return HttpResponse("You do not have permission to access this page.")
+        return wrapper
+    return decorator
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0

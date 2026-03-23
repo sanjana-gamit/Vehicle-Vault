@@ -15,7 +15,10 @@ urlpatterns = [
     path("cars/all_cars/", views.CarsListView, name="all_cars_alias"),
     path("cars/used-cars/", views.UsedCarsListView, name="used_cars"),
     path("cars/inventory/", views.InventoryListView, name="inventory"),
+<<<<<<< HEAD
     path("cars/inventory/import-static/", views.ImportStaticCarsView, name="import_static_cars"),
+=======
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
     path("cars/upcoming-cars/", views.UpcomingCarsListView, name="upcoming_cars"),
     path("cars/electric-cars/", views.ElectricCarsListView, name="electric_cars"),
     path("cars/new-cars/", views.NewCarsListView, name="new_cars"),
@@ -23,8 +26,11 @@ urlpatterns = [
     path("add/", views.CarCreateView, name="add"),
     path("cars/<str:vin>/edit/", views.CarUpdateView, name="car_edit"),
     path("cars/<str:vin>/delete/", views.CarDeleteView, name="car_delete"),
+<<<<<<< HEAD
     path("cars/<str:vin>/price/", views.QuickPriceUpdateView, name="car_price_update"),
     path("cars/<str:vin>/stock/", views.QuickStockUpdateView, name="car_stock_update"),
+=======
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
     path("category/<str:category_name>/", views.CarCategoryView, name="car_category"),
     
     # Compare

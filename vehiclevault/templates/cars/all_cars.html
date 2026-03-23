@@ -69,18 +69,29 @@
                         <div class="badge bg-primary-subtle text-primary smallest fw-800 mb-2 px-3 rounded-pill"
                             style="letter-spacing: 1px;">PREMIUM PARTNERS</div>
                         <h2 class="fw-800 m-0 text-white" style="font-size: 1.7rem; letter-spacing: -1px;">All Brands
+<<<<<<< HEAD
                             <span class="text-white-50 ms-2" style="font-weight: 400;">({{ brand_showcase|length }}
+=======
+                            <span class="text-white-50 ms-2" style="font-weight: 400;">({{ brands.count }}
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
                                 Manufacturers)</span>
                         </h2>
                     </div>
                 </div>
                 <div class="brand-grid shadow-lg">
+<<<<<<< HEAD
                     {% for brand in brand_showcase %}
                     <div class="brand-item" onclick="window.location.href='?brand={{ brand.name }}'">
                         {% if brand.logo_url %}
                         <img src="{{ brand.logo_url }}" class="brand-logo-placeholder p-2" style="object-fit: contain;">
                         {% elif brand.static_file %}
                         <img src="{% static 'images/' %}{{ brand.static_file }}" class="brand-logo-placeholder p-2" style="object-fit: contain;">
+=======
+                    {% for brand in brands %}
+                    <div class="brand-item" onclick="window.location.href='?brand={{ brand.name }}'">
+                        {% if brand.logo %}
+                        <img src="{{ brand.logo.url }}" class="brand-logo-placeholder p-2" style="object-fit: contain;">
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
                         {% else %}
                         <div class="brand-logo-placeholder">{{ brand.name|slice:":1" }}</div>
                         {% endif %}
@@ -222,8 +233,11 @@
                             </div>
                         </div>
                     </div>
+<<<<<<< HEAD
                     {% empty %}
                     <div class="col-12 text-center py-4 text-white-50">No gallery images found in static assets.</div>
+=======
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
                     {% endfor %}
                 </div>
             </section>
@@ -289,4 +303,8 @@
     <!-- Deep Content Footer -->
 </div>
 
+<<<<<<< HEAD
 {% endblock %}
+=======
+{% endblock %}
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0

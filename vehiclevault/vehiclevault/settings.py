@@ -80,7 +80,11 @@ WSGI_APPLICATION = 'vehiclevault.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
+<<<<<<< HEAD
         'NAME': 'vehiclevault',
+=======
+        'NAME': 'vehicle',
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
         'USER': 'postgres',
         'PASSWORD': '1430',
         'HOST': 'localhost',

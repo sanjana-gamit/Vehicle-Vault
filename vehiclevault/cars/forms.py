@@ -46,6 +46,7 @@ class CarForm(forms.ModelForm):
 
     class Meta:
         model = Car
+<<<<<<< HEAD
         exclude = (
             "created_at",
             "is_available",
@@ -59,6 +60,9 @@ class CarForm(forms.ModelForm):
             "safety_rating",
             "three_d_model_url",
         )
+=======
+        exclude = ("created_at", "is_available", "slug", "seller")
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
         widgets = {
             "category": forms.Select(attrs={"class": "form-select"}),
             "vin": forms.TextInput(attrs={"class": "form-control"}),

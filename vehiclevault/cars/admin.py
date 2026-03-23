@@ -153,7 +153,11 @@ class CarListingAdmin(admin.ModelAdmin):
     search_fields = (
         "car__brand",
         "car__model",
+<<<<<<< HEAD
         "seller__email",
+=======
+        "seller__user__email",
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
     )
     readonly_fields = ("listing_id", "created_at")
     date_hierarchy = "created_at"
@@ -195,7 +199,14 @@ class TestDriveAdmin(admin.ModelAdmin):
         "created_at",
     )
     list_filter = ("status", "proposed_date")
+<<<<<<< HEAD
     search_fields = ("buyer__email",)
     readonly_fields = ("test_drive_id", "created_at")
     autocomplete_fields = ("listing", "buyer")
     ordering = ("-created_at",)
+=======
+    search_fields = ("buyer__user__email",)
+    readonly_fields = ("test_drive_id", "created_at")
+    autocomplete_fields = ("listing", "buyer")
+    ordering = ("-created_at",)
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0

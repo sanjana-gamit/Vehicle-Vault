@@ -30,6 +30,7 @@ from cars.models import (
     UserTask,
     Wishlist,
 )
+<<<<<<< HEAD
 from cars.utils import (
     ensure_primary_listing,
     get_static_brand_showcase,
@@ -38,17 +39,23 @@ from cars.utils import (
     log_activity,
     sync_static_inventory,
 )
+=======
+from cars.utils import log_activity
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
 import razorpay
 import uuid
 
 
 User = get_user_model()
 
+<<<<<<< HEAD
 
 def ensure_inventory_categories():
     for category_name in ("Sedan", "SUV", "Hatchback"):
         CarCategory.objects.get_or_create(name=category_name)
 
+=======
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
 def seller_or_admin_required(view_func):
     @login_required
     def wrapper(request, *args, **kwargs):
@@ -58,6 +65,7 @@ def seller_or_admin_required(view_func):
         return view_func(request, *args, **kwargs)
     return wrapper
 
+<<<<<<< HEAD
 
 def admin_required(view_func):
     @login_required
@@ -78,6 +86,8 @@ def buyer_required(view_func):
         return view_func(request, *args, **kwargs)
     return wrapper
 
+=======
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
 def HomeView(request):
     listings = (
         CarListing.objects
@@ -88,6 +98,7 @@ def HomeView(request):
     brands = Brand.objects.all().order_by('order', 'name')
     return render(request, "home.html", {
         "listings": listings,
+<<<<<<< HEAD
         "brand_showcase": get_static_brand_showcase(brands),
         "hero_images": get_static_hero_images(),
     })
@@ -97,6 +108,13 @@ def find_new(request):
     return render(request, "cars/find_new.html", {
         "brand_showcase": get_static_brand_showcase(brands),
     })
+=======
+        "brands": brands
+    })
+
+def find_new(request):
+    return render(request, "cars/find_new.html")
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
 
 def CarsListView(request):
     cars = Car.objects.order_by("-created_at")
@@ -154,8 +172,24 @@ def CarsListView(request):
         "popular_pills": pills.filter(pill_type="Popular"),
     }
 
+<<<<<<< HEAD
     brands = Brand.objects.all().order_by("order", "name")
     static_car_images = get_static_gallery_images()
+=======
+    static_car_images = [
+        {"name": "Audi", "file": "Audi.jpg"},
+        {"name": "BMW", "file": "BMW.jpg"},
+        {"name": "Kia", "file": "Kia.jpg"},
+        {"name": "MG", "file": "MG.jpg"},
+        {"name": "Mahindra", "file": "Mahindra.jpg"},
+        {"name": "Mercedes", "file": "Mercedes.jpg"},
+        {"name": "Nissan", "file": "Nissan.jpg"},
+        {"name": "Swift", "file": "Swift.jpg"},
+        {"name": "Tata", "file": "Tata.jpg"},
+        {"name": "Honda", "file": "honda.jpg"},
+        {"name": "Hyundai", "file": "download.jpg"},
+    ]
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
 
     wishlisted_ids = []
     if request.user.is_authenticated:
@@ -163,7 +197,11 @@ def CarsListView(request):
 
     context = {
         "cars": cars.distinct(),
+<<<<<<< HEAD
         "brand_showcase": get_static_brand_showcase(brands),
+=======
+        "brands": Brand.objects.all(),
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
         "static_car_images": static_car_images,
         "wishlisted_ids": list(wishlisted_ids),
         **discovery_context,
@@ -178,9 +216,15 @@ def UsedCarsListView(request):
 @seller_or_admin_required
 def InventoryListView(request):
     if request.user.role == User.Role.ADMIN: # type: ignore
+<<<<<<< HEAD
         cars = Car.objects.select_related("seller", "category").all().order_by("-created_at")
     else:
         cars = Car.objects.select_related("seller", "category").filter(seller=request.user).order_by("-created_at")
+=======
+        cars = Car.objects.all().order_by("-created_at")
+    else:
+        cars = Car.objects.filter(seller=request.user).order_by("-created_at")
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
     
     return render(request, "cars/inventory.html", {"cars": cars})
 
@@ -232,7 +276,10 @@ def CarCategoryView(request, category_name):
 
 @seller_or_admin_required
 def CarCreateView(request):
+<<<<<<< HEAD
     ensure_inventory_categories()
+=======
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
     form = CarForm(request.POST or None, request.FILES or None)
 
     if request.method == "POST" and form.is_valid():
@@ -244,10 +291,13 @@ def CarCreateView(request):
             car.car_image = images[0]
             
         car.save()
+<<<<<<< HEAD
         ensure_primary_listing(
             car,
             description=f"{car.brand} {car.model} listed by {request.user.name or request.user.email}.",
         )
+=======
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
         
         # Populate the Multi-Image Media Gallery
         if images:
@@ -258,16 +308,22 @@ def CarCreateView(request):
         messages.success(request, "Asset registered successfully with multi-media gallery 📸")
         return redirect("cars:inventory")
 
+<<<<<<< HEAD
     if request.method == "POST":
         messages.error(request, "Listing could not be deployed. Please correct the highlighted fields and try again.")
 
+=======
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
     return render(request, "cars/add_car.html", {
         "car_form": form,
     })
 
 @seller_or_admin_required
 def CarUpdateView(request, vin):
+<<<<<<< HEAD
     ensure_inventory_categories()
+=======
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
     if request.user.role == User.Role.ADMIN: # type: ignore
         car = get_object_or_404(Car, vin=vin)
     else:
@@ -283,10 +339,13 @@ def CarUpdateView(request, vin):
             car.car_image = images[0]
             
         car.save()
+<<<<<<< HEAD
         ensure_primary_listing(
             car,
             description=f"{car.brand} {car.model} listed by {car.seller.name or car.seller.email}.",
         )
+=======
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
         
         # Append additional media to the existing gallery
         if images:
@@ -297,9 +356,12 @@ def CarUpdateView(request, vin):
         messages.success(request, "Asset updated successfully ✨")
         return redirect("cars:inventory")
 
+<<<<<<< HEAD
     if request.method == "POST":
         messages.error(request, "Listing update could not be saved. Please correct the highlighted fields and try again.")
 
+=======
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
     return render(request, "cars/add_car.html", {
         "car_form": form,
         "car": car
@@ -314,6 +376,7 @@ def CarDeleteView(request, vin):
     log_activity(request.user, "Listing Deleted", f"Asset '{car.brand} {car.model}' (VIN: {car.vin}) permanently removed.")
     car.delete()
     messages.success(request, "Car deleted successfully 🗑️")
+<<<<<<< HEAD
     return redirect("cars:inventory")
 
 @seller_or_admin_required
@@ -371,6 +434,9 @@ def QuickStockUpdateView(request, vin):
             messages.error(request, "Invalid stock value. Please enter a non-negative whole number. ❌")
 
     return redirect("cars:inventory")
+=======
+    return redirect("cars:all_cars")
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
 
 def compare_cars(request):
     compare_list = request.session.get("compare_list", [])
@@ -397,7 +463,11 @@ def remove_from_compare(request, car_id):
         messages.success(request, "Removed from compare ❌")
     return redirect("cars:compare_cars")
 
+<<<<<<< HEAD
 @buyer_required
+=======
+@login_required
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
 def ScheduleTestDriveView(request, vin):
     car = get_object_or_404(Car, vin=vin)
     listing = car.listings.first() # type: ignore
@@ -438,10 +508,13 @@ def ScheduleTestDriveView(request, vin):
 
 @login_required
 def TestDrivesView(request):
+<<<<<<< HEAD
     if request.user.role not in [User.Role.BUYER, User.Role.SELLER, User.Role.ADMIN]:  # type: ignore
         messages.error(request, "You do not have access to test drive schedules.")
         return redirect("cars:home")
 
+=======
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
     if request.user.role == User.Role.BUYER: # type: ignore
         base_qs = (
             TestDrive.objects.filter(buyer=request.user)
@@ -796,6 +869,7 @@ def WithdrawListingView(request, listing_id):
     return redirect('cars:inventory')
 
 
+<<<<<<< HEAD
 @admin_required
 def ImportStaticCarsView(request):
     result = sync_static_inventory(request.user)
@@ -811,6 +885,8 @@ def ImportStaticCarsView(request):
     return redirect("cars:inventory")
 
 
+=======
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
 @login_required
 def toggle_wishlist(request, car_id):
     """Add or remove a car from the user's wishlist. Returns to the page they came from."""

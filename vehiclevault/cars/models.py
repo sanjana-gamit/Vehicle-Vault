@@ -16,9 +16,18 @@ class UserManager(BaseUserManager):
             extra_fields['vault_code'] = email
         if 'status' not in extra_fields:
             extra_fields['status'] = "Inactive"
+<<<<<<< HEAD
 
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
+=======
+            
+        print(f"DEBUG: Creating user with email={email}, username={extra_fields.get('username')}, status={extra_fields.get('status')}")
+        
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        print(f"DEBUG: User object created in memory. username={user.username}")
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
         user.full_clean()
         user.save(using=self._db)
         return user

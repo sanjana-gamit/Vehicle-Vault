@@ -79,9 +79,13 @@
         <li><a href="{% url 'cars:inventory' %}">Inventory</a></li>
         {% endif %}
         {% endif %}
+<<<<<<< HEAD
         {% if user.is_authenticated and user.role == "Buyer" %}
         <li><a href="{% url 'cars:test_drives' %}">Test Drives</a></li>
         {% endif %}
+=======
+        <li><a href="{% url 'cars:test_drives' %}">Test Drives</a></li>
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
 
         <!-- More Dropdown -->
         <li class="dropdown">
@@ -126,4 +130,8 @@
         {% endif %}
     </div>
 
+<<<<<<< HEAD
 </nav>
+=======
+</nav>
+>>>>>>> 5a1a3e867c88f623617f14ff6f950e7e72a946c0
