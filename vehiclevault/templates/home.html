@@ -1,0 +1,225 @@
+{% extends 'base.html' %}
+{% block title %}Vehicle Vault{% endblock %}
+{% load static %}
+{% block content %}
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <div class="hero-text">
+        <h1 class="text-white">Find Your Next Ride </h1>
+        <p class="text-white">Browse, compare and book cars effortlessly.</p>
+        <a href="{% url 'cars:all_cars' %}" class="hero-btn">Browse Cars</a>
+    </div>
+
+    <!-- HERO CAROUSEL -->
+    <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+
+        <div class="carousel-inner">
+            {% for hero_image in hero_images %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <img src="{% static 'images/' %}{{ hero_image.file }}" class="d-block w-100" alt="{{ hero_image.name }}">
+            </div>
+            {% empty %}
+            <div class="carousel-item active">
+                <img src="{% static 'images/hero-bg.jpg' %}" class="d-block w-100" alt="Vehicle Vault">
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section container py-5" style="background: var(--bg-dark);">
+    <div class="section-header">
+        <h2 class="text-white">Premium Services</h2>
+        <p style="color: var(--text-muted); opacity: 1;">Expertly curated collection and seamless acquisition
+            experience.</p>
+    </div>
+
+    <div class="row g-4">
+        <!-- Search & Filter -->
+        <div class="col-md-4">
+            <a href="{% url 'cars:all_cars' %}" class="text-decoration-none">
+                <div class="feature-card">
+                    <div class="fs-1 mb-3">🔍</div>
+                    <h3>Search Inventory</h3>
+                    <p>Discover high-end vehicles using our precision matching technology.</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Compare Cars -->
+        <div class="col-md-4">
+            <a href="{% url 'cars:compare_cars' %}" class="text-decoration-none">
+                <div class="feature-card">
+                    <div class="fs-1 mb-3">⚖️</div>
+                    <h3>Intelligent Comparison</h3>
+                    <p>Analyze technical specifications side-by-side to make informed decisions.</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Book Test Drive -->
+        <div class="col-md-4">
+            <a href="{% if user.is_authenticated and user.role == 'Buyer' %}{% url 'cars:test_drives' %}{% else %}{% url 'core:login' %}{% endif %}" class="text-decoration-none">
+                <div class="feature-card">
+                    <div class="fs-1 mb-3">📅</div>
+                    <h3>Exclusive Access</h3>
+                    <p>Buyer accounts can schedule personalized test drives with our verified seller network.</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURED BRANDS -->
+<section class="brands-section py-5" style="background: var(--bg-card); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border);">
+    <div class="container">
+        <div class="section-header mb-5">
+            <h2 class="text-white">Elite Brand Partners</h2>
+            <p style="color: var(--text-muted);">Collaborating with the world's most prestigious automotive makers.</p>
+        </div>
+        
+        <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-4 justify-content-center">
+            {% for brand in brand_showcase %}
+            <div class="col">
+                <div class="brand-item text-center p-4 rounded-4" 
+                     style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s ease; height: 100%;">
+                    {% if brand.logo_url %}
+                    <img src="{{ brand.logo_url }}" alt="{{ brand.name }}" class="img-fluid mb-3" style="max-height: 60px; filter: grayscale(1) brightness(2); transition: all 0.3s ease;">
+                    {% elif brand.static_file %}
+                    <img src="{% static 'images/' %}{{ brand.static_file }}" alt="{{ brand.name }}" class="img-fluid mb-3" style="max-height: 60px; filter: grayscale(1) brightness(2); transition: all 0.3s ease;">
+                    {% endif %}
+                    <h6 class="text-white-50 small mb-0 fw-bold">{{ brand.name }}</h6>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<style>
+    .brand-item:hover {
+        background: rgba(255,255,255,0.05) !important;
+        transform: translateY(-5px);
+        border-color: var(--accent) !important;
+    }
+    .brand-item:hover img {
+        filter: grayscale(0) brightness(1) !important;
+    }
+    .home-car-card {
+        background: var(--bg-card);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+    .home-car-card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(56,189,248,0.3);
+        box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
+    }
+    .home-car-card .car-img-wrap {
+        height: 180px;
+        background: #0b1120;
+        overflow: hidden;
+        position: relative;
+    }
+    .home-car-card .car-img-wrap img {
+        width: 100%; height: 100%; object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    .home-car-card:hover .car-img-wrap img {
+        transform: scale(1.06);
+    }
+    /* Stock badge colours — pure CSS, no Django tags */
+    .stock-in  { font-size:0.65rem; font-weight:700; background:rgba(0,0,0,0.6); color:#4ade80; border:1px solid rgba(255,255,255,0.1); }
+    .stock-out { font-size:0.65rem; font-weight:700; background:rgba(0,0,0,0.6); color:#f87171; border:1px solid rgba(255,255,255,0.1); }
+</style>
+
+<!-- FEATURED CARS FROM DB -->
+{% if listings %}
+<section class="py-5" style="background:var(--bg-dark);">
+    <div class="container">
+        <div class="section-header mb-5">
+            <div class="badge px-4 py-2 mb-3 fw-700 text-uppercase d-inline-block"
+                 style="background:rgba(56,189,248,0.1); border:1px solid rgba(56,189,248,0.25); color:#38bdf8; letter-spacing:1.5px; border-radius:30px; font-size:0.8rem;">
+                Live Inventory
+            </div>
+            <h2 class="text-white">Featured Vehicles</h2>
+            <p style="color:var(--text-muted);">Freshly listed, price-updated in real-time by our verified sellers.</p>
+        </div>
+        <div class="row g-4">
+            {% for listing in listings %}
+            <div class="col-md-6 col-lg-3">
+                <div class="home-car-card">
+                    <div class="car-img-wrap">
+                        {% if listing.car.car_image %}
+                        <img src="{{ listing.car.car_image.url }}" alt="{{ listing.car.brand }} {{ listing.car.model }}">
+                        {% else %}
+                        <img src="{% static 'images/placeholder-car.png' %}" alt="Car">
+                        {% endif %}
+                        <div class="position-absolute top-0 start-0 m-2 d-flex gap-1 flex-column">
+                            {% if listing.car.is_upcoming %}
+                            <span class="badge bg-warning text-dark px-2 py-1 rounded-pill" style="font-size:0.65rem; font-weight:800;">UPCOMING</span>
+                            {% endif %}
+                            {% if listing.car.is_electric %}
+                            <span class="badge bg-info text-dark px-2 py-1 rounded-pill" style="font-size:0.65rem; font-weight:800;">⚡ EV</span>
+                            {% endif %}
+                        </div>
+                        <div class="position-absolute top-0 end-0 m-2">
+                            {% if listing.car.stock > 0 %}
+                            <span class="badge px-2 py-1 rounded-pill stock-in">● In Stock</span>
+                            {% else %}
+                            <span class="badge px-2 py-1 rounded-pill stock-out">● Sold Out</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <p class="text-white-50 smallest mb-1 fw-600 text-uppercase" style="letter-spacing:0.5px;">
+                            {{ listing.car.brand }} &nbsp;·&nbsp; {{ listing.car.launch_year }}
+                        </p>
+                        <h6 class="text-white fw-800 mb-1" style="font-size:1rem;">{{ listing.car.model }}</h6>
+                        <div class="mb-1 smallest text-white-50">
+                            {{ listing.car.fuel_type }} &nbsp;·&nbsp; {{ listing.car.transmission }} &nbsp;·&nbsp; {{ listing.car.seating_capacity }} seats
+                        </div>
+                        <div class="fw-900 mb-3" style="font-size:1.25rem; color:#38bdf8;">
+                            ₹{{ listing.car.price|floatformat:"0" }}
+                            <span class="text-white-50 fw-400 smallest">ex-showroom</span>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <a href="{% url 'cars:car_detail' listing.car.vin %}"
+                               class="btn btn-sm rounded-pill fw-700 flex-grow-1 py-2"
+                               style="background:linear-gradient(135deg,#2563eb,#1d4ed8); color:white; border:none; font-size:0.82rem;">
+                                View Details
+                            </a>
+                            <a href="{% url 'cars:add_to_compare' listing.car.id %}"
+                               class="btn btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                               style="width:34px; height:34px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); flex-shrink:0;"
+                               title="Compare">⚖️</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-5">
+            <a href="{% url 'cars:all_cars' %}" class="btn btn-outline-light rounded-pill px-5 py-3 fw-700">
+                Browse All Cars &nbsp;›
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% endblock %}

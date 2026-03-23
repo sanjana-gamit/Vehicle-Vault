@@ -1,0 +1,316 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<!-- Executive Success Page Aesthetics -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+    :root {
+        --vault-navy: #0f172a;
+        --vault-slate: #1e293b;
+        --vault-accent: #3b82f6;
+        --success-base: #10b981;
+        --glass-bg: rgba(15, 23, 42, 0.85);
+        --glass-border: rgba(255, 255, 255, 0.1);
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background: radial-gradient(circle at 70% 30%, #0f172a, #020617);
+        color: #f1f5f9;
+        min-height: 100vh;
+    }
+
+    .success-container {
+        padding: 80px 0;
+        animation: institutionEntrance 0.7s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    @keyframes institutionEntrance {
+        from { opacity: 0; transform: scale(0.98) translateY(10px); }
+        to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* Refined Institution Checkmark */
+    .success-emblem {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 30px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .emblem-circle {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: rgba(16, 185, 129, 0.1);
+        border: 2px solid var(--success-base);
+        animation: softPulse 2s infinite;
+    }
+
+    @keyframes softPulse {
+        0% { transform: scale(1); opacity: 1; }
+        100% { transform: scale(1.25); opacity: 0; }
+    }
+
+    .emblem-inner {
+        width: 60px;
+        height: 60px;
+        background: var(--success-base);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+        box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+    }
+
+    .emblem-inner i {
+        font-size: 1.8rem;
+        color: white;
+    }
+
+    /* Executive Invoice Card */
+    .digital-invoice {
+        background: var(--glass-bg);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid var(--glass-border);
+        border-radius: 24px;
+        padding: 50px;
+        box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.7);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .digital-invoice::after {
+        content: "CONFIRMED";
+        position: absolute;
+        top: 40px;
+        right: -35px;
+        background: var(--success-base);
+        color: white;
+        padding: 5px 60px;
+        transform: rotate(45deg);
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 2px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .invoice-header {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding-bottom: 30px;
+        margin-bottom: 40px;
+    }
+
+    .acquisition-card {
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 16px;
+        padding: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        display: flex;
+        align-items: center;
+    }
+
+    .car-thumbnail {
+        width: 140px;
+        height: 90px;
+        background: #000;
+        border-radius: 12px;
+        padding: 10px;
+        margin-right: 25px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .car-thumbnail img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
+    .data-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .data-row:last-child {
+        border-bottom: none;
+    }
+
+    .data-label {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #94a3b8;
+    }
+
+    .data-value {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #fff;
+    }
+
+    /* Professional Actions */
+    .btn-executive {
+        padding: 14px 40px;
+        border-radius: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        font-size: 0.85rem;
+        transition: all 0.2s ease;
+    }
+
+    .btn-exec-primary {
+        background: var(--vault-accent);
+        border: none;
+        color: white;
+    }
+
+    .btn-exec-primary:hover {
+        background: #2563eb;
+        transform: translateY(-1px);
+    }
+
+    .btn-exec-outline {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #94a3b8;
+    }
+
+    .btn-exec-outline:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: white;
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .institutional-badge {
+        background: rgba(16, 185, 129, 0.05);
+        border: 1px solid rgba(16, 185, 129, 0.15);
+        color: #34d399;
+        font-size: 0.65rem;
+        font-weight: 800;
+        padding: 4px 10px;
+        border-radius: 4px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .receipt-footer {
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 12px;
+        color: #64748b;
+        font-size: 0.8rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="success-container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                
+                <!-- Refined Logo -->
+                <div class="success-emblem">
+                    <div class="emblem-circle"></div>
+                    <div class="emblem-inner">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </div>
+
+                <h1 class="fw-extrabold text-white mb-2" style="font-size: 2.25rem;">Transaction Complete</h1>
+                <p class="text-muted small mb-5">Digital Invoice Reference: <span class="text-white fw-bold">{{ purchase.purchase_id|upper }}</span></p>
+
+                <!-- Digital Invoice Card -->
+                <div class="digital-invoice text-start">
+                    <header class="invoice-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="small text-muted uppercase tracking-wider mb-1">Authenticated For:</div>
+                            <h5 class="text-white fw-bold mb-0">{{ user.name|default:user.email }}</h5>
+                        </div>
+                        <div class="text-end">
+                            <div class="small text-muted mb-1">Processed Via</div>
+                            <div class="institutional-badge">Secure Vault Protocol</div>
+                        </div>
+                    </header>
+                    
+                    <div class="acquisition-card mb-5">
+                        <div class="car-thumbnail">
+                            {% if purchase.car.car_image %}
+                                <img src="{{ purchase.car.car_image.url }}" alt="{{ purchase.car.brand }}">
+                            {% else %}
+                                <i class="fas fa-car-side fa-2x text-white-50"></i>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <h4 class="text-white fw-bold mb-1">{{ purchase.car.brand }} {{ purchase.car.model }}</h4>
+                            <p class="text-muted small mb-0">{{ purchase.car.vin }} | {{ purchase.car.launch_year }} High Performance Edition</p>
+                        </div>
+                    </div>
+
+                    <div class="financial-summary mb-5">
+                        <h6 class="label-institutional mb-4">Financial Ledger</h6>
+                        <div class="data-row">
+                            <span class="data-label">Market Value acquisition</span>
+                            <span class="data-value" style="color: var(--vault-accent); font-size: 1.25rem;">₹{{ purchase.price|floatformat:0 }}</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Transaction Method</span>
+                            <span class="data-value">{{ purchase.payment_method }}</span>
+                        </div>
+                        
+                        {% if purchase.is_emi %}
+                            <div class="data-row">
+                                <span class="data-label">Down Payment Allocation</span>
+                                <span class="data-value text-success">₹{{ purchase.down_payment|floatformat:0 }}</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Monthly Installment Plan</span>
+                                <span class="data-value">₹{{ purchase.monthly_installment|floatformat:0 }}</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Agreement Term</span>
+                                <span class="data-value">{{ purchase.emi_months }} Months</span>
+                            </div>
+                        {% endif %}
+
+                        <div class="data-row">
+                            <span class="data-label">Authorization Date</span>
+                            <span class="data-value opacity-75 small">{{ purchase.created_at|date:"d F Y @ H:i" }}</span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-column flex-md-row gap-3 justify-content-center pt-4">
+                        <a href="{% url 'cars:home' %}" class="btn btn-executive btn-exec-primary">
+                            Return to Dashboard
+                        </a>
+                        <button class="btn btn-executive btn-exec-outline" onclick="window.print()">
+                            <i class="fas fa-print me-2"></i> Download Digital Invoice
+                        </button>
+                    </div>
+
+                    <div class="receipt-footer mt-5 text-center">
+                        <p class="mb-0">A detailed acquisition dossier has been securely dispatched to your registered address: <strong>{{ user.email }}</strong>.</p>
+                        <p class="small mb-0 mt-2 opacity-50">Authorized by Vehicle Vault Enterprise Systems.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

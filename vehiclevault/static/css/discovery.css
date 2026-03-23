@@ -1,0 +1,362 @@
+/* ===============================
+   DISCOVERY PORTAL STYLES
+================================ */
+
+.portal-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* ===============================
+   BRAND GRID
+================================ */
+.brand-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    background: var(--bg-card);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+    transition: transform 0.3s ease;
+}
+
+.brand-item {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 0.5px solid var(--glass-border);
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.brand-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.brand-item span {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-top: 4px;
+    transition: all 0.3s ease;
+    letter-spacing: -0.2px;
+}
+
+.brand-item:hover span {
+    color: var(--accent);
+}
+
+.brand-logo-placeholder {
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.1);
+    /* Increased visibility */
+    border-radius: 14px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    color: var(--accent);
+    transition: all 0.3s ease;
+}
+
+.brand-item:hover .brand-logo-placeholder {
+    background: var(--accent);
+    color: var(--bg-dark);
+    transform: rotate(-5deg);
+}
+
+/* ===============================
+   DISCOVERY PILLS
+================================ */
+.glass-pills-box {
+    background: var(--bg-card);
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+}
+
+.pill-cloud {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.pill-cloud::-webkit-scrollbar {
+    display: none;
+}
+
+.pill-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    color: var(--text-muted);
+    padding: 10px 22px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.pill-item:hover {
+    background: var(--accent);
+    color: var(--bg-dark);
+    border-color: var(--accent);
+}
+
+/* ===============================
+   FEATURED CAR CARDS
+================================ */
+.portal-car-card {
+    background: var(--bg-card);
+    border: 1px solid var(--glass-border);
+    color: var(--text-main);
+    transition: var(--transition);
+}
+
+.portal-car-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+    box-shadow: var(--shadow-lg);
+}
+
+.tag-new {
+    background: var(--accent);
+    color: var(--bg-dark);
+}
+
+.price-narrative {
+    color: var(--accent);
+}
+
+.price-narrative span {
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+/* ===============================
+   MULTIMEDIA & VIDEOS
+================================ */
+.video-card {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.video-card:hover {
+    transform: scale(1.02);
+    z-index: 10;
+}
+
+.video-card:hover .play-btn-overlay {
+    transform: translate(-50%, -50%) scale(1.2);
+    background: var(--accent);
+    color: #020617;
+}
+
+.play-btn-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 54px;
+    height: 54px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+    color: white;
+}
+
+/* ===============================
+   UPCOMING SHOWCASE
+================================ */
+.upcoming-list-item {
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.upcoming-list-item:hover {
+    border-color: rgba(56, 189, 248, 0.2);
+    background: rgba(255, 255, 255, 0.05) !important;
+    transform: translateX(10px);
+}
+
+/* ===============================
+   BUYER'S TOOLBOX & SIDEBAR
+================================ */
+.toolbox-card {
+    background: var(--bg-card);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.tool-item {
+    padding: 18px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-bottom: 1px solid var(--glass-border);
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.tool-item:last-child {
+    border-bottom: none;
+}
+
+.tool-item:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.tool-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--accent);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.tool-item:hover .tool-icon {
+    background: var(--accent);
+    color: var(--bg-dark);
+    transform: scale(1.1);
+}
+
+.insight-card {
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.05), rgba(15, 23, 42, 0.5));
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 24px;
+}
+
+.insight-metric {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--accent);
+    margin-bottom: 5px;
+}
+
+.metric-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+.newsletter-card {
+    background: var(--bg-card);
+    border: 1px solid var(--glass-border);
+    color: var(--text-main);
+}
+
+/* ===============================
+   TABS & UTILITIES
+================================ */
+#discoveryTabs .nav-link {
+    border: none;
+    color: var(--text-muted);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+#discoveryTabs .nav-link.active {
+    color: var(--accent) !important;
+    background: transparent !important;
+}
+
+#discoveryTabs .nav-link.active::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--accent);
+    border-radius: 10px;
+}
+
+.smallest {
+    font-size: 0.72rem;
+}
+
+.fw-800 {
+    font-weight: 800;
+}
+
+.fw-900 {
+    font-weight: 900;
+}
+
+/* ===============================
+   RESPONSIVE DESIGN
+================================ */
+@media (max-width: 1200px) {
+    .brand-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .portal-container {
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .brand-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .upcoming-list-item {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem !important;
+    }
+
+    .upcoming-img {
+        width: 100% !important;
+        height: 180px !important;
+        margin-bottom: 1rem;
+    }
+
+    .upcoming-list-item .text-end {
+        text-align: center !important;
+        width: 100%;
+        margin-top: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .brand-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .brand-item {
+        padding: 15px;
+    }
+
+    .brand-logo-placeholder {
+        width: 38px;
+        height: 38px;
+        font-size: 0.9rem;
+    }
+}

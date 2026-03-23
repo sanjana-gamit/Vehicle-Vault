@@ -1,0 +1,8 @@
+{
+  "source_directories": [
+    "vehiclevault"
+  ],
+  "search_path": [
+    "venv/Lib/site-packages"
+  ]
+}
