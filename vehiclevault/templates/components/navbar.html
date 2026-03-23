@@ -117,6 +117,7 @@
         {% elif user.role == "Buyer" %}
         <a href="{% url 'core:buyer_dashboard' %}" class="login-btn me-2">Dashboard</a>
         {% endif %}
+        <a href="{% url 'core:profile' %}" class="login-btn btn-outline me-2">Profile</a>
         <a href="{% url 'core:logout' %}" class="login-btn btn-outline">Logout</a>
         {% else %}
         <a href="{% url 'core:login' %}" class="login-btn" style="display: inline-block;">Login</a>

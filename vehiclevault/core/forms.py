@@ -108,3 +108,39 @@ class UserSignupForm(forms.ModelForm):
         if User.objects.filter(email=email).exists():
             raise ValidationError("This email is already registered 👀")
         return email
+
+# =========================
+# PROFILE FORMS
+# =========================
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ["name", "phone", "city", "profile_image"]
+        widgets = {
+            "name": forms.TextInput(attrs={"class": "form-control"}),
+            "phone": forms.TextInput(attrs={"class": "form-control"}),
+            "city": forms.TextInput(attrs={"class": "form-control"}),
+            "profile_image": forms.ClearableFileInput(attrs={"class": "form-control"}),
+        }
+
+from cars.models import Buyer, Seller
+
+class BuyerProfileForm(forms.ModelForm):
+    # For now, preferences can be input as plain text or just hidden if complex,
+    # Let's make it a Textarea or CharField if needed, but since it's JSONField:
+    # We will exclude it or handle it simply. Let's exclude preferences for now and handle it if needed later, 
+    # or expose a specific field. We can omit it if no specific buyer fields are needed right now, 
+    # but let's add it for completeness if preferences are strings.
+    # Actually, let's keep it simple.
+    class Meta:
+        model = Buyer
+        fields = [] # Add fields if needed later
+
+class SellerProfileForm(forms.ModelForm):
+    class Meta:
+        model = Seller
+        fields = ["dealership_name", "location"]
+        widgets = {
+            "dealership_name": forms.TextInput(attrs={"class": "form-control"}),
+            "location": forms.TextInput(attrs={"class": "form-control"}),
+        }

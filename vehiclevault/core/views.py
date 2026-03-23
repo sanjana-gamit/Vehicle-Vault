@@ -8,7 +8,9 @@ from django.utils import timezone
 from datetime import timedelta
 import random
 import os
-from core.forms import UserLoginForm, UserSignupForm
+from core.forms import (
+    UserLoginForm, UserSignupForm, ProfileUpdateForm, BuyerProfileForm, SellerProfileForm
+)
 from cars.models import (
     User, Buyer, Seller, Car, Purchase,
     Deal, ActivityLog, UserTask, TestDrive
@@ -254,6 +256,53 @@ def buyer_dashboard(request):
         "deals": deals,
         "activities": activities,
         "test_drives": test_drives
+    })
+
+# =========================
+# PROFILE MANAGEMENT
+# =========================
+@login_required
+def ProfileUpdateView(request):
+    user = request.user
+    FormClass = ProfileUpdateForm
+    ProfileFormClass = None
+    profile_instance = None
+
+    if user.role == User.Role.BUYER:
+        ProfileFormClass = BuyerProfileForm
+        profile_instance, _ = Buyer.objects.get_or_create(user=user)
+    elif user.role in [User.Role.SELLER, User.Role.DEALER]:
+        ProfileFormClass = SellerProfileForm
+        profile_instance, _ = Seller.objects.get_or_create(user=user)
+
+    if request.method == "POST":
+        user_form = ProfileUpdateForm(request.POST, request.FILES, instance=user)
+        profile_form = None
+
+        if ProfileFormClass and profile_instance:
+            profile_form = ProfileFormClass(request.POST, instance=profile_instance)
+        
+        # Validate forms
+        if user_form.is_valid() and (not profile_form or profile_form.is_valid()):
+            user_form.save()
+            if profile_form:
+                profile_form.save()
+            messages.success(request, "Profile updated successfully! ✨")
+            
+            # Redirect back to appropriate dashboard
+            if request.user.role == User.Role.ADMIN:
+                return redirect("core:admin_dashboard")
+            elif request.user.role in [User.Role.SELLER, User.Role.DEALER]:
+                return redirect("core:seller_dashboard")
+            else:
+                return redirect("core:buyer_dashboard")
+    else:
+        user_form = ProfileUpdateForm(instance=user)
+        profile_form = ProfileFormClass(instance=profile_instance) if ProfileFormClass and profile_instance else None
+
+    return render(request, "core/profile.html", {
+        "user_form": user_form,
+        "profile_form": profile_form,
     })
 
 # =========================

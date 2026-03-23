@@ -3,6 +3,7 @@ from . import views
 
 app_name = "core"
 
+
 urlpatterns = [
     path('login/', views.UserLoginView, name='login'),
     path("signup/", views.UserSignupView, name="signup"),
@@ -29,6 +30,9 @@ urlpatterns = [
     path("dashboard/admin/", views.admin_dashboard, name="admin_dashboard"),
     path("dashboard/seller/", views.seller_dashboard, name="seller_dashboard"),
     path("dashboard/buyer/", views.buyer_dashboard, name="buyer_dashboard"),
+    
+    # Profile
+    path("profile/", views.ProfileUpdateView, name="profile"),
 
     # Password Recovery
     path("password-reset/", views.PasswordResetRequestView, name="password_reset"),

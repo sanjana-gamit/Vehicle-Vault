@@ -435,7 +435,7 @@ def PurchaseCarView(request, vin):
                 emi = principal * r * ((1 + r) ** n) / (((1 + r) ** n) - 1)
             else:
                 emi = principal / n
-            purchase.monthly_installment = round(emi, 2)
+            purchase.monthly_installment = float(f"{emi:.2f}")
             purchase.emi_months = months
             purchase.down_payment = down_payment
             charge_amount = down_payment
@@ -448,11 +448,11 @@ def PurchaseCarView(request, vin):
         amount_in_paise = int(charge_amount * 100)
         
         # Generate official Razorpay Order
-        razorpay_order = client.order.create(dict( # type: ignore
-            amount=amount_in_paise,
-            currency='INR',
-            payment_capture='1' 
-        ))
+        razorpay_order = client.order.create({ # type: ignore
+            "amount": amount_in_paise,
+            "currency": 'INR',
+            "payment_capture": '1' 
+        })
         
         purchase.razorpay_order_id = razorpay_order['id']
         purchase.payment_status = "Pending" 
